@@ -1,7 +1,45 @@
-On veut :
-- connaitre la position de tout corps à un instant donné
-- connaitre la vitesse de tout corps à un instant donné
-- connaitre l'accélération de tout corps à un instant donné
+===== TERRE-SOLEIL =====
+=== ÉCRITURE
 
-À trouver :
+- modélisation du système Terre-Soleil avec la méthode d'Euler puis Velocity Verlet ; on veut connaitre la position, vitesse et accélération de tout corps à un instant donné
+- trouver une valeur initiale de la vitesse qui permet une orbite circulaire
+
+=== VALIDATION
+
+- vérifier la stabilité de l'algorithme comme fonction de différentes time-steps ∆t (périodicité) ; sans la présence d'un autre astre que le centre de masse du système, l'orbite terrestre est stable par rapport à ∆t
+- vérifier la conservation de l'énergie totale (cinétique + potentielle) et du moment cinétique
+
+=== RÉSULTATS
+
+- faire un plot de l'orbite de la Terre
+- calculer les FLOPS
+- discuter des différences des deux méthodes
+
+=== EXPÉRIENCE
+
+- trouver numériquement la vitesse d'échappement d'un astre donné du système solaire et comparer avec les résultats numériques
+- changer le carré du rayon pour le cube du rayon, étudier la variation d'orbite de la Terre autour du Soleil 
+
+
+===== TERRE-JUPITER-SOLEIL =====
+
+on n'utilise que Verlet, pas Euler, toujours en faisant l'hypothèse que les orbites sont sur le même plan
+
+=== ÉCRITURE
+- modifier les équations du problème précédent pour les adapter au nouveau modèle
+- modifier l'algorithme le cas échéant
+
+=== RÉSULTATS
+- faire un plot des orbites de la Terre et de Jupiter
+- en discuter la stabilité
+
+=== EXPÉRIENCE
+- refaire cette expérience en modifiant la masse de Jupiter par un facteur compris entre 10 et 1000
+- en discuter la stabilité
+
+
+
+
+
+=== À CHERCHER ===
 - conditions initiales en 2D pour les planètes du système solaire sauf la Terre (que l'on a)
