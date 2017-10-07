@@ -1,0 +1,7 @@
+On veut :
+- connaitre la position de tout corps à un instant donné
+- connaitre la vitesse de tout corps à un instant donné
+- connaitre l'accélération de tout corps à un instant donné
+
+À trouver :
+- conditions initiales en 2D pour les planètes du système solaire sauf la Terre (que l'on a)
