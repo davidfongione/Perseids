@@ -21,6 +21,7 @@
 - changer le carré du rayon pour le cube du rayon, étudier la variation d'orbite de la Terre autour du Soleil 
 
 
+
 ===== TERRE-JUPITER-SOLEIL =====
 
 on n'utilise que Verlet, pas Euler, toujours en faisant l'hypothèse que les orbites sont sur le même plan
@@ -39,7 +40,15 @@ on n'utilise que Verlet, pas Euler, toujours en faisant l'hypothèse que les orb
 
 
 
+===== TERRE-JUPITER-SOLEIL MODIFIÉ =====
+
+- faire la même chose en choisissant l'origine d'un repère comme centre de masse et non le Soleil (donner au Soleil une vitesse initiale de sorte que le moment d'inertie total du système soit nul)
+   -> calculer le centre de masse du système Terre-Soleil-Jupiter avec le Soleil pour origine du repère. Et translater le repère existant par rapport à la nouvelle origine. Mais elle varie en fonction du temps ?
+
+- rajouter toutes les planètes dans ce nouveau repère
 
 
-=== À CHERCHER ===
-- conditions initiales en 2D pour les planètes du système solaire sauf la Terre (que l'on a)
+
+===== PÉRIHÉLIE DE MERCURE =====
+
+- à comprendre
