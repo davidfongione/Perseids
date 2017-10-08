@@ -1,0 +1,2 @@
+- pas de dynamisme donc pas besoin de desctructeur
+- il faut toujours surcharger un constructeur par recopie mais on ne sera pas ammenés à recopier (il n'y a pas deux fois la même planète) donc balek
