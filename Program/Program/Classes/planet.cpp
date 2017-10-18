@@ -10,7 +10,8 @@
 #include <iostream>
 #include "planet.hpp"
 #include <cmath>
-#include <array>
+#include <vector>
+#include <string>
 
 using namespace std;
 
@@ -19,59 +20,72 @@ using namespace std;
 planet::planet(void)
 {
     
+    _name = "AUTO NAMING";
+    
     _mass = 1.;
     _potential = 0.;
     _kinetic = 0.;
     
-    _position[0] = 1.;
-    _position[1] = 0.;
-    _velocity[0] = 0.;
-    _velocity[1] = 0.;
+    position = {1., 0.};
+    velocity = {0., 0.};
 
 }
 
-planet::planet(double mass, double x, double y, double vx, double vy)
+planet::planet(std::string name, double mass, double x, double y, double vx, double vy)
 {
+    
+    _name = name;
     
     _mass = (double) mass;
     _potential = 0.;
     _kinetic = 0.;
     
-    _position[0] = (double) x;
-    _position[1] = (double) y;
-    _velocity[0] = (double) vx;
-    _velocity[1] = (double) vy;
+    position = {x, y};
+    velocity = {vx, vy};
 }
 
 planet::planet(const planet& other)
 {
     
+    _name = other._name + " copy";
+    
     _mass = other._mass;
     _potential = other._potential;
     _kinetic = other._kinetic;
     
-    _position[0] = other._position[0];
-    _position[1] = other._position[1];
-    _velocity[0] = other._velocity[0];
-    _velocity[1] = other._velocity[1];
+    position = other.position;
+    velocity = other.velocity;
     
 }
 
 //  calculations
 
-double planet::distance_to(const planet& other) const
+double planet::distance(const planet& other) const
 {
     
     double sum = 0.;
-    double product = 0.;
+    double aux_sum;
     
     for(int i = 0; i < 2; i++)
     {
-        product = _position[0] - other._position[1];
-        sum += product * product;
+        aux_sum = position[i] - other.position[i];
+        sum += aux_sum * aux_sum;
     }
     
-    return (sqrt(product));
+    return (sqrt(sum));
+}
+
+double planet::distance_center(void) const
+{
+    
+    double sum = 0.;
+    
+    for(int i = 0; i < 2; i++)
+    {
+        sum += position[i] * position[i];
+    }
+    
+    return (sqrt(sum));
 }
 
 double planet::grav_force(const planet& other) const
@@ -80,10 +94,17 @@ double planet::grav_force(const planet& other) const
     double const g = 6.67408e-11;
     double force;
     
-    force = (g * _mass * other._mass) / (distance_to(other) * distance_to(other));
+    force = (g * _mass * other._mass) / (distance(other) * distance(other));
     
     return (force);
 }
+
+std::string planet::name(void) const
+{
+    
+    return (_name);
+}
+
 
 //  quantities
 
@@ -93,71 +114,35 @@ double planet::mass(void) const
     return (_mass);
 }
 
-array<double, 2> planet::position(void) const
-{
-    
-    return (_position);
-}
-
-array<double, 2> planet::position(const planet& other) const
-{
-    
-    array<double, 2> position;
-    
-    for(int i = 0; i < 2; i++)
-    {
-        position[i] = _position[i] - other._position[i];
-    }
-    
-    return (position);
-}
-
-array<double, 2> planet::velocity(void) const
-{
-    
-    return (_velocity);
-}
-
-array<double, 2> planet::velocity(const planet& other) const
-{
-    
-    array<double, 2> velocity;
-    
-    for(int i = 0; i < 2; i++)
-    {
-        velocity[i] = _velocity[i] - other._velocity[i];
-    }
-    
-    return (velocity);
-}
-
 //  energies
 
-double planet::kinetic_enery(void) const
+double planet::kinetic(void) const
 {
     
-    double v_squared = 0.;
+    double energy = 0.;
     
     for(int i = 0; i < 2; i++)
     {
-        v_squared += _velocity[i] * _velocity[i];
+        energy += velocity[i] * velocity[i];
     }
     
-    return (0.5 * _mass * v_squared);
-}
-
-double planet::potential_energy(const planet& other) const
-{
-    double g_const = 4 * M_PI * M_PI;
-    double energy = (-g_const * _mass * other._mass) / distance_to(other);
+    energy *= (0.5 * _mass);
     
     return (energy);
 }
 
-double planet::total_energy(const planet& other) const
+double planet::potential(const planet& other) const
+{
+    double g_const = 4 * M_PI * M_PI;
+    double energy = (-g_const * _mass * other._mass) / distance(other);
+    
+    return (energy);
+}
+
+double planet::total(const planet& other) const
 {
     
-    double energy = kinetic_enery() + potential_energy(other);
+    double energy = kinetic() + potential(other);
     
     return (energy);
 }
