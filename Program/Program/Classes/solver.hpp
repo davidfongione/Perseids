@@ -22,26 +22,25 @@ class solver
 public:
     
     solver(void);
-    solver(const int meshpoints);
-    ~solver();
     
     //  methods
+    int size(void) const;
     double kinetic_energy(void) const;
     double potential_energy(void) const;
     double total_energy(void) const;
+    double total_mass(void) const;
     void add(const planet& other);
-    void euler(const int h);
-    void plot(void) const;
-    void print(std::ofstream& file) const;
+    void euler(const int time, const int meshpoints);
+    void print(std::ofstream& file) const;  //  prints the system's last position and velocity
     std::vector<double> mass_center(void) const;
+    std::vector<planet> object(void) const;
     
 private:
 
     int _card;          //  number of planets in the system
-    int _meshpoints;    //  number of meshpoints
-    double _total_mass(void) const;
-    double*** _sys_pos; //  [planet index][meshpt index][0 for x, 1 for y]
-    double*** _sys_vel; //  idem
+    int _time;          //  t_final of the system, in years
+    double _total_mass;
     std::vector<planet> _system;
-    std::vector<double> _eta(const int p, const int i) const;
+    std::vector<double> _mass_center;
+    std::vector<double> _eta(const int p) const;
 };

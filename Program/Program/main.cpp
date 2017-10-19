@@ -10,9 +10,22 @@
 #include "planet.hpp"
 #include "solver.hpp"
 
+using namespace std;
+
 int main(int argc, const char * argv[])
 {
 
+    planet sun("sun", 2.E30, 0., 0., 0., 0.);
+    planet earth("earth", 6.E24, 9.851577702404218E-01, 1.917376133839731E-01, -3.486360100992620E-03, 1.683858057526111E-02);
+    solver es_system;
+
+    es_system.add(sun);
+    es_system.add(earth);
     
+    vector<planet*> newsystem;
+    newsystem.push_back(&earth);
+    earth.position[0] = 42;
+    cout << newsystem[0]->position[0] << endl;
+        
     return 0;
 }

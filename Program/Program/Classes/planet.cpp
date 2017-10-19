@@ -23,32 +23,34 @@ planet::planet(void)
     _name = "AUTO NAMING";
     _dim = 2;
     _mass = 1.;
+    time = 0;
     
     position = {1., 0.};
     velocity = {0., 0.};
-
 }
 
 planet::planet(std::string name, double mass, double x, double y, double vx, double vy)
 {
     
     _name = name;
-    
     _dim = 2;
-    
     _mass = (double) mass;
+    time = 0;
     
     position = {x, y};
     velocity = {vx, vy};
+    
+    time = 0;
 }
 
 planet::planet(const planet& other)
 {
     
-    _name = other._name + " copy";
-    
+    _name = other._name;
+    _dim = other._dim;
     _mass = other._mass;
-    
+    time = other.time;
+
     position = other.position;
     velocity = other.velocity;
     
@@ -117,12 +119,12 @@ void planet::print(std::ofstream& file) const
     file << _name << endl;
     file << _mass << "kg" << endl;
     
-    file << "Position; " << endl;
+    file << "Position: " << endl;
     for(int i = 0; i < _dim; i++)
     {
         file << position[i] << endl;
     }
-    file << "Velocity; " << endl;
+    file << "Velocity: " << endl;
     for(int i = 0; i < _dim; i++)
     {
         file << velocity[i] << endl;
@@ -130,6 +132,20 @@ void planet::print(std::ofstream& file) const
     
     file << endl;
     
+}
+
+void planet::print_brut(std::ofstream& file) const
+{
+    
+    string space = "        ";
+    for(int i = 0; i < _dim; i++)
+    {
+        file << position[i] << space;
+    }
+    for(int i = 0; i < _dim; i++)
+    {
+        file << velocity[i] << space;
+    }
 }
 
 

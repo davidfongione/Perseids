@@ -22,6 +22,7 @@ public:
     planet(const planet& other);    //  probably useless but more secure to prevent C++'s bad behaviors
     
     //  data members
+    int time;   //  in years
     std::vector<double> position;
     std::vector<double> velocity;
     
@@ -35,6 +36,7 @@ public:
     double potential_energy(const std::vector<planet>& system) const;
     double total_energy(const std::vector<planet>& system) const;
     void print(std::ofstream& file) const;
+    void print_brut(std::ofstream& file) const;
     std::string name(void) const;
 
     
