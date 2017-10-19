@@ -23,8 +23,6 @@ planet::planet(void)
     _name = "AUTO NAMING";
     
     _mass = 1.;
-    _potential = 0.;
-    _kinetic = 0.;
     
     position = {1., 0.};
     velocity = {0., 0.};
@@ -37,8 +35,6 @@ planet::planet(std::string name, double mass, double x, double y, double vx, dou
     _name = name;
     
     _mass = (double) mass;
-    _potential = 0.;
-    _kinetic = 0.;
     
     position = {x, y};
     velocity = {vx, vy};
@@ -50,8 +46,6 @@ planet::planet(const planet& other)
     _name = other._name + " copy";
     
     _mass = other._mass;
-    _potential = other._potential;
-    _kinetic = other._kinetic;
     
     position = other.position;
     velocity = other.velocity;
@@ -105,6 +99,31 @@ std::string planet::name(void) const
     return (_name);
 }
 
+void planet::print(std::ofstream& file) const
+{
+    
+    long dim = 0;
+    
+    file << _name << endl;
+    file << _mass << "kg" << endl;
+        
+    dim = position.size();
+        
+    file << "Position; " << endl;
+    for(int i = 0; i < dim; i++)
+    {
+        file << position[i] << endl;
+    }
+    file << "Velocity; " << endl;
+    for(int i = 0; i < dim; i++)
+    {
+        file << velocity[i] << endl;
+    }
+    
+    file << endl;
+    
+}
+
 
 //  quantities
 
@@ -116,7 +135,7 @@ double planet::mass(void) const
 
 //  energies
 
-double planet::kinetic(void) const
+double planet::kinetic_energy(void) const
 {
     
     double energy = 0.;
@@ -131,18 +150,31 @@ double planet::kinetic(void) const
     return (energy);
 }
 
-double planet::potential(const planet& other) const
+double planet::potential_energy(const std::vector<planet>& system) const
 {
+    
+    double energy = 0.;
+    double r;
     double g_const = 4 * M_PI * M_PI;
-    double energy = (-g_const * _mass * other._mass) / distance(other);
+    
+    for(auto& planet : system)
+    {
+        if(distance(planet) != 0.)
+        {
+            r = distance(planet);
+            energy += (_mass * planet._mass) / (r*r);
+        }
+    }
+    
+    energy *= g_const;
     
     return (energy);
 }
 
-double planet::total(const planet& other) const
+double planet::total_energy(const std::vector<planet>& system) const
 {
     
-    double energy = kinetic() + potential(other);
+    double energy = kinetic_energy() + potential_energy(system);
     
     return (energy);
 }

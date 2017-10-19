@@ -10,6 +10,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <fstream>
 
 
 class planet
@@ -19,7 +20,7 @@ public:
     planet(std::string name, double mass, double x, double y, double vx, double vy);
     planet(const planet& other);    //  probably useless but more secure to prevent C++'s bad behaviors
     
-    //  data
+    //  data members
     std::vector<double> position;
     std::vector<double> velocity;
     
@@ -27,17 +28,17 @@ public:
     double distance(const planet& other) const;
     double distance_center(void) const;
     double grav_force(const planet& other) const;
+    double kinetic_energy(void) const;
+    double mass(void) const;
+    double potential_energy(const std::vector<planet>& system) const;
+    double total_energy(const std::vector<planet>& system) const;
+    void print(std::ofstream& file) const;
     std::string name(void) const;
 
-    double mass(void) const;
+    
 
-    double kinetic(void) const;
-    double potential(const planet& other) const;
-    double total(const planet& other) const;
     
 private:
     double _mass;
-    double _potential;
-    double _kinetic;
     std::string _name;
 };
