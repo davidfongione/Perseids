@@ -1,2 +1,0 @@
-- trouver données initiales en 2D
-- comprendre l'énergie potentielle/totale
