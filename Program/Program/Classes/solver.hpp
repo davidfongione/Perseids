@@ -20,6 +20,7 @@ class solver
     friend class planet;
     
 public:
+    
     solver(void);
     ~solver();
     
@@ -28,7 +29,8 @@ public:
     double potential_energy(void) const;
     double total_energy(void) const;
     void add(const planet& other);
-    void euler(const int h);
+    void euler(const int h, const int n);
+    void plot(const int n) const;
     void print(std::ofstream& file) const;
     std::vector<double> mass_center(void) const;
     
@@ -40,5 +42,5 @@ private:
     double*** _sys_pos; //  [planet index][meshpt index][0 for x, 1 for y]
     double*** _sys_vel; //  idem
     std::vector<planet> _system;
-    std::vector<double> _eta(const double*** sys_pos, const int p, const int i) const;
+    std::vector<double> _eta(const int p, const int i) const;
 };

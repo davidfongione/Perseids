@@ -16,6 +16,7 @@
 class planet
 {
 public:
+    
     planet(void);
     planet(std::string name, double mass, double x, double y, double vx, double vy);
     planet(const planet& other);    //  probably useless but more secure to prevent C++'s bad behaviors
@@ -25,6 +26,7 @@ public:
     std::vector<double> velocity;
     
     //  methods
+    int dim(void) const;
     double distance(const planet& other) const;
     double distance_center(void) const;
     double grav_force(const planet& other) const;
@@ -39,6 +41,8 @@ public:
 
     
 private:
+    
+    int _dim;
     double _mass;
     std::string _name;
 };

@@ -95,42 +95,6 @@ vector<double> solver::mass_center(void) const
 
 //  utilities methods
 
-vector<double> solver::_eta(const double*** sys_pos, const int p, const int i) const
-{
-    
-    //  p is the index of the planet for which we calculate eta
-    //  i is the index of the current meshpoint
-    
-    double const mass = _system[p].mass();
-    double const g_const = 4 * M_PI * M_PI;
-    double const x = _sys_pos[p][i][0];
-    double const y = _sys_pos[p][i][1];
-    //  position of the p planet at the meshpoint i
-    //  0 stands for x and 1 for y
-    double r;
-
-    vector<double> relative_pos;
-    vector<double> eta;
-    
-    eta[0] = - (g_const * x) / _system[p].distance_center();
-    eta[1] = - (g_const * y) / _system[p].distance_center();
-    
-    for(int k = 0; k < _card; k++)
-    {
-        
-        if(_system[p].distance(_system[k]) != 0.)
-        {
-            relative_pos[0] = x - _sys_pos[k][i][0];
-            relative_pos[1] = y - _sys_pos[k][i][1];
-            r = _system[p].distance(_system[k]);
-            
-            eta[0] -= (g_const * (_system[k].mass() / mass) * relative_pos[0]) / (r*r*r);
-            eta[1] -= (g_const * (_system[k].mass() / mass) * relative_pos[1]) / (r*r*r);
-        }
-    }
-    
-    return (eta);
-}
 
 double solver::_total_mass(void) const
 {
@@ -182,4 +146,83 @@ double solver::total_energy(void) const
     }
     
     return (energy);
+}
+
+vector<double> solver::_eta(const int p, const int i) const
+{
+    
+    //  p is the index of the planet for which we calculate eta
+    //  i is the index of the current meshpoint
+    
+    double const mass = _system[p].mass();
+    double const g_const = 4 * M_PI * M_PI;
+    double const x = _sys_pos[p][i][0];
+    double const y = _sys_pos[p][i][1];
+    //  position of the p planet at the meshpoint i
+    //  0 stands for x and 1 for y
+    double r;
+    
+    vector<double> relative_pos;
+    vector<double> eta;
+    
+    eta[0] = - (g_const * x) / _system[p].distance_center();
+    eta[1] = - (g_const * y) / _system[p].distance_center();
+    
+    for(int k = 0; k < _card; k++)
+    {
+        
+        if(_system[p].distance(_system[k]) != 0.)
+        {
+            relative_pos[0] = x - _sys_pos[k][i][0];
+            relative_pos[1] = y - _sys_pos[k][i][1];
+            r = _system[p].distance(_system[k]);
+            
+            eta[0] -= (g_const * (_system[k].mass() / mass) * relative_pos[0]) / (r*r*r);
+            eta[1] -= (g_const * (_system[k].mass() / mass) * relative_pos[1]) / (r*r*r);
+        }
+    }
+    
+    return (eta);
+}
+
+void solver::euler(const int h, const int n)
+{
+    
+    vector<double> eta;
+ 
+    for(int k = 0; k < _card; k++)
+    {
+        for(int i = 0; i < n-1; i++)
+        {
+            eta = _eta(k, i);
+            _sys_vel[k][i+1][0] = h * eta[0] + _sys_vel[k][i][0];
+            _sys_vel[k][i+1][1] = h * eta[1] + _sys_vel[k][i][1];
+            _sys_pos[k][i+1][0] = h * _sys_vel[k][i][0] + _sys_pos[k][i][0];
+            _sys_pos[k][i+1][1] = h * _sys_vel[k][i][1] + _sys_pos[k][i][1];
+        }
+    }
+}
+
+void solver::plot(const int n) const
+{
+    
+    string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
+    string space = "          ";
+    for(int k = 0; k < _card; k++)
+    {
+        
+        ofstream file_pos;
+        ofstream file_vel;
+        file_pos.open(folder + _system[k].name() + " position");
+        file_vel.open(folder + _system[k].name() + " velocity");
+        
+        for(int i = 0; i < n; i++)
+        {
+            file_pos << _sys_pos[k][i][0] << space << _sys_pos[k][i][1];
+            file_vel << _sys_vel[k][i][0] << space << _sys_vel[k][i][1];
+        }
+        
+        file_pos.close();
+        file_vel.close();
+    }
 }

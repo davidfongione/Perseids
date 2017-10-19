@@ -21,7 +21,7 @@ planet::planet(void)
 {
     
     _name = "AUTO NAMING";
-    
+    _dim = 2;
     _mass = 1.;
     
     position = {1., 0.};
@@ -33,6 +33,8 @@ planet::planet(std::string name, double mass, double x, double y, double vx, dou
 {
     
     _name = name;
+    
+    _dim = 2;
     
     _mass = (double) mass;
     
@@ -60,7 +62,9 @@ double planet::distance(const planet& other) const
     double sum = 0.;
     double aux_sum;
     
-    for(int i = 0; i < 2; i++)
+    
+    
+    for(int i = 0; i < _dim; i++)
     {
         aux_sum = position[i] - other.position[i];
         sum += aux_sum * aux_sum;
@@ -74,7 +78,9 @@ double planet::distance_center(void) const
     
     double sum = 0.;
     
-    for(int i = 0; i < 2; i++)
+    
+    
+    for(int i = 0; i < _dim; i++)
     {
         sum += position[i] * position[i];
     }
@@ -93,6 +99,12 @@ double planet::grav_force(const planet& other) const
     return (force);
 }
 
+int planet::dim(void) const
+{
+    
+    return (_dim);
+}
+
 std::string planet::name(void) const
 {
     
@@ -102,20 +114,16 @@ std::string planet::name(void) const
 void planet::print(std::ofstream& file) const
 {
     
-    long dim = 0;
-    
     file << _name << endl;
     file << _mass << "kg" << endl;
-        
-    dim = position.size();
-        
+    
     file << "Position; " << endl;
-    for(int i = 0; i < dim; i++)
+    for(int i = 0; i < _dim; i++)
     {
         file << position[i] << endl;
     }
     file << "Velocity; " << endl;
-    for(int i = 0; i < dim; i++)
+    for(int i = 0; i < _dim; i++)
     {
         file << velocity[i] << endl;
     }
@@ -140,7 +148,7 @@ double planet::kinetic_energy(void) const
     
     double energy = 0.;
     
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < _dim; i++)
     {
         energy += velocity[i] * velocity[i];
     }
