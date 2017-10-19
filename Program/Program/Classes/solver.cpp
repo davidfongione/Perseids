@@ -145,3 +145,41 @@ double solver::_total_mass(void) const
     return (mass);
 }
 
+double solver::kinetic_energy(void) const
+{
+    
+    double energy = 0.;
+    
+    for(auto& object : _system)
+    {
+        energy += object.kinetic_energy();
+    }
+    
+    return (energy);
+}
+
+double solver::potential_energy(void) const
+{
+    
+    double energy = 0.;
+    
+    for(auto& object : _system)
+    {
+        energy += object.potential_energy(_system);
+    }
+    
+    return (energy);
+}
+
+double solver::total_energy(void) const
+{
+    
+    double energy = 0.;
+    
+    for(auto& object : _system)
+    {
+        energy += object.total_energy(_system);
+    }
+    
+    return (energy);
+}
