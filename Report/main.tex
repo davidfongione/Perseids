@@ -1,0 +1,275 @@
+%%%%%%%%%%%%%%% COPYRIGHT ANTOINE HUGOUNET & ETHEL VILLENEUVE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[a4paper, twoside, 11pt]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[top= 120pt, left=80pt, right=80pt]{geometry} %marges
+\usepackage{setspace} %interlignage
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{lmodern} 
+\usepackage{array}
+\usepackage{csquotes}
+\usepackage[numbers,square]{natbib}
+\usepackage{soul}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{adjustbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{dsfont}
+%%\usepackage{braket}
+\usepackage{physics}
+\usepackage{amsfonts}
+\usepackage[numbers,square]{natbib}
+\usepackage{multirow}
+\usepackage{listings}
+
+%%%%%% COULEURS CODE C++
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{red},
+  commentstyle=\itshape\color{gray},
+  identifierstyle=\color{NavyBlue},
+  stringstyle=\color{black},
+}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=customc}
+
+%%%%%% STYLES DE THÉORÈMES
+
+\newtheoremstyle{theorem}%	Name
+  {}%	Space above
+  {}%	Space below
+  {}%	Body font
+  {}%	Indent amount
+  {\bfseries}%	Theorem head font
+  {.}%	Punctuation after theorem head
+  { }%	Space after theorem head, ' ', or \newline
+  {}%	Theorem head spec (can be left empty, meaning `normal')
+
+\newtheoremstyle{exemple}%	Name
+  {}%	Space above
+  {}%	Space below
+  {\color{Gray}\itshape}%	Body font
+  {}%	Indent amount
+  {\color{Gray}\itshape}%	Theorem head font
+  {.}%	Punctuation after theorem head
+  { }%	Space after theorem head, ' ', or \newline
+  {}%	Theorem head spec (can be left empty, meaning `normal')
+
+\newtheoremstyle{remark}%	Name
+  {}%	Space above
+  {}%	Space below
+  {\itshape}%	Body font
+  {}%	Indent amount
+  {\bfseries}%	Theorem head font
+  {.}%	Punctuation after theorem head
+  { }%	Space after theorem head, ' ', or \newline
+  {}%	Theorem head spec (can be left empty, meaning `normal')
+  
+%%%%%% DÉCLARATION DES THÉORÈMES
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemme}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[chapter]
+
+\theoremstyle{exemple}
+\newtheorem*{exemple}{Example}
+
+
+%%%%%% COMMANDES QUI SIMPLIFIENT LA VIE
+
+\newcommand{\legende}[1]{
+\begin{center}
+	\begin{minipage}{12cm}
+		\begin{center}
+			\textit{\textcolor{WildStrawberry!30}{#1}}
+		\end{center}
+	\end{minipage}
+\end{center}}
+
+\newcommand{\sherlock}[2]{
+	\begin{equation}
+		\textcolor{WildStrawberry}{#1}
+	\end{equation}
+	\legende{#2}
+}
+	
+\newcommand{\sherlocked}[1]{
+	\begin{equation}
+		\textcolor{WildStrawberry}{#1}
+	\end{equation}
+}
+
+	
+\newcommand{\defSherlock}[3]{
+	\begin{definition}[\textbf{#1}]
+		\sherlock{#2}{#3}
+	\end{definition}
+}
+
+\newcommand{\defSherlocked}[2]{
+	\begin{definition}[\textbf{#1}]
+		\sherlocked{#2}
+	\end{definition}
+}	
+
+\newcommand{\propSherlock}[3]{
+	\begin{proposition}[\textbf{#1}]
+		\sherlock{#2}{#3}
+	\end{proposition}
+}
+
+\newcommand{\propSherlocked}[2]{
+	\begin{proposition}[\textbf{#1}]
+		\sherlocked{#2}
+	\end{proposition}
+}
+
+\newcommand{\textSherlocked}[1]{
+	\begin{center}
+		\textcolor{WildStrawberry}{#1}
+	\end{center}
+}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{FYS3150\\Project 3 - }
+\author{Hugounet, Antoine \& Villeneuve, Ethel}
+\date{September 2017 \\University of Oslo \\ \url{https://github.com/kryzar/Perseids.git}}
+
+
+
+\begin{document}
+\selectlanguage{english}
+\maketitle
+	
+	
+\begin{abstract}
+
+	\paragraph{}
+	
+\end{abstract}
+
+
+\tableofcontents
+
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
+    \paragraph{}
+    
+
+\chapter{Theory}
+    
+    \paragraph{}In a first place, we will begin with an Earth-Sun system with the Earth orbiting around the Sun to test a simple algorithm and then we will add the other planets to have a simulation of the complete Solar System. 
+
+    \section{Earth-Sun system}
+        \subsection{Physical conditions of the system}
+            \paragraph{}The only force applied to this system is the gravity. According to the Newton's law, we have 
+                \begin{equation*}
+                F_G = \frac{GM_{\odot}M_{\oplus}}{r^2}
+                \end{equation*}
+            with $F_G$ the gravitational force, $G$ the gravitational constant ($G=6.674 \times 10^{-11} N.m^2.kg^{-2}$), $M_{\odot}$ the mass of the Sun, $M_{\oplus}$ the mass of the Earth and $r$ the distance between the Earth and the Sun.\\
+            We will neglect the motion of the Sun here as the mass of the Sun is much larger than the mass of the Earth (more than $300 \times M_{\oplus}$). We want to establish the motion of the Earth around the Sun. Moreover, we will assume that the orbit of the Earth around the Sun is coplanar in the $xy$-plane.
+        \subsection{}
+            \paragraph{}The Newton's second law of motion is given by $F=M \times a$ with $F$ the force applied to the system, $M$ the mass of the body concerned and $a$ the acceleration. Applied to our case, we have $F_G = M_{\oplus} \times a$ which can be written in two equations : 
+                \begin{align*}
+                    F_{G,x} &= M_{\oplus} \frac{d^2 x}{dt^2} \\
+                    F_{G,y} &= M_{\oplus} \frac{d^2 y}{dt^2}
+                \end{align*}
+            or
+                \begin{align}
+                    \frac{d^2 x}{dt^2} &= \frac{F_{G,x}}{M_{\oplus}} \\
+                    \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}}.
+                \end{align}
+            with $F_{G,x}$ and $F_{G,y}$ the components of the gravitational force.
+            \paragraph{} We will not use the SI units but the Astronomical units (AU) for the distance (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^11$m) and years for time units. 
+            
+    
+    \section{Three-body problem}
+
+
+    \section{The complete Solar system}
+
+    
+
+\chapter{Implementation}
+
+    \section{Earth-Sun system}
+        \paragraph{}
+    
+    \section{Adding one planet}
+    
+    
+    \section{The complete Solar system}
+    
+    
+
+\chapter{Results}
+
+    \section{}
+    
+    \section{}
+    
+    \section{}
+    
+    
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+    \paragraph{}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+\end{document}
