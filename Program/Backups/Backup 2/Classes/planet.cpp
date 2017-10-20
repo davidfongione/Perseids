@@ -62,14 +62,12 @@ double planet::distance(const planet& other) const
 {
     
     double sum = 0.;
-    double aux_sum;
-    
-    
+    double relative_position;
     
     for(int i = 0; i < _dim; i++)
     {
-        aux_sum = position[i] - other.position[i];
-        sum += aux_sum * aux_sum;
+        relative_position = position[i] - other.position[i];
+        sum += relative_position * relative_position;
     }
     
     return (sqrt(sum));
@@ -80,8 +78,6 @@ double planet::distance_center(void) const
     
     double sum = 0.;
     
-    
-    
     for(int i = 0; i < _dim; i++)
     {
         sum += position[i] * position[i];
@@ -90,15 +86,12 @@ double planet::distance_center(void) const
     return (sqrt(sum));
 }
 
-double planet::grav_force(const planet& other) const
+
+void planet::normalize(void)
 {
-    
-    double const g = 6.67408e-11;
-    double force;
-    
-    force = (g * _mass * other._mass) / (distance(other) * distance(other));
-    
-    return (force);
+    _mass /= 2.E30;
+    velocity[0] *= 365.25;
+    velocity[1] *= 365.25;
 }
 
 int planet::dim(void) const

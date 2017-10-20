@@ -30,7 +30,7 @@ public:
     double potential_energy(void) const;
     double total_energy(void) const;
     double total_mass(void) const;
-    void add(const planet& other);
+    void add(planet other);
     void euler(const double years, const int meshpoints);
     void print(std::ofstream& file) const;  //  prints the system's last position and velocity
     std::vector<double> mass_center(void) const;

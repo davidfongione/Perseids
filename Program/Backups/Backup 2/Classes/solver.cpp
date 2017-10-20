@@ -67,7 +67,7 @@ void solver::print(ofstream& file) const
     file << "===/ SOLAR SYSTEM === " << endl;
 }
 
-void solver::add(const planet& other)
+void solver::add(planet other)
 {
     
     _card++;
@@ -130,75 +130,100 @@ double solver::total_energy(void) const
     return (energy);
 }
 
-vector<double> solver::_eta(const int p) const
+vector<double> solver::_acceleration(const int p) const
 {
     
     //  p is the index of the planet for which we calculate eta
     
-    double const mass = _system[p].mass();
     double const g_const = 4 * M_PI * M_PI;
+    double radical;
+    double mass;
     double r;
-    double r_cube;
     vector<double> relative_pos(2);
-    vector<double> eta(2);
+    vector<double> acceleration(2);
     
-    eta[0] = - (g_const * _system[p].position[0]) / _system[p].distance_center();
-    eta[1] = - (g_const * _system[p].position[1]) / _system[p].distance_center();
-    
-    for(int k = 0; k < _card; k++)
+    if(_system[p].distance_center() != 0.)
     {
-        //  cannot create an alias to the curent planet because of const
-
-        if(_system[p].distance(_system[k]) != 0.)
+        //  we don't need the calculation if the body is at the origin, like the sun
+    
+        r = _system[p].distance_center();
+        radical = - 1. / (r*r*r);    //  avoid too many flops
+        
+        acceleration[0] = radical * _system[p].position[0];
+        acceleration[1] = radical * _system[p].position[1];
+    
+        for(int k = 0; k < _card; k++)
         {
-            relative_pos[0] = _system[p].position[0] - _system[k].position[0];
-            relative_pos[1] = _system[p].position[1] - _system[k].position[1];
-            r = _system[p].distance(_system[k]);
-            r_cube = r*r*r;
-            
-            eta[0] -= (g_const * (_system[k].mass() / mass) * relative_pos[0]) / (r_cube);
-            eta[1] -= (g_const * (_system[k].mass() / mass) * relative_pos[1]) / (r_cube);
+            if(k != p)
+            {
+                mass = _system[k].mass() / 2.E30;   //  normalize with the Sun's mass
+                //  time/distance units are normalized with the constant 4*pi*pi
+                r = _system[p].distance(_system[k]);
+                radical = (mass) / (r*r*r);
+                
+                relative_pos[0] = _system[p].position[0] - _system[k].position[0];
+                relative_pos[1] = _system[p].position[1] - _system[k].position[1];
+                
+                acceleration[0] -= radical * relative_pos[0];
+                acceleration[1] -= radical * relative_pos[1];
+            }
         }
+        
+        acceleration[0] *= g_const ;
+        acceleration[1] *= g_const;
+    }
+    else
+    {
+        relative_pos[0] = 0.;
+        relative_pos[1] = 0.;
     }
     
-    return (eta);
+    return (acceleration);
 }
 
 void solver::euler(const double years, const int meshpoints)
 {
     
-    double h = ((double) years - (double) _time) / meshpoints;
-    vector<double> eta;
-    planet* curent = nullptr;   //  alias to the curent planet
+    double h;
+    vector<double> acceleration(2);
+    vector<double> prev_pos(2);
+    vector<double> prev_vel(2);
+    vector<double> prev_acc(2);
     ofstream output;
     string folder;
     string path;
     string space = "        ";
     
+    h = ((double) years - _time) / meshpoints;
+    
     for(int k = 0; k < _card; k++)  //  go through every planet
     {
-        curent = &_system[k];
 
         folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
-        path = folder + curent->name();
+        path = folder + _system[k].name();
+        
         output.open(path);
-        output << curent->name() << " (x, y, vx, vy)" << endl << endl;
-        curent->print_brut(output);
+        output << _system[k].name() << " (x, y, vx, vy)" << endl << endl;
         
         for(int i = 1; i < meshpoints; i++)
         {
-            eta = _eta(k);
-            curent->position[0] = h * eta[0] + curent->velocity[0];
-            curent->position[1] = h * eta[1] + curent->velocity[1];
+            _system[k].print_brut(output);
+
+            prev_pos = _system[k].position;
+            prev_vel = _system[k].velocity;
+            prev_acc = _acceleration(k);
             
-            curent->velocity[0] = h * curent->velocity[0] + curent->position[0];
-            curent->velocity[1] = h * curent->velocity[1] + curent->position[1];
+            _system[k].position[0] = h * prev_vel[0] + prev_pos[0];
+            _system[k].position[1] = h * prev_vel[1] + prev_pos[1];
             
-            curent->print_brut(output);
+            _system[k].velocity[0] = h * prev_acc[0] + prev_vel[0];
+            _system[k].velocity[1] = h * prev_acc[1] + prev_vel[1];
         }
         
         output.close();
     }
+    
+    _time = years;
 }
 
 
