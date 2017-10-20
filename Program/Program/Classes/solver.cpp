@@ -26,18 +26,20 @@ solver::solver(void)
     _time = 0;
     _total_mass = 0.;
     _mass_center = {0., 0.};
-    
 }
 
 solver::solver(const solver& other)
 {
- 
+    
     _card = other._card;
     _time = other._time;
     _total_mass = other._total_mass;
     _mass_center = other._mass_center;
     _system = other._system;
     
+    _prev_pos = other._prev_pos;
+    _prev_vel = other._prev_vel;
+    _prev_acc = other._prev_acc;
 }
 
 //  methods
@@ -54,6 +56,12 @@ double solver::total_mass(void) const
     return (_total_mass);
 }
 
+double solver::time(void) const
+{
+    
+    return (_time);
+}
+
 void solver::print(ofstream& file) const
 {
     
@@ -67,15 +75,40 @@ void solver::print(ofstream& file) const
     file << "===/ SOLAR SYSTEM === " << endl;
 }
 
-void solver::add(planet other)
+void solver::add(planet body)
 {
     
     _card++;
-    _total_mass += other.mass();
-    _system.push_back(other);
-    _mass_center[0] +=  (other.mass() * other.position[0]) / _total_mass;
-    _mass_center[1] +=  (other.mass() * other.position[1]) / _total_mass;
+    
+    _update_mass_center(body);
+    _total_mass += body.mass();
+    
+    body.normalize();
+    _system.push_back(body);
+    //  only normalizes the mass and the velocity
+    
+    _prev_pos.push_back(body.position);
+    _prev_vel.push_back(body.velocity);
+    _prev_acc.push_back(_acceleration(_card - 1));
+    //  the new planet is the (_card - 1) celestial body of the system
 }
+
+void solver::_update_mass_center(const planet& body)
+{
+    
+    double total_mass;
+    
+    _mass_center[0] *= _total_mass;
+    _mass_center[1] *= _total_mass;
+    
+    total_mass = _total_mass + body.mass();
+    
+    _mass_center[0] += body.mass() * body.position[0];
+    _mass_center[1] += body.mass() * body.position[1];
+    _mass_center[0] /= total_mass;
+    _mass_center[1] /= total_mass;
+}
+
 
 vector<double> solver::mass_center(void) const
 {
@@ -183,50 +216,60 @@ vector<double> solver::_acceleration(const int p) const
 
 void solver::euler(const double years, const int meshpoints)
 {
-    
     double h;
-    vector<double> acceleration(2);
-    vector<double> prev_pos(2);
-    vector<double> prev_vel(2);
-    vector<double> prev_acc(2);
-    ofstream output;
     string folder;
     string path;
-    string space = "        ";
+    ofstream output;
     
-    h = ((double) years - _time) / meshpoints;
+    h = ((double) years) / ((double) meshpoints);
     
-    for(int k = 0; k < _card; k++)  //  go through every planet
+    for(int i = 1; i < meshpoints; i++)
     {
-
-        folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
-        path = folder + _system[k].name();
-        
-        output.open(path);
-        output << _system[k].name() << " (x, y, vx, vy)" << endl << endl;
-        
-        for(int i = 1; i < meshpoints; i++)
+        //  we go through each time-step and then through each planet
+        for(int k = 0; k < _card; k++)
         {
+            folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
+            path = folder + _system[k].name();
+            
+            if( i == 1)
+            {
+                output.open(path);  //  erase the previous file
+                
+                output << _system[k].name() << " (x, y, vx, vy)" << endl;
+                output << "Timestep: " << years << endl << endl;
+            }
+            else
+            {
+                output.open(path, ios::app);   //  write after the existing content
+            }
+            
             _system[k].print_brut(output);
-
-            prev_pos = _system[k].position;
-            prev_vel = _system[k].velocity;
-            prev_acc = _acceleration(k);
             
-            _system[k].position[0] = h * prev_vel[0] + prev_pos[0];
-            _system[k].position[1] = h * prev_vel[1] + prev_pos[1];
+            _system[k].position[0] = h * _prev_vel[k][0] + _prev_pos[k][0];
+            _system[k].position[1] = h * _prev_vel[k][1] + _prev_pos[k][1];
             
-            _system[k].velocity[0] = h * prev_acc[0] + prev_vel[0];
-            _system[k].velocity[1] = h * prev_acc[1] + prev_vel[1];
+            _system[k].velocity[0] = h * _prev_acc[k][0] + _prev_vel[k][0];
+            _system[k].velocity[1] = h * _prev_acc[k][1] + _prev_vel[k][1];
+            
+            output.close();
         }
         
-        output.close();
+        _update_quantities();
     }
     
-    _time = years;
+    _time += years;
 }
 
-
+void solver::_update_quantities(void)
+{
+    
+    for(int k = 0; k < _card; k++)
+    {
+        _prev_pos[k] = _system[k].position;
+        _prev_vel[k] = _system[k].velocity;
+        _prev_acc[k] = _acceleration(k);
+    }
+}
 
 
 

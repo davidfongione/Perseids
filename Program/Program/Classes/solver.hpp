@@ -30,7 +30,8 @@ public:
     double potential_energy(void) const;
     double total_energy(void) const;
     double total_mass(void) const;
-    void add(planet other);
+    double time(void) const;
+    void add(planet body);
     void euler(const double years, const int meshpoints);
     void print(std::ofstream& file) const;  //  prints the system's last position and velocity
     std::vector<double> mass_center(void) const;
@@ -41,7 +42,12 @@ private:
     int _card;  //  number of planets in the system
     double _time;  //  t_0 of the system, in years
     double _total_mass;
+    std::vector<std::vector<double>> _prev_pos;
+    std::vector<std::vector<double>> _prev_vel;
+    std::vector<std::vector<double>> _prev_acc;
     std::vector<planet> _system;
     std::vector<double> _mass_center;
     std::vector<double> _acceleration(const int p) const;
+    void _update_mass_center(const planet& body);
+    void _update_quantities(void);
 };

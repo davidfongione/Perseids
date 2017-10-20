@@ -19,7 +19,7 @@ public:
     
     planet(void);
     planet(std::string name, double mass, double x, double y, double vx, double vy);
-    planet(const planet& other);
+    planet(const planet& body);
     
     //  data members
     int time;   //  in years
@@ -28,7 +28,7 @@ public:
     
     //  methods
     int dim(void) const;
-    double distance(const planet& other) const;
+    double distance(const planet& body) const;
     double distance_center(void) const;
     double kinetic_energy(void) const;
     double mass(void) const;

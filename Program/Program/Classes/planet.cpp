@@ -43,22 +43,22 @@ planet::planet(std::string name, double mass, double x, double y, double vx, dou
     time = 0;
 }
 
-planet::planet(const planet& other)
+planet::planet(const planet& body)
 {
     
-    _name = other._name;
-    _dim = other._dim;
-    _mass = other._mass;
-    time = other.time;
+    _name = body._name;
+    _dim = body._dim;
+    _mass = body._mass;
+    time = body.time;
 
-    position = other.position;
-    velocity = other.velocity;
+    position = body.position;
+    velocity = body.velocity;
     
 }
 
 //  calculations
 
-double planet::distance(const planet& other) const
+double planet::distance(const planet& body) const
 {
     
     double sum = 0.;
@@ -66,7 +66,7 @@ double planet::distance(const planet& other) const
     
     for(int i = 0; i < _dim; i++)
     {
-        relative_position = position[i] - other.position[i];
+        relative_position = position[i] - body.position[i];
         sum += relative_position * relative_position;
     }
     
