@@ -43,5 +43,5 @@ private:
     double _total_mass;
     std::vector<planet> _system;
     std::vector<double> _mass_center;
-    std::vector<double> _eta(const int p) const;
+    std::vector<double> _acceleration(const int p) const;
 };

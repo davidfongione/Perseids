@@ -130,45 +130,61 @@ double solver::total_energy(void) const
     return (energy);
 }
 
-vector<double> solver::_eta(const int p) const
+vector<double> solver::_acceleration(const int p) const
 {
     
     //  p is the index of the planet for which we calculate eta
     
-    double const mass = _system[p].mass();
     double const g_const = 4 * M_PI * M_PI;
+    double radical;
+    double relative_mass;
     double r;
-    double r_cube;
+    double r_squared;
     vector<double> relative_pos(2);
-    vector<double> eta(2);
+    vector<double> acceleration(2);
     
-    eta[0] = - (g_const * _system[p].position[0]) / _system[p].distance_center();
-    eta[1] = - (g_const * _system[p].position[1]) / _system[p].distance_center();
-    
-    for(int k = 0; k < _card; k++)
+    if(_system[p].distance_center() != 0.)
     {
-        //  cannot create an alias to the curent planet because of const
+        //  we don't need the calculation if the body is at the origin, like the sun
+    
+        r = _system[p].distance_center();
+        r_squared = r*r;
+        radical = - g_const / r_squared;    //  avoid too many flops
+        
+        acceleration[0] = radical * _system[p].position[0];
+        acceleration[1] = radical * _system[p].position[1];
+    
 
-        if(_system[p].distance(_system[k]) != 0.)
+        for(int k = 0; k < _card; k++)
         {
-            relative_pos[0] = _system[p].position[0] - _system[k].position[0];
-            relative_pos[1] = _system[p].position[1] - _system[k].position[1];
-            r = _system[p].distance(_system[k]);
-            r_cube = r*r*r;
-            
-            eta[0] -= (g_const * (_system[k].mass() / mass) * relative_pos[0]) / (r_cube);
-            eta[1] -= (g_const * (_system[k].mass() / mass) * relative_pos[1]) / (r_cube);
+            if(k != p)
+            {
+                relative_mass = _system[k].mass() / _system[p].mass();
+                r = _system[p].distance(_system[k]);
+                radical = g_const * (relative_mass) / (r*r*r);
+                
+                relative_pos[0] = _system[p].position[0] - _system[k].position[0];
+                relative_pos[1] = _system[p].position[1] - _system[k].position[1];
+                
+                acceleration[0] -= radical * relative_pos[0];
+                acceleration[1] -= radical * relative_pos[1];
+            }
         }
     }
+    else
+    {
+        relative_pos[0] = 0.;
+        relative_pos[1] = 0.;
+    }
     
-    return (eta);
+    return (acceleration);
 }
 
 void solver::euler(const double years, const int meshpoints)
 {
     
     double h = ((double) years - (double) _time) / meshpoints;
-    vector<double> eta;
+    vector<double> acceleration(2);
     planet* curent = nullptr;   //  alias to the curent planet
     ofstream output;
     string folder;
@@ -187,9 +203,9 @@ void solver::euler(const double years, const int meshpoints)
         
         for(int i = 1; i < meshpoints; i++)
         {
-            eta = _eta(k);
-            curent->position[0] = h * eta[0] + curent->velocity[0];
-            curent->position[1] = h * eta[1] + curent->velocity[1];
+            acceleration = _acceleration(k);
+            curent->position[0] = h * acceleration[0] + curent->velocity[0];
+            curent->position[1] = h * acceleration[1] + curent->velocity[1];
             
             curent->velocity[0] = h * curent->velocity[0] + curent->position[0];
             curent->velocity[1] = h * curent->velocity[1] + curent->position[1];
