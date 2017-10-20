@@ -208,7 +208,8 @@
                 F_G = \frac{GM_{\odot}M_{\oplus}}{r^2}
                 \end{equation*}
             with $F_G$ the gravitational force, $G$ the gravitational constant ($G=6.674 \times 10^{-11} N.m^2.kg^{-2}$), $M_{\odot}$ the mass of the Sun, $M_{\oplus}$ the mass of the Earth and $r$ the distance between the Earth and the Sun.\\
-            We will neglect the motion of the Sun here as the mass of the Sun is much larger than the mass of the Earth (more than $300 \times M_{\oplus}$). We want to establish the motion of the Earth around the Sun. Moreover, we will assume that the orbit of the Earth around the Sun is coplanar in the $xy$-plane.
+            We will neglect the motion of the Sun here as the mass of the Sun is much larger than the mass of the Earth ($M_{\odot} = 2 \times 10^{30}$kg against $M_{\oplus} = 6 \times 10^{24}$kg). We want to establish the motion of the Earth around the Sun. Moreover, we will assume that the orbit of the Earth around the Sun is coplanar in the $xy$-plane.
+            
         \subsection{}
             \paragraph{}The Newton's second law of motion is given by $F=M \times a$ with $F$ the force applied to the system, $M$ the mass of the body concerned and $a$ the acceleration. Applied to our case, we have $F_G = M_{\oplus} \times a$ which can be written in two equations : 
                 \begin{align*}
@@ -221,13 +222,49 @@
                     \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}}.
                 \end{align}
             with $F_{G,x}$ and $F_{G,y}$ the components of the gravitational force.
-            \paragraph{} We will not use the SI units but the Astronomical units (AU) for the distance (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^11$m) and years for time units. 
+            \paragraph{} We will not use the SI units but the Astronomical units (AU) for the distance (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^{11}$m) and years for time units. \\
+            In this case, the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$).
             
+        \subsection{}
+            \paragraph{} To simplify a little bit, we will assume that the Earth's orbit is circular around the Sun. So we can write :
+                \begin{equation}
+                    F_G = \frac{M_{\oplus} v^2}{r} = \frac{GM_{\odot}M_{\oplus}}{r^2}
+                \end{equation}
+            with $v$ the velocity of Earth. From here we have
+                \begin{equation*}
+                    v^2 r = GM_{\odot} = 4 \pi^2 \mathrm{AU}^3 / \mathrm{yr}^2
+                \end{equation*}            
+                        
     
     \section{Three-body problem}
+    \href{{http://ssd.jpl.nasa.gov/horizons.cgi#top}}{\nolinkurl{http://ssd.jpl.nasa.gov/horizons.cgi\#top}}
 
 
     \section{The complete Solar system}
+    
+        \begin{center}
+            \begin{tabular}{|c|cc|}
+                \hline
+                Planet & Mass (kg) & Distance to the Sun (AU) \\
+                \hline \hline
+                Mercury & $3.3 \times 10^{23}$ & $0.39$ \\
+                \hline
+                Venus & $4.9 \times 10^{24}$ & $0.72$ \\
+                \hline
+                Earth & $6 \times 10^{24}$ & $1$ \\
+                \hline 
+                Mars & $6.6 \times 10^{23}$ & $1.52$ \\
+                \hline
+                Jupiter & $1.9 \times 10^{27}$ & $5.20$ \\
+                \hline
+                Saturn & $5.5 \times 10^{26}$ & $9.54$ \\
+                \hline
+                Uranus & $8.8 \times 10^{25}$ & $19.19$ \\
+                \hline
+                Neptun & $1.03 \times 10^{26}$ & $30.06$ \\
+                \hline                
+            \end{tabular}
+        \end{center}
 
     
 
@@ -261,7 +298,11 @@
     
     
     
-    
+\chapter*{Bibliography}
+    \begin{itemize}
+        \item NASA website \href{{http://ssd.jpl.nasa.gov/horizons.cgi#top}}{\nolinkurl{http://ssd.jpl.nasa.gov/horizons.cgi\#top}}
+        \item 
+    \end{itemize}
     
     
     
