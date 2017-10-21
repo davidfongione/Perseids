@@ -32,8 +32,8 @@ public:
     double total_mass(void) const;
     double time(void) const;
     void add(planet body);
-    void euler(const double years, const int meshpoints);
-    void verlet(const double years, const int meshpoints);
+    void euler(const double years);
+    void verlet(const double years);
     void print(std::ofstream& file) const;  //  prints the system's last position and velocity
     std::vector<double> mass_center(void) const;
     std::vector<planet> system(void) const;

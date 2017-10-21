@@ -170,7 +170,6 @@ vector<double> solver::_acceleration(const int p) const
     
     double const g_const = 4 * M_PI * M_PI;
     double radical;
-    double mass;
     double r;
     vector<double> relative_pos(2);
     vector<double> acceleration(2);
@@ -189,10 +188,9 @@ vector<double> solver::_acceleration(const int p) const
         {
             if(k != p)
             {
-                mass = _system[k].mass() / 2.E30;   //  normalize with the Sun's mass
                 //  time/distance units are normalized with the constant 4*pi*pi
                 r = _system[p].distance(_system[k]);
-                radical = (mass) / (r*r*r);
+                radical = (_system[k].mass()) / (r*r*r);
                 
                 relative_pos[0] = _system[p].position[0] - _system[k].position[0];
                 relative_pos[1] = _system[p].position[1] - _system[k].position[1];
@@ -214,16 +212,19 @@ vector<double> solver::_acceleration(const int p) const
     return (acceleration);
 }
 
-void solver::euler(const double years, const int meshpoints)
+void solver::euler(const double years)
 {
     //  equations in 1D :
     //  x(t+dt) = dt*v(t) + x(t)
     //  v(t+dt) = dt*a(t) + v(t) = dt*Fx/m + v(t), with Newton's law
     
+    int meshpoints;
     double h;
     string folder;
     string path;
     ofstream output;
+    
+    meshpoints = (int) years * 100;
     
     h = ((double) years) / ((double) meshpoints);
     
@@ -266,12 +267,13 @@ void solver::euler(const double years, const int meshpoints)
     _time += years;
 }
 
-void solver::verlet(const double years, const int meshpoints)
+void solver::verlet(const double years)
 {
     //  equations in 1D :
     //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
     //  v(t+dt) = v(t) + (1/2)*dt*[a(t) + a(t+dt)]
     
+    int meshpoints;
     double h;
     double h_squared;
     double radical;
@@ -280,6 +282,7 @@ void solver::verlet(const double years, const int meshpoints)
     ofstream output;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
+    meshpoints = (int) years * 100;
     h = ((double) years) / ((double) meshpoints);
     h_squared = h * h;
     

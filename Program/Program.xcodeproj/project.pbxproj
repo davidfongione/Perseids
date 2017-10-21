@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B3B474741F9A0339000D7588 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3B474721F9A0339000D7588 /* tests.cpp */; };
 		B3F46BB41F8A77D8008FE13D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BB31F8A77D8008FE13D /* main.cpp */; };
 		B3F46BBD1F8A7839008FE13D /* planet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BBB1F8A7839008FE13D /* planet.cpp */; };
 		B3F46BC01F8A7840008FE13D /* solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BBE1F8A7840008FE13D /* solver.cpp */; };
@@ -27,8 +26,6 @@
 
 /* Begin PBXFileReference section */
 		B37715381F9B686F001B0674 /* initialisations.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = initialisations.hpp; sourceTree = "<group>"; };
-		B3B474721F9A0339000D7588 /* tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
-		B3B474731F9A0339000D7588 /* tests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tests.hpp; sourceTree = "<group>"; };
 		B3F46BB01F8A77D8008FE13D /* Program */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Program; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3F46BB31F8A77D8008FE13D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B3F46BBB1F8A7839008FE13D /* planet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = planet.cpp; sourceTree = "<group>"; };
@@ -68,9 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				B3F46BB31F8A77D8008FE13D /* main.cpp */,
-				B3B474721F9A0339000D7588 /* tests.cpp */,
 				B37715381F9B686F001B0674 /* initialisations.hpp */,
-				B3B474731F9A0339000D7588 /* tests.hpp */,
 				B3F46BBA1F8A782A008FE13D /* Classes */,
 			);
 			path = Program;
@@ -145,7 +140,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3F46BB41F8A77D8008FE13D /* main.cpp in Sources */,
-				B3B474741F9A0339000D7588 /* tests.cpp in Sources */,
 				B3F46BBD1F8A7839008FE13D /* planet.cpp in Sources */,
 				B3F46BC01F8A7840008FE13D /* solver.cpp in Sources */,
 			);

@@ -9,7 +9,6 @@
 #include <iostream>
 #include "planet.hpp"
 #include "solver.hpp"
-#include "tests.hpp"
 #include <cmath>
 #include "initialisations.hpp"
 
@@ -21,14 +20,16 @@ int main(int argc, const char * argv[])
     solver es_system;
 
     es_system.add(earth);
-    es_system.add(sun);
     es_system.add(jupiter);
     es_system.add(mars);
+    es_system.add(mercury);
+    es_system.add(neptune);
+    es_system.add(saturn);
+    es_system.add(sun);
+    es_system.add(venus);
+    es_system.add(uranus);
     
-    es_system.euler(20, 10000);
-    
-    cout << es_system.total_mass() << endl;
-    cout << es_system.mass_center()[0] << endl;
+    es_system.verlet(15);
     
     return 0;
 }

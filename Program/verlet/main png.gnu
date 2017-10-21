@@ -19,13 +19,9 @@ venus = '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computationa
 path = '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/plot.png'
 
 
+set terminal png size 1000, 1000
+set size ratio -1
+set output path
 
-plot earth using 1:2 w l lt rgb "blue" title 'Earth' 
-replot jupiter using 1:2 lt rgb "goldenrod" w l title 'Jupiter' 
-replot mars using 1:2 w l lt rgb "brown" title 'Mars'
-## replot mercury using 1:2 w l lt rgb "brown" title 'Mercury'
-replot neptune using 1:2 w l lt rgb "cyan" title 'Neptune'
-replot saturn using 1:2 w l lt rgb "red" title 'Saturn'
-## replot sun using 1:2 w l lt rgb "yellow" title 'Sun'
-replot uranus using 1:2 w l lt rgb "aquamarine" title 'Uranus'
-replot venus using 1:2 w l lt rgb "orange" title 'Venus'
+
+plot earth using 1:2 w l lt rgb "blue" title 'Earth', jupiter using 1:2 lt rgb "goldenrod" w l title 'Jupiter', mars using 1:2 w l lt rgb "brown" title 'Mars', neptune using 1:2 w l lt rgb "cyan" title 'Neptune', saturn using 1:2 w l lt rgb "red" title 'Saturn', uranus using 1:2 w l lt rgb "aquamarine" title 'Uranus', venus using 1:2 w l lt rgb "orange" title 'Venus', mercury using 1:2 w l lt rgb "brown" title 'Mercury', sun using 1:2 w l lt rgb "yellow" title 'Sun'
