@@ -127,7 +127,7 @@ void planet::print(std::ofstream& file) const
     
 }
 
-void planet::print_brut(std::ofstream& file) const
+void planet::print_pos(std::ofstream& file) const
 {
     
     string space = "        ";
@@ -136,11 +136,17 @@ void planet::print_brut(std::ofstream& file) const
     {
         file << position[i] << space;
     }
+}
+
+void planet::print_vel(std::ofstream& file) const
+{
+    
+    string space = "        ";
+    
     for(int i = 0; i < _dim; i++)
     {
         file << velocity[i] << space;
     }
-    file << endl;
 }
 
 

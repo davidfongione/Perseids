@@ -26,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B37715381F9B686F001B0674 /* initialisations.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = initialisations.hpp; sourceTree = "<group>"; };
 		B3B474721F9A0339000D7588 /* tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
 		B3B474731F9A0339000D7588 /* tests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tests.hpp; sourceTree = "<group>"; };
 		B3F46BB01F8A77D8008FE13D /* Program */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Program; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +69,7 @@
 			children = (
 				B3F46BB31F8A77D8008FE13D /* main.cpp */,
 				B3B474721F9A0339000D7588 /* tests.cpp */,
+				B37715381F9B686F001B0674 /* initialisations.hpp */,
 				B3B474731F9A0339000D7588 /* tests.hpp */,
 				B3F46BBA1F8A782A008FE13D /* Classes */,
 			);

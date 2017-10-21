@@ -33,6 +33,7 @@ public:
     double time(void) const;
     void add(planet body);
     void euler(const double years, const int meshpoints);
+    void verlet(const double years, const int meshpoints);
     void print(std::ofstream& file) const;  //  prints the system's last position and velocity
     std::vector<double> mass_center(void) const;
     std::vector<planet> system(void) const;
@@ -45,6 +46,7 @@ private:
     std::vector<std::vector<double>> _prev_pos;
     std::vector<std::vector<double>> _prev_vel;
     std::vector<std::vector<double>> _prev_acc;
+    std::vector<std::vector<double>> _next_acc(void) const;
     std::vector<planet> _system;
     std::vector<double> _mass_center;
     std::vector<double> _acceleration(const int p) const;

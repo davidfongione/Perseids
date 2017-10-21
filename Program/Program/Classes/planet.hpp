@@ -35,7 +35,8 @@ public:
     double potential_energy(const std::vector<planet>& system) const;
     double total_energy(const std::vector<planet>& system) const;
     void print(std::ofstream& file) const;
-    void print_brut(std::ofstream& file) const;
+    void print_pos(std::ofstream& file) const;
+    void print_vel(std::ofstream& file) const;
     void normalize(void);   //  normalize with the good time & distance units
     std::string name(void) const;
 

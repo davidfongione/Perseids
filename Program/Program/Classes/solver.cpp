@@ -216,6 +216,10 @@ vector<double> solver::_acceleration(const int p) const
 
 void solver::euler(const double years, const int meshpoints)
 {
+    //  equations in 1D :
+    //  x(t+dt) = dt*v(t) + x(t)
+    //  v(t+dt) = dt*a(t) + v(t) = dt*Fx/m + v(t), with Newton's law
+    
     double h;
     string folder;
     string path;
@@ -223,27 +227,29 @@ void solver::euler(const double years, const int meshpoints)
     
     h = ((double) years) / ((double) meshpoints);
     
+    folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
+
     for(int i = 1; i < meshpoints; i++)
     {
-        //  we go through each time-step and then through each planet
         for(int k = 0; k < _card; k++)
         {
-            folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
             path = folder + _system[k].name();
             
             if( i == 1)
             {
                 output.open(path);  //  erase the previous file
-                
+                output << "Euler algorithm (2D)" << endl;
                 output << _system[k].name() << " (x, y, vx, vy)" << endl;
-                output << "Timestep: " << years << endl << endl;
+                output << "Timestep: " << years << " years" << endl << endl;
             }
             else
             {
                 output.open(path, ios::app);   //  write after the existing content
             }
             
-            _system[k].print_brut(output);
+            _system[k].print_pos(output);   //  prints quantities for a gnuplot
+            _system[k].print_vel(output);
+            output << endl;
             
             _system[k].position[0] = h * _prev_vel[k][0] + _prev_pos[k][0];
             _system[k].position[1] = h * _prev_vel[k][1] + _prev_pos[k][1];
@@ -260,6 +266,80 @@ void solver::euler(const double years, const int meshpoints)
     _time += years;
 }
 
+void solver::verlet(const double years, const int meshpoints)
+{
+    //  equations in 1D :
+    //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
+    //  v(t+dt) = v(t) + (1/2)*dt*[a(t) + a(t+dt)]
+    
+    double h;
+    double h_squared;
+    double radical;
+    string folder;
+    string path;
+    ofstream output;
+    vector<vector<double>> next_acc;   //  vector for a(t+dt)
+    
+    h = ((double) years) / ((double) meshpoints);
+    h_squared = h * h;
+    
+    folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/verlet/";
+
+    
+    for(int i = 1; i < meshpoints; i++)
+    {
+        for(int k = 0; k < _card; k++)
+        {
+            path = folder + _system[k].name();
+            
+            if( i == 1)
+            {
+                output.open(path);  //  erase the previous file
+                output << "Velocity-Verlet algorithm (2D)" << endl;
+                output << _system[k].name() << " (x, y, vx, vy)" << endl;
+                output << "Timestep: " << years << " years" << endl << endl;
+            }
+            else
+            {
+                output.open(path, ios::app);   //  write after the existing content
+            }
+            
+            _system[k].print_pos(output);
+            
+            radical = 0.5 * h_squared;
+            
+            _system[k].position[0] = _prev_pos[k][0] + h * _prev_vel[k][0] + radical * _prev_acc[k][0];
+            _system[k].position[1] = _prev_pos[k][1] + h * _prev_vel[k][1] + radical * _prev_acc[k][1];
+            
+            output.close();
+        }
+        
+        next_acc = _next_acc();
+        
+        for(int k = 0; k < _card; k++)
+        {
+            path = folder + _system[k].name();
+            output.open(path, ios::app);
+            
+            _system[k].print_vel(output);
+            output << endl;
+            
+            radical = 0.5 * h;
+            
+            _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + next_acc[k][0]);
+            _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + next_acc[k][1]);
+            
+            output.close();
+        }
+                
+        _update_quantities();
+    }
+    
+    _time += years;
+}
+
+
+
 void solver::_update_quantities(void)
 {
     
@@ -269,6 +349,19 @@ void solver::_update_quantities(void)
         _prev_vel[k] = _system[k].velocity;
         _prev_acc[k] = _acceleration(k);
     }
+}
+
+std::vector<std::vector<double>> solver::_next_acc(void) const
+{
+    
+    vector<vector<double>> acceleration;
+    
+    for(int k = 0; k < _card; k++)
+    {
+        acceleration.push_back(_acceleration(k));
+    }
+    
+    return (acceleration);
 }
 
 
