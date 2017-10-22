@@ -171,19 +171,11 @@ vector<double> solver::_acceleration(const int p) const
     double const g_const = 4 * M_PI * M_PI;
     double radical;
     double r;
-    vector<double> relative_pos(2);
-    vector<double> acceleration(2);
+    vector<double> relative_pos = {0., 0.};
+    vector<double> acceleration = {0., 0.};
     
     if(_system[p].distance_center() != 0.)
     {
-        //  we don't need the calculation if the body is at the origin, like the sun
-    
-        r = _system[p].distance_center();
-        radical = - 1. / (r*r*r);    //  avoid too many flops
-        
-        acceleration[0] = radical * _system[p].position[0];
-        acceleration[1] = radical * _system[p].position[1];
-    
         for(int k = 0; k < _card; k++)
         {
             if(k != p)
@@ -224,7 +216,7 @@ void solver::euler(const double years)
     string path;
     ofstream output;
     
-    meshpoints = (int) years * 100;
+    meshpoints = (int) years * 250;
     
     h = ((double) years) / ((double) meshpoints);
     
@@ -282,7 +274,7 @@ void solver::verlet(const double years)
     ofstream output;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
-    meshpoints = (int) years * 100;
+    meshpoints = (int) years * 250;
     h = ((double) years) / ((double) meshpoints);
     h_squared = h * h;
     

@@ -28,8 +28,9 @@ int main(int argc, const char * argv[])
     es_system.add(sun);
     es_system.add(venus);
     es_system.add(uranus);
+    es_system.add(moon);
     
-    es_system.verlet(15);
+    es_system.verlet(6);
     
     return 0;
 }
