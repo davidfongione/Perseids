@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3CBC8D41F9E170400192093 /* models.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3CBC8D21F9E170400192093 /* models.cpp */; };
 		B3F46BB41F8A77D8008FE13D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BB31F8A77D8008FE13D /* main.cpp */; };
 		B3F46BBD1F8A7839008FE13D /* planet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BBB1F8A7839008FE13D /* planet.cpp */; };
 		B3F46BC01F8A7840008FE13D /* solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BBE1F8A7840008FE13D /* solver.cpp */; };
@@ -26,6 +27,8 @@
 
 /* Begin PBXFileReference section */
 		B37715381F9B686F001B0674 /* initialisations.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = initialisations.hpp; sourceTree = "<group>"; };
+		B3CBC8D21F9E170400192093 /* models.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = models.cpp; sourceTree = "<group>"; };
+		B3CBC8D31F9E170400192093 /* models.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = models.hpp; sourceTree = "<group>"; };
 		B3F46BB01F8A77D8008FE13D /* Program */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Program; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3F46BB31F8A77D8008FE13D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B3F46BBB1F8A7839008FE13D /* planet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = planet.cpp; sourceTree = "<group>"; };
@@ -66,12 +69,14 @@
 			children = (
 				B3F46BB31F8A77D8008FE13D /* main.cpp */,
 				B37715381F9B686F001B0674 /* initialisations.hpp */,
-				B3F46BBA1F8A782A008FE13D /* Classes */,
+				B3CBC8D21F9E170400192093 /* models.cpp */,
+				B3CBC8D31F9E170400192093 /* models.hpp */,
+				B3F46BBA1F8A782A008FE13D /* classes */,
 			);
 			path = Program;
 			sourceTree = "<group>";
 		};
-		B3F46BBA1F8A782A008FE13D /* Classes */ = {
+		B3F46BBA1F8A782A008FE13D /* classes */ = {
 			isa = PBXGroup;
 			children = (
 				B3F46BBC1F8A7839008FE13D /* planet.hpp */,
@@ -79,7 +84,7 @@
 				B3F46BBF1F8A7840008FE13D /* solver.hpp */,
 				B3F46BBE1F8A7840008FE13D /* solver.cpp */,
 			);
-			path = Classes;
+			path = classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +146,7 @@
 			files = (
 				B3F46BB41F8A77D8008FE13D /* main.cpp in Sources */,
 				B3F46BBD1F8A7839008FE13D /* planet.cpp in Sources */,
+				B3CBC8D41F9E170400192093 /* models.cpp in Sources */,
 				B3F46BC01F8A7840008FE13D /* solver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
