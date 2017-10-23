@@ -6,31 +6,22 @@
 //  Copyright © 2017 Hugounet and Villeneuve. All rights reserved.
 //
 
-#include <iostream>
-#include "planet.hpp"
-#include "solver.hpp"
-#include <cmath>
-#include "initialisations.hpp"
+#include "models.hpp"
+
 
 using namespace std;
 
 int main(int argc, const char * argv[])
 {
 
-    solver es_system;
-
-    es_system.add(earth);
-    es_system.add(jupiter);
-    es_system.add(mars);
-    es_system.add(mercury);
-    es_system.add(neptune);
-    es_system.add(saturn);
-    es_system.add(sun);
-    es_system.add(venus);
-    es_system.add(uranus);
-    es_system.add(moon);
+    string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Models/";
     
-    es_system.verlet(6);
+    es_euler(1, main_folder + "es_euler/");
+    ejs_verlet(7., main_folder + "ejs_verlet/");
+    ejs_rmc_euler(7., main_folder + "ejs_rmc_euler/");
+    ejs_rmc_verlet(7., main_folder + "ejs_rmc_verlet/");
+    fs_rmc_verlet(15., main_folder + "fs_rmc_verlet/");
+    
     
     return 0;
 }
