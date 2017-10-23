@@ -31,6 +31,7 @@
 \usepackage[numbers,square]{natbib}
 \usepackage{multirow}
 \usepackage{listings}
+\usepackage{wasysym}
 
 %%%%%% COULEURS CODE C++
 \lstdefinestyle{customc}{
@@ -209,8 +210,6 @@
                 \end{equation*}
             with $F_G$ the gravitational force, $G$ the gravitational constant ($G=6.674 \times 10^{-11} N.m^2.kg^{-2}$), $M_{\odot}$ the mass of the Sun, $M_{\oplus}$ the mass of the Earth and $r$ the distance between the Earth and the Sun.\\
             We will neglect the motion of the Sun here as the mass of the Sun is much larger than the mass of the Earth ($M_{\odot} = 2 \times 10^{30}$kg against $M_{\oplus} = 6 \times 10^{24}$kg). We want to establish the motion of the Earth around the Sun. Moreover, we will assume that the orbit of the Earth around the Sun is coplanar in the $xy$-plane.
-            
-        \subsection{}
             \paragraph{}The Newton's second law of motion is given by $F=M \times a$ with $F$ the force applied to the system, $M$ the mass of the body concerned and $a$ the acceleration. Applied to our case, we have $F_G = M_{\oplus} \times a$ which can be written in two equations : 
                 \begin{align*}
                     F_{G,x} &= M_{\oplus} \frac{d^2 x}{dt^2} \\
@@ -218,23 +217,22 @@
                 \end{align*}
             or
                 \begin{align}
-                    \frac{d^2 x}{dt^2} &= \frac{F_{G,x}}{M_{\oplus}} \\
-                    \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}}.
+                    \frac{d^2 x}{dt^2} &= \frac{F_{G,x}}{M_{\oplus}} \tag{1}\\
+                    \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}} \tag{2}.
                 \end{align}
-            with $F_{G,x}$ and $F_{G,y}$ the components of the gravitational force.
-            \paragraph{} We will not use the SI units but the Astronomical units (AU) for the distance (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^{11}$m) and years for time units. \\
-            In this case, the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$).
-            
-        \subsection{}
-            \paragraph{} To simplify a little bit, we will assume that the Earth's orbit is circular around the Sun. So we can write :
+            with $F_{G,x}$ and $F_{G,y}$ the components of the gravitational force.\\
+            We will not use the SI units but the Astronomical units (AU) for the distance (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^{11}$m) and years for time units. \\
+            In this case, the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$). \\
+            To simplify a little bit, we will assume that the Earth's orbit is circular around the Sun. So we can write :
                 \begin{equation}
                     F_G = \frac{M_{\oplus} v^2}{r} = \frac{GM_{\odot}M_{\oplus}}{r^2}
+                    \tag{3}
                 \end{equation}
             with $v$ the velocity of Earth. From here we have
                 \begin{equation*}
                     v^2 r = GM_{\odot} = 4 \pi^2 \mathrm{AU}^3 / \mathrm{yr}^2
+                    \tag{4}
                 \end{equation*}
-                
             
         \subsection{Escape velocity}
             \paragraph{}In this case where only the gravitational force is applied, the mechanical energy $E_m = E_c + E_p$ with $E_c$ the kinetic energy and $E_p$ the potential energy is conserved as the gravitational force is conservative. For a planet at a distance of 1 AU from the Sun (let's take the Earth), the kinetic energy is given by $E_c = \frac{1}{2}M_{\oplus}\times v^2$ and the potential energy by $E_p = - \frac{G M_{\odot} M_{\oplus}}{r}$ with $r=1$ AU.\\ 
@@ -251,7 +249,7 @@
                 \end{align*}
             which only depends on the mass of the Sun. 
                 \begin{align*}
-                    v_e &= \sqrt{2\times 4\pi^2}\\
+                    v_e &= \sqrt{2\times 4\pi^2}, \hspace{0.5cm} \mathrm{from (4)}\\
                     v_e &= 2\sqrt{2}\pi \hspace{0.2cm} \mathrm{AU/yr}
                 \end{align*}
             Then, for a velocity $v \geq 2\sqrt{2}\pi$, the Earth would escape from the Sun's gravitational attraction. 
@@ -259,6 +257,28 @@
                         
     
     \section{Three-body problem}
+        \paragraph{}We add Jupiter to the previous system.
+        
+        \subsection{The Sun as the center-of-mass}
+            \paragraph{}In the previous case, the Earth's motion had a stable circular orbit in time. Adding Jupiter, the Earth's motion will inevitably be disturbed. We can write the gravitational between the Earth and Jupiter as 
+                \begin{equation*}
+                    F_{\oplus-\jupiter} = \frac{GM_{\jupiter}M_{\oplus}}{r_{\oplus-\jupiter}^2} 
+                \end{equation*}
+            with $M_{\jupiter}$ the mass of Jupiter and $r_{\oplus - \jupiter}$ the distance between the Earth and Jupiter. \\
+            The algorithm used for this case will be exactly the same as the previous case. We will see in section 1.4 how to discretize and implement the algorithm. 
+            
+        \subsection{Real center-of-mass}
+            \paragraph{}To get closer to the reality, we now do not consider the Sun as a static body anymore. Each of three bodies are in motion. Moreover, the center-of-mass will not be the Sun but the real one. Let's compute the center-of-mass coordinates.
+                \begin{align*}
+                    x_c &= \frac{1}{M_{tot}}\sum\limits_{i} M_i x_i\\
+                    y_c &= \frac{1}{M_{tot}}\sum\limits_{i} M_i y_i
+                \end{align*}
+            We consider the system Earth-Jupiter-Sun.
+                \begin{align*}
+                    M_{tot} &= M_{\oplus} + M_{\jupiter} + M_{\odot} \\
+                    M_{tot} &= 6\times10^{24} + 1.9\times 10^{27} + 2 \times 10^{30}\\
+                    M_{tot} &= \mathrm{kg}
+                \end{align*}
     \href{{http://ssd.jpl.nasa.gov/horizons.cgi#top}}{\nolinkurl{http://ssd.jpl.nasa.gov/horizons.cgi\#top}}
 
 
@@ -288,7 +308,40 @@
             \end{tabular}
         \end{center}
 
-    
+    \section{Discretization}
+        \subsection{Euler's method}
+            \paragraph{Acceleration.}To implement the accelerations, we normalize the masses with respect to the mass of the Sun. Thus, $M_{\odot}=1$, $M_{k_N}=\frac{M_k}{M_{\odot}}$ for each body $k$.
+            \paragraph{} From the Newton's law of motion, the acceleration of a given body can be written as $a=\frac{F_G}{M}$, with $M$ the mass of the body. 
+                \begin{equation*}
+                    a_i = \frac{ \sum\limits_{k} \frac{GMM_k}{r_k^2}}{M}
+                \end{equation*}
+            with $k$ the number of bodies involved in the system. 
+                \begin{equation*}
+                    a_i = \sum\limits_{k} \frac{GM_k}{r_k^2}
+                \end{equation*}
+            From (4), we have $GM_{\odot} = 4\pi^2\mathrm{AU}^3/\mathrm{yr}^2$ and as $M_{\odot}=1$, $G=4\pi^2\mathrm{AU}^3/\mathrm{yr}^2$. So,
+                \begin{align*}
+                    a_i &= \sum\limits_{k} \frac{4\pi^2M_k}{r_k^2} \\
+                    a_i &= \sum\limits_{k} \frac{4\pi^2M_k(x_i-x_{i_k})}{r_k^3} 
+                    \tag{5}
+                 \end{align*}
+             We have also $\displaystyle a_i=\frac{v_{i+1} - v_i}{h}$ with $\displaystyle h = \frac{b-a}{N}$ the step length and $N$ the number of mesh points. Therefore, 
+                \begin{align*}
+                     &\frac{v_{i+1} - v_i}{h} = \sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_k^3} \\
+                     \Rightarrow &v_{i+1} = h\sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_k^3} + v_i
+                    \tag{6}
+                \end{align*}
+             \paragraph{Velocity.}The velocity can easily be discretized as
+                \begin{equation*}
+                      v_i = \frac{x_{i+1}-x_i}{h}
+                  \end{equation*}
+             Therefore,
+                 \begin{equation*}
+                    x_{i+1} = hv_i + x_i
+                    \tag{7}
+                \end{equation*}   
+            The initial position and velocity of the body are obtained with the data from the NASA website.
+        \subsection{Verlet's method}
 
 \chapter{Implementation}
 
