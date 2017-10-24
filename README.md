@@ -1,7 +1,7 @@
 # Perseids <br> Project 3 from the course FYS3150 of University of Oslo, Autumn 2017
 
 
-The goal of this project is to compute a simulation of the Solar System with both Euler's and Verlet's algorithms to solve the ordinary differential equations combined with Newton's law.
+This program aims to compute a simulation of the Solar System with both Euler's and Verlet's algorithms to solve the ordinary differential equations of the system combined with Newton's law.
 
 [![The orbits of the planets in the Solar System for the next 30 years](https://s1.postimg.org/9kfx39w6lr/plot.png)](https://postimg.org/image/4xua2kxmy3/)
 
@@ -94,7 +94,11 @@ The algorithm requires only a time-period (in years) - `12.` - here and a folder
 1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however.
 2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files.
 
-#### Tips
+The declaration and initialisations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp) and this file can be included in one cpp file.
+
+[`models.cpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/models.cpp) contains various models to try out this simulation (full system, Earth-Sun system, etc). Each model is put in a function to be called in the `main` function in [`main.cpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/main.cpp) and you can find the decriptions of each function directly in the code.
+
+#### Output files
 
 Once you gave the program a `folder`, it will automatically create many small data files :
 
@@ -104,7 +108,7 @@ Once you gave the program a `folder`, it will automatically create many small da
 
 [![Example of the program ran above](https://s1.postimg.org/3u7luzcw4v/Capture_d_cran_2017-10-24_18.54.12.jpg)](https://postimg.org/image/1rrt6xeb3f/)
 
-Discover the other possibilities in the [header file](https://github.com/kryzar/Perseids/blob/master/Program/Program/classes/solver.hpp).
+Discover the other possibilities in the [header file](https://github.com/kryzar/Perseids/blob/master/Program/Program/classes/solver.hpp) of this class.
 
 ### Warning
 
