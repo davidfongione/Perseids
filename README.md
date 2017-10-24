@@ -13,7 +13,7 @@ The program is object oriented and uses two classes :
 
 ### Planet class
 
-You can declare a new planet with its position and velocity vectors components by `planet body("name", x, y, vx, vy);`. The time will be initialized at *t=0* :
+You can declare a new planet with its position and velocity vector components by `planet body("name", x, y, vx, vy);`. The time will be initialized at *t=0* :
 
 ```cpp
 #include "planet.hpp"
