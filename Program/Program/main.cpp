@@ -20,7 +20,7 @@ int main(int argc, const char * argv[])
     ejs_verlet(8., main_folder + "ejs_verlet/");
     ejs_rmc_euler(7., main_folder + "ejs_rmc_euler/");
     ejs_rmc_verlet(8., main_folder + "ejs_rmc_verlet/");
-    fs_rmc_verlet(30., main_folder + "fs_rmc_verlet/");
+    fs_rmc_verlet(15., main_folder + "fs_rmc_verlet/");
     
     
     return 0;
