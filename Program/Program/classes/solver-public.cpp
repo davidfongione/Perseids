@@ -61,15 +61,12 @@ void solver::euler(const double years, const std::string folder)
     // string folder;
     string path;
     ofstream output;
-    ofstream output_energy;
     
-    meshpoints = (int) years * 250;
+    meshpoints = (int) years * 365;
     
     h = ((double) years) / ((double) meshpoints);
     
-    output_energy.open(folder + "system_total_energy");
-    
-    for(int i = 1; i <= meshpoints; i++)
+    for(int i = 0; i <= meshpoints; i++)
     {
         for(int k = 0; k < _card; k++)
         {
@@ -101,7 +98,7 @@ void solver::euler(const double years, const std::string folder)
             output.close();
         }
         
-        _print_energy(output_energy);
+        _print_total_energy(folder, i);
         _update_quantities(i, h);
     }
     
@@ -109,8 +106,6 @@ void solver::euler(const double years, const std::string folder)
     _gnuplot_png(folder, years);
     
     _time += years;
-    
-    output_energy.close();
 }
 
 ////////
@@ -127,14 +122,11 @@ void solver::verlet(const double years, const std::string folder)
     double radical;
     string path;
     ofstream output;
-    ofstream output_energy;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
-    meshpoints = (int) years * 250;
+    meshpoints = (int) years * 365;
     h = ((double) years) / ((double) meshpoints);
     h_squared = h * h;
-    
-    output_energy.open(folder + "system_total_energy");
     
     for(int i = 1; i <= meshpoints; i++)
     {
@@ -182,14 +174,12 @@ void solver::verlet(const double years, const std::string folder)
             output.close();
         }
         
-        _print_energy(output_energy);
+        _print_total_energy(folder, i);
         _update_quantities(i, h);
     }
     
     _gnuplot(folder, years);
     _gnuplot_png(folder, years);
-    
-    output_energy.close();
 }
 
 

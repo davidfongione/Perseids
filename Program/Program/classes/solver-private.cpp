@@ -69,7 +69,7 @@ void solver::_gnuplot_png(const std::string folder, const double years) const
     string title;
     vector<string> path(_card);    //  path to each data file
     
-    output_path = folder + "plot_png.gnu";
+    output_path = folder + "plot-png.gnu";
     outplot.open(output_path);
     
     style = " using 1:2 w l lt rgb ";
@@ -103,11 +103,23 @@ void solver::_gnuplot_png(const std::string folder, const double years) const
 
 ////////
 
-void solver::_print_energy(std::ofstream& file) const
+void solver::_print_total_energy(const std::string folder, const int i) const
 {
     
+    ofstream output;
     string space = "        ";
-    file << _time << space << total_energy() << endl;
+    
+    if(i == 0)
+    {
+        output.open(folder + "system-total-energy");
+    }
+    else
+    {
+        output.open(folder + "system-total-energy", ios::app);
+    }
+    output << _time << space << total_energy() << endl;
+    
+    output.close();
 }
 
 ////////
