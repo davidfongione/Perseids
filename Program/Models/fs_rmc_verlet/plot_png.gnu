@@ -2,7 +2,7 @@ reset
 set terminal png enhanced size 1000, 1000
 set output '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Models/fs_rmc_verlet/plot.png'
 set size ratio -1
-set title 'Time-step: 9.000000 years'
+set title 'Time-step: 30.000000 years'
 set xlabel 'distance (AU)'
 set ylabel 'distance (AU)'
 

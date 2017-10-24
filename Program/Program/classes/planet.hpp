@@ -15,33 +15,43 @@
 
 class planet
 {
+    
 public:
+    
+    //  constructors
     
     planet(void);
     planet(std::string name, double mass, double x, double y, double vx, double vy);
     planet(const planet& body);
     
-    //  data members
+    //  data
+    
     int time;   //  in years
     std::vector<double> position;
     std::vector<double> velocity;
     
-    //  methods
+    //  getters
+    
     int dim(void) const;
+    double mass(void) const;
+    std::string name(void) const;
+    
+    //  methods
+    
     double distance(const planet& body) const;
     double distance_center(void) const;
     double kinetic_energy(void) const;
-    double mass(void) const;
     double potential_energy(const std::vector<planet>& system) const;
     double total_energy(const std::vector<planet>& system) const;
-    void print(std::ofstream& file) const;
-    void print_pos(std::ofstream& file) const;
-    void print_vel(std::ofstream& file) const;
     void normalize(void);   //  normalize with the good time & distance units
-    std::string name(void) const;
-
+    void print(std::ofstream& output) const;
+    void print_pos(std::ofstream& output) const;
+    void print_vel(std::ofstream& output) const;
+    
     
 private:
+    
+    //  data
     
     int _dim;
     double _mass;

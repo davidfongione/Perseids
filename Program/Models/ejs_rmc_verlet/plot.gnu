@@ -1,6 +1,6 @@
 reset
 set size ratio -1
-set title 'Time-step: 7.000000 years'
+set title 'Time-step: 8.000000 years'
 set xlabel 'distance (AU)'
 set ylabel 'distance (AU)'
 
