@@ -155,9 +155,9 @@ double solver::total_energy(void) const
     
     double energy = 0.;
     
-    for(auto& object : _system)
+    for(auto& body : _system)
     {
-        energy += object.total_energy(_system);
+        energy += body.total_energy(_system);
     }
     
     return (energy);
@@ -215,14 +215,15 @@ void solver::euler(const double years, const std::string folder)
     // string folder;
     string path;
     ofstream output;
+    ofstream output_energy;
     
-    meshpoints = (int) years * 1000;
+    meshpoints = (int) years * 250;
     
     h = ((double) years) / ((double) meshpoints);
     
-    // folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/euler/";
+    output_energy.open(folder + "system_total_energy");
 
-    for(int i = 1; i < meshpoints; i++)
+    for(int i = 1; i <= meshpoints; i++)
     {
         for(int k = 0; k < _card; k++)
         {
@@ -250,16 +251,20 @@ void solver::euler(const double years, const std::string folder)
             _system[k].velocity[0] = h * _prev_acc[k][0] + _prev_vel[k][0];
             _system[k].velocity[1] = h * _prev_acc[k][1] + _prev_vel[k][1];
             
+            _system[k].time += h;   //  update time
             output.close();
         }
         
-        _update_quantities();
+        _print_energy(output_energy);
+        _update_quantities(i, h);
     }
     
     _gnuplot(folder, years);
     _gnuplot_png(folder, years);
     
     _time += years;
+    
+    output_energy.close();
 }
 
 void solver::verlet(const double years, const std::string folder)
@@ -274,16 +279,16 @@ void solver::verlet(const double years, const std::string folder)
     double radical;
     string path;
     ofstream output;
+    ofstream output_energy;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
-    meshpoints = (int) years * 1000;
+    meshpoints = (int) years * 250;
     h = ((double) years) / ((double) meshpoints);
     h_squared = h * h;
     
-    //folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/verlet/";
-
+    output_energy.open(folder + "system_total_energy");
     
-    for(int i = 1; i < meshpoints; i++)
+    for(int i = 1; i <= meshpoints; i++)
     {
         for(int k = 0; k < _card; k++)
         {
@@ -328,19 +333,27 @@ void solver::verlet(const double years, const std::string folder)
             
             output.close();
         }
-                
-        _update_quantities();
+        
+        _print_energy(output_energy);
+        _update_quantities(i, h);
     }
     
     _gnuplot(folder, years);
     _gnuplot_png(folder, years);
     
-    _time += years;
+    output_energy.close();
+}
+
+void solver::_print_energy(std::ofstream& file) const
+{
+    
+    string space = "        ";
+    file << _time << space << total_energy() << endl;
 }
 
 
 
-void solver::_update_quantities(void)
+void solver::_update_quantities(const int i, const double h)
 {
     
     for(int k = 0; k < _card; k++)
@@ -348,7 +361,9 @@ void solver::_update_quantities(void)
         _prev_pos[k] = _system[k].position;
         _prev_vel[k] = _system[k].velocity;
         _prev_acc[k] = _acceleration(k);
+        _system[k].time = i * h;
     }
+    _time = i * h;
 }
 
 std::vector<std::vector<double>> solver::_next_acc(void) const
@@ -376,6 +391,8 @@ void solver::_gnuplot(const std::string folder, const double years) const
     
     output_path = folder + "plot.gnu";
     outplot.open(output_path);
+    
+    outplot << "reset" << endl;
     
     for(int k = 0; k < _card; k++)
     {
@@ -408,6 +425,7 @@ void solver::_gnuplot(const std::string folder, const double years) const
 }
 
 
+
 void solver::_gnuplot_png(const std::string folder, const double years) const
 {
     
@@ -419,6 +437,8 @@ void solver::_gnuplot_png(const std::string folder, const double years) const
     
     output_path = folder + "plot_png.gnu";
     outplot.open(output_path);
+    
+    outplot << "reset" << endl;
     
     for(int k = 0; k < _card; k++)
     {

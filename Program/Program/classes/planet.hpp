@@ -41,8 +41,6 @@ public:
     std::string name(void) const;
 
     
-
-    
 private:
     
     int _dim;

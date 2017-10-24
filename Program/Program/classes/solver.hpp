@@ -51,8 +51,9 @@ private:
     std::vector<double> _mass_center;
     std::vector<double> _acceleration(const int p) const;
     std::string _gnuplot_colors(const int k) const;
+    void _print_energy(std::ofstream& file) const;
     void _gnuplot(const std::string folder, const double years) const;
     void _gnuplot_png(const std::string folder, const double years) const;
     void _update_mass_center(const planet& body);
-    void _update_quantities(void);
+    void _update_quantities(const int i, const double h);
 };
