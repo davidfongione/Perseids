@@ -9,9 +9,6 @@
 #include <iostream>
 #include "models.hpp"
 #include "unit-tests.hpp"
-#include <cmath>
-#include "classes/planet.hpp"
-
 
 using namespace std;
 

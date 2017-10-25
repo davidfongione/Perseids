@@ -8,7 +8,6 @@
 
 
 #pragma once
-#include <array>
 #include <vector>
 #include "planet.hpp"
 #include <fstream>
