@@ -36,7 +36,7 @@ vector<planet> system;
 earth.print(output, system);
 ```
 
-All the initial conditions for our planets of the Solar System can be found on this [very useful NASA website](https://ssd.jpl.nasa.gov/horizons.cgi#top). Just select **VECTORS** as an *ephemeris type*.
+All the initial conditions for the celestial bodies of the Solar System can be found on this [very useful NASA website](https://ssd.jpl.nasa.gov/horizons.cgi#top), just select **VECTORS** as an *ephemeris type*. You must initialize the mass in *kg*, the position in *AU*, and the velocity in *AU/year*.
 
 
 ### Solver class
