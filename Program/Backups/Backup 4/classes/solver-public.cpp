@@ -28,7 +28,6 @@ solver::solver(void)
     _time = 0;
     _total_mass = 0.;
     _mass_center = {0., 0.};
-
 }
 
 ////////
@@ -217,13 +216,10 @@ double solver::kinetic_energy(void) const
 {
     
     double energy = 0.;
-    planet copy;
     
     for(auto& body : _system)
     {
-        copy = body;
-        copy.denormalize(); //  avoid (a bit) loss of num. precision
-        energy += copy.kinetic_energy();
+        energy += body.kinetic_energy();
     }
     
     return (energy);
@@ -235,13 +231,10 @@ double solver::potential_energy(void) const
 {
     
     double energy = 0.;
-    planet copy;
     
-    for(auto& body : _system)
+    for(auto& object : _system)
     {
-        copy = body;
-        copy.denormalize();  //  avoid (a bit) loss of num. precision
-        energy += copy.potential_energy(_system);
+        energy += object.potential_energy(_system);
     }
     
     return (energy);
@@ -252,7 +245,12 @@ double solver::potential_energy(void) const
 double solver::total_energy(void) const
 {
     
-    double energy = kinetic_energy() + potential_energy();
+    double energy = 0.;
+    
+    for(auto& body : _system)
+    {
+        energy += body.total_energy(_system);
+    }
     
     return (energy);
 }

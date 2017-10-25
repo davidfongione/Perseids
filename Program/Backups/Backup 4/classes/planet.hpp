@@ -26,7 +26,7 @@ public:
 
     //  data
 
-    double time;   //  in years
+    int time;   //  in years
     std::vector<double> position;
     std::vector<double> velocity;
 
@@ -45,8 +45,6 @@ public:
     double potential_energy(const std::vector<planet>& system) const;
     double total_energy(const planet& body) const;
     double total_energy(const std::vector<planet>& system) const;
-    double velocity_square(void) const;
-    void denormalize(void); //  denormalize
     void normalize(void);   //  normalize with the good time & distance units
     void print(std::ofstream& output) const;  //  outputs position and velocity
     void print(std::ofstream& output, const std::vector<planet>& system) const;  //  idem + energies

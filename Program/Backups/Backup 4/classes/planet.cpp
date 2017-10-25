@@ -34,13 +34,13 @@ planet::planet(void)
 planet::planet(std::string name, double mass, double x, double y, double vx, double vy)
 {
 
-    time = 0.;
+    time = 0;
     _name = name;
     _dim = 2;
     _mass = (double) mass;
 
-    position = {(double) x, (double) y};
-    velocity = {(double) vx, (double) vy};
+    position = {x, y};
+    velocity = {vx, vy};
 
     time = 0;
 }
@@ -50,10 +50,10 @@ planet::planet(std::string name, double mass, double x, double y, double vx, dou
 planet::planet(const planet& body)
 {
 
-    time = (double) body.time;
+    time = body.time;
     _name = body._name;
-    _dim = (double) body._dim;
-    _mass = (double) body._mass;
+    _dim = body._dim;
+    _mass = body._mass;
 
     position = body.position;
     velocity = body.velocity;
@@ -121,7 +121,15 @@ double planet::distance_center(void) const
 double planet::kinetic_energy(void) const
 {
 
-    double energy = 0.5 * _mass * velocity_square();
+    double energy = 0.;
+
+    for(int i = 0; i < _dim; i++)
+    {
+        energy += velocity[i] * velocity[i];
+    }
+
+    energy *= (0.5 * _mass);
+
     
     return (energy);
 }
@@ -184,35 +192,11 @@ double planet::total_energy(const std::vector<planet>& system) const
 
 ////////
 
-double planet::velocity_square(void) const
-{
-    
-    double v = 0.;
-    
-    for(int i = 0; i < _dim; i++)
-    {
-        v += velocity[i] * velocity[i];
-    }
-    
-    return (v);
-}
-
-////////
-
 void planet::normalize(void)
 {
     _mass /= 2.E30;
     velocity[0] *= 365.25;
     velocity[1] *= 365.25;
-}
-
-////////
-
-void planet::denormalize(void)
-{
-    _mass *= 2.E30;
-    velocity[0] /= 365.25;
-    velocity[1] /= 365.25;
 }
 
 ////////
