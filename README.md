@@ -91,8 +91,8 @@ int main()
 
 The algorithm requires only a time-period (in years) - `12.` - here and a folder path - here `folder` - to output the data files. It automatically generate 365 time-steps per year and it is the same for `euler`.
 
-1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however.
-2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files.
+1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however
+2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
 
 The declaration and initialisations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp) and this file can be included in one cpp file.
 
@@ -104,11 +104,11 @@ Once you gave the program a `folder`, it will automatically create many small da
 
 1. One text file for each planet automatically named by the planet's name containing the position and velocity at each time-step of the discretization
 2. Those files can be used by [Gnuplot](http://gnuplot.sourceforge.net) and therefore the program also creates two Gnuplot scripts to be ran in the teminal : *plot.gnu* which makes a simple plot in the terminal and *plot-png.gnu* which creates a png image of the system in the same folder
-3. The program also creates a file *system-total-energy* which - as for the position and velocity of each planet - gives the total energy of the system at each time-step. This file can also be used by Gnuplot but no script is generated (for the moment).
+3. The program also creates a file *system-total-energy* which - as for the position and velocity of each planet - gives the total energy of the system at each time-step. This file can also be used by Gnuplot but no script is generated (for the moment)
 
 [![Example of the program ran above](https://s1.postimg.org/3u7luzcw4v/Capture_d_cran_2017-10-24_18.54.12.jpg)](https://postimg.org/image/1rrt6xeb3f/)
 
-Discover the other possibilities in the [header file](https://github.com/kryzar/Perseids/blob/master/Program/Program/classes/solver.hpp) of this class.
+Other possibilities can be found in the [header file](https://github.com/kryzar/Perseids/blob/master/Program/Program/classes/solver.hpp) of this class.
 
 ## Warning
 
@@ -116,7 +116,7 @@ Several approximations have been made to compute this simulation, mainly due to 
 1. The orbits are supposed to be circular instead of elliptical
 2. We only computed 2-dimensions vectors, assuming the orbits are nearly coplanar, but it is wrong in the reality
 3. We neglected the effects of the general relativity. They are very subtle but can be seen for Mercury for long periods of time
-4. The loss of numerical precision is an important issue for the energies. For example, the total energy of the Earth-system should be `899574073760227393536.0` given initial conditions, and the program outputs `899574073760227655680.0`, which is a difference of nearly six orders of magnitude. To be corrected.
+4. The loss of numerical precision is an important issue for the energies. For example, the total energy of the Earth-system should be `899574073760227393536.0` given initial conditions, and the program outputs `899574073760227655680.0`, which is a difference of nearly six orders of magnitude. To be corrected
 
 ## License
 
