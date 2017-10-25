@@ -1,3 +1,4 @@
+reset
 set terminal png enhanced size 1000, 1000
 set output '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Models/ejs_rmc_euler/plot.png'
 set size ratio -1

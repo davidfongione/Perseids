@@ -1,3 +1,4 @@
+reset
 set size ratio -1
 set title 'Time-step: 15.000000 years'
 set xlabel 'distance (AU)'
