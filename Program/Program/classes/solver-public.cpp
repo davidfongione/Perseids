@@ -268,9 +268,8 @@ void solver::add(planet body)
     _total_mass += body.mass();
     
     body.normalize();
-    _system.push_back(body);
     //  only normalizes the mass and the velocity
-    
+    _system.push_back(body);
     _prev_pos.push_back(body.position);
     _prev_vel.push_back(body.velocity);
     _prev_acc.push_back(_acceleration(_card - 1));
