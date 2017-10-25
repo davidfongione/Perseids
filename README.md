@@ -116,6 +116,7 @@ Several approximations have been made to compute this simulation, mainly due to 
 1. The orbits are supposed to be circular instead of elliptical
 2. We only computed 2-dimensions vectors, assuming the orbits are nearly coplanar, but it is wrong in the reality
 3. We neglected the effects of the general relativity. They are very subtle but can be seen for Mercury for long periods of time
+4. The loss of numerical precision is an important issue for the energies. For example, the total energy of the Earth-system should be `899574073760227393536.0` given initial conditions, and the program outputs `899574073760227655680.0`, which is a difference of nearly six orders of magnitude. To be corrected.
 
 ## License
 
