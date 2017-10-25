@@ -287,6 +287,13 @@
                         \end{aligned}
                     \right.
                 \end{equation*} 
+            We fix the initial positions with respect to the new center of mass. We want the three bodies and the center-of-mass aligned \includegraphics{\verb#{{name}}#}
+            
+            
+            
+            
+            
+            So we look
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
