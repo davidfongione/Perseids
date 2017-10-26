@@ -96,7 +96,7 @@ However it is possible to compute the same algorithm enhanced with a relativisti
 
 system.verlet(100., folder, true);  //  with correction
 system.verlet(100., folder, false); //  without
-system.verlet(100., folder); without
+system.verlet(100., folder);        //  without, exactly the same
 
 ```
 
@@ -130,6 +130,4 @@ Several approximations have been made to compute this simulation, mainly due to 
 
 ## License
 
-Do whatever you want with those files, especially if you wish to improve them. I did this program as a beginner programmer so there must be A LOT to improve.
-
-There is no official license (again because I don't have time to read everything) but I don't think that it will be a problem.
+Do whatever you want with those files, especially if you wish to improve them. I did this program as a beginner programmer so there must be A LOT to improve. There is no official license (again because I don't have time to read everything) but I don't think that it will be a problem.
