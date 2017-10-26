@@ -524,10 +524,85 @@
     
 
 \chapter{Results}
-
-    \section{Earth-Sun system}  
-        \subsection{} 
-    
+    \section{Earth-Sun system}
+        \subsection{Comparison between the two algorithms}
+            \paragraph{}Let's compare the results between using the Euler's method and the Verlet's method.
+                \begin{figure}[h]
+                    \hbox{
+                        \begin{minipage}[c]{.30\linewidth}
+                            \centering
+                            \includegraphics[width=5.5cm,height=4.5cm]{Euler1.png}
+                            \caption{Euler's method over 1 year}
+                        \end{minipage}
+                        \hspace{1mm}
+                        \begin{minipage}[c]{.30\linewidth}
+                            \centering
+                            \includegraphics[width=5.5cm,height=4.5cm]{Euler2.png}
+                            \caption{Euler's method over 2 years}
+                        \end{minipage}
+                        \hspace{2.5mm}
+                        \begin{minipage}[c]{.30\linewidth}
+                            \centering
+                            \includegraphics[width=5.5cm,height=4.5cm]{Euler50.png} 
+                            \caption{Euler's method over 50 years}   
+                        \end{minipage}
+                    }
+                \end{figure}
+                \begin{figure}[h]
+                    \hbox{
+                        \begin{minipage}[c]{.30\linewidth}
+                            \centering
+                            \includegraphics[width=5cm,height=4.5cm]{Verlet1.png}
+                            \caption{Verlet's method over 1 year}
+                        \end{minipage}
+                        \hspace{1mm}
+                        \begin{minipage}[c]{.30\linewidth}
+                            \centering
+                            \includegraphics[width=5cm,height=4.6cm]{Verlet2.png}
+                            \caption{Verlet's method over 2 years}
+                        \end{minipage}
+                        \hspace{2.5mm}
+                        \begin{minipage}[c]{.30\linewidth}
+                            \centering
+                            \includegraphics[width=5cm,height=4.6cm]{Verlet50.png} 
+                            \caption{Verlet's method over 50 years}   
+                        \end{minipage}
+                    }
+                \end{figure}
+            We clearly see here the difference of precision between the two algorithms. With the Euler's method, the Earth is not able to come back at its initial position as it should whereas the Verlet's one draws a circular orbit.
+        
+        \subsection{Escape velocity}
+            \paragraph{}We have computed the theorical escape velocity in 1.1.2.
+                \begin{figure}[h]
+                    \hbox{
+                        \begin{minipage}[c]{.46\linewidth}
+                            \centering
+                            \includegraphics[width=7cm,height=7cm]{Escape0,009.png}
+                            \caption{Earth orbit for $v_i=3.287$ AU/yr}
+                        \end{minipage}
+                        \hfill
+                        \begin{minipage}[c]{.46\linewidth}
+                            \centering
+                            \includegraphics[width=7cm,height=7cm]{Escape0,022.png}
+                            \caption{Earth orbit for $v_i=8.0355$ AU/yr}
+                        \end{minipage}
+                    }
+                \end{figure}
+                \begin{figure}[h]
+                    \hbox{
+                        %\begin{minipage}[c]{.46\linewidth}
+                           % \centering
+                           % \includegraphics[width=7cm,height=7cm]{Escape0,024}
+                         %   \caption{Earth orbit for $v_i=8.77$ AU/yr}
+                       % \end{minipage}
+                       % \hfill
+                        \begin{minipage}[c]{.46\linewidth}
+                            \centering
+                            \includegraphics[width=7cm,height=7cm]{Escape0,0243.png}
+                            \caption{Earth orbit for $v_i=8.8756$ AU/yr}
+                        \end{minipage}
+                    }
+                \end{figure}
     
     \section{Three-body problem}
         \subsection{The Sun as the center-of-mass}
