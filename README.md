@@ -72,7 +72,7 @@ int main()
   system.add(venus);
   system.add(uranus);
 
-  //  run the verlet algorithm
+  //  run the verlet algorithm for the next 12 years
 
   system.verlet(12., folder);
 
