@@ -299,7 +299,9 @@
                     \right.
                 \end{equation*} 
             We fix the initial positions with respect to the new center of mass.
-            \includegraphics{dessinplanete.png}
+                \begin{center}
+                    \includegraphics[width=16cm,height=6cm]{dessinplanete.png}
+                \end{center}
             So we look for the $x_m$ so that $x_c$ and $y_c$ are equal to zero.
                 \begin{equation*}
                     \left\{
@@ -370,7 +372,8 @@
             Jupiter has an orbital period of $11.862$yr. The distance travelled by Jupiter in this period is $2 \pi \times r = 2 \pi \times 5.20 = 32.673 AU$. So $v_{\jupiter_i}= \frac{2 \pi \times r}{T} = \frac{2 \pi \times 5.20}{11.862} = 2.7544 $ AU/yr. Similarly, the initial velocity can be expressed as $v_{\jupiter_i} = \left(\begin{array}{c}
                 0 \\
                 2.7544
-                \end{array} \right)$ 
+                \end{array} \right)$.
+            
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
@@ -378,7 +381,7 @@
                             &(6\times 10^{24}) \times 2 \pi + (1.9 \times 10^{27}) \times 2.7544 + (2 \times 10^{30}) \times v_y = 0
                         \end{aligned}
                     \right.
-                \end{equation*}
+                \end{equation*}.
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
@@ -404,7 +407,7 @@
     
 
     \section{The complete Solar system}
-        \paragraph{}
+        \paragraph{}As the program had been made so that we can add as many planets as we want, modelizing the complete Solar System is not more complicated than having only the system Earth-Jupiter-Sun. We will take, in that case, the center-of-mass of the complete Solar System as origin.
         
 
     \section{Discretization}
@@ -456,6 +459,16 @@
                     x_{i+1} &+ x_{i-1} = 2x_i + h^2\frac{d^2x_i}{dt^2} + \mathcal{O}(h^4) \\
                     \Rightarrow x_{i+1} &= 2x_i - x_{i-1} + h^2\frac{d^2x_i}{dt^2} + \mathcal{O}(h^4)
                 \end{align*}
+            \paragraph{}Another way to use the Verlet's method is with :
+                \begin{equation*}
+                    \left\{
+                        \begin{aligned}
+                            x_{i+1}&=x(t_i+h) = x(t_i) + h\frac{dx}{dt}(t_i) + \frac{1}{2}h^2 \frac{d^2x}{dt^2}(t_i)\\
+                            v_{i+1}&=v(t_i+h) = v(t_i) + \frac{1}{2}h(\frac{dv}{dt}(t_i) + \frac{dv}{dt}(t_i+h)
+                        \end{aligned}
+                    \right.
+                \end{equation*}
+            where the velocity is explicitly expressed.
             
 
 
