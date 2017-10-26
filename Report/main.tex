@@ -171,7 +171,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{FYS3150\\Project 3 - }
+\title{FYS3150\\Project 3 - The Verlet Underground}
 \author{Hugounet, Antoine \& Villeneuve, Ethel}
 \date{September 2017 \\University of Oslo \\ \url{https://github.com/kryzar/Perseids.git}}
 
@@ -184,7 +184,8 @@
 	
 \begin{abstract}
 
-	\paragraph{}
+	\paragraph{}The aim of this project is to create a simulation of the Solar System. We will consider three cases. The first one will be the simplest, an Earth-Sun system. With it, we can test our program and compare the Euler's and Verlet's method as we know that the orbit of the Earth is supposed to be circular around the Sun, which will be set as the center-of-mass. In the second case, we will add Jupiter. With this model, we can compare the influence of taking into account the real center-of-mass instead of the Sun as center-of-mass. Finally, the third case will be the complete Solar System (without moons, only the eight planets). After checking that our program is stable and viable, we can simulate the Solar System around the years and centuries. Moreover, we will use the program to find the escape value of the Earth from the Sun and to study the Mercury's perihelion precession. These are two concrete ways to use this simulation program. 
+	\paragraph{}As we expected, the Verlet's method is way more precise than the Euler's method. That is why we will only use the Verlet's method since the second case. In contrast, changing the center-of-mass from the Sun to the "real" one does not implies big changes as it is really close to the Sun compared to the other distances.  
 	
 \end{abstract}
 
@@ -203,7 +204,9 @@
     \paragraph{}In a first place, we will begin with an Earth-Sun system with the Earth orbiting around the Sun. We will test our simulation on this simple case and add the other planets afterwards. 
 
     \section{Earth-Sun system}
+    
         \subsection{Physical conditions of the system}
+        
             \paragraph{}The only force applied to this system is the gravity. According to the Newton's law, we have 
                 \begin{equation}
                 F_G = \frac{GM_{\odot}M_{\oplus}}{r^2}
@@ -436,22 +439,22 @@
             \paragraph{Acceleration.}To implement the accelerations, we normalize the masses with respect to the mass of the Sun. Thus, $M_{\odot}=1$, $M_{k_N}=\frac{M_k}{M_{\odot}}$ is the normalized mass for each body $k$.
             \paragraph{} From the Newton's law of motion, the acceleration of a given body can be written as $a=\frac{F_G}{M}$, with $M$ the mass of the body. 
                 \begin{equation*}
-                    a_i = \frac{ \sum\limits_{k} \frac{GMM_{k_N}}{r_k^2}}{M}
+                    a_i = \frac{ \sum\limits_{k} \frac{GMM_{k_N}}{r_{i_k}^2}}{M}
                 \end{equation*}
             with $k$ the number of bodies involved in the system. 
                 \begin{equation*}
-                    a_i = \sum\limits_{k} \frac{GM_{k_N}}{r_k^2}
+                    a_i = \sum\limits_{k} \frac{GM_{k_N}}{r_{i_k}^2}
                 \end{equation*}
             From (4), we have $GM_{\odot} = 4\pi^2\mathrm{AU}^3/\mathrm{yr}^2$ and as $M_{\odot}=1$, $G=4\pi^2\mathrm{AU}^3/\mathrm{yr}^2$. So,
                 \begin{align*}
-                    a_i &= \sum\limits_{k} \frac{4\pi^2M_{k_N}}{r_k^2} \\
-                    a_i &= \sum\limits_{k} \frac{4\pi^2M_{k_N}(x_i-x_{i_k})}{r_k^3} 
+                    a_i &= \sum\limits_{k} \frac{4\pi^2M_{k_N}}{r_{i_k}^2} \\
+                    a_i &= \sum\limits_{k} \frac{4\pi^2M_{k_N}(x_i-x_{i_k})}{r_{i_k}^3} 
                     \tag{7}
                  \end{align*}
              With Euler's method, we can write $\displaystyle a_i=\frac{v_{i+1} - v_i}{h}$ with $\displaystyle h = \frac{b-a}{N}$ the step length and $N$ the number of mesh points. Therefore, 
                 \begin{align*}
-                     &\frac{v_{i+1} - v_i}{h} = \sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_k^3} \\
-                     \Rightarrow &v_{i+1} = h\sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_k^3} + v_i
+                     &\frac{v_{i+1} - v_i}{h} = \sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_{i_k}^3} \\
+                     \Rightarrow &v_{i+1} = h\sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_{i_k}^3} + v_i
                     \tag{8}
                 \end{align*}
              \paragraph{Velocity.}The velocity can easily be discretized as
