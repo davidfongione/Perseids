@@ -11,6 +11,7 @@
 #include "initialisations.hpp"
 #include "classes/planet.hpp"
 #include "classes/solver.hpp"
+#include "time.h"
 
 
 using namespace std;
@@ -24,15 +25,23 @@ int main(int argc, const char* argv[])
         exit(1);
     }
 
-    string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Résultats/Modèle à trois planètes/Faux centre de masse/";
+    string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/";
     
     solver system;
-    system.add(earth_ejs_wmc);
-    system.add(jupiter_ejs_wmc);
-    system.add(sun_ejs_wmc);
+    system.add(sun_wmc);
+    system.add(mercury_peri);
+    system.add(earth);
     
-    system.verlet(100., main_folder);
+    clock_t start;
+    clock_t finish;
+    double time;
     
+    start = clock();
+    system.verlet(5., main_folder + "Peri/", true);
+    finish = clock();
+    
+    time = ((double) finish - start) / ((double) CLOCKS_PER_SEC);
+    cout << time << endl;
     
     return 0;
 }

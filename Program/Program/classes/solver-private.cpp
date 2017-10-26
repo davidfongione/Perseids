@@ -103,7 +103,7 @@ void solver::_gnuplot_png(const std::string folder, const double years) const
 
 ////////
 
-void solver::_print_total_energy(const std::string folder, const int i) const
+void solver::_print_total_energy(const int i, const std::string folder) const
 {
     
     ofstream output;
@@ -142,14 +142,14 @@ void solver::_update_mass_center(const planet& body)
 
 ////////
 
-void solver::_update_quantities(const int i, const double h)
+void solver::_update_quantities(const int i, const double h, const bool relativity)
 {
     
     for(int k = 0; k < _card; k++)
     {
         _prev_pos[k] = _system[k].position;
         _prev_vel[k] = _system[k].velocity;
-        _prev_acc[k] = _acceleration(k);
+        _prev_acc[k] = _acceleration(k, relativity);
         _system[k].time = i * h;
     }
     _time = i * h;
@@ -157,7 +157,7 @@ void solver::_update_quantities(const int i, const double h)
 
 ////////
 
-vector<double> solver::_acceleration(const int p) const
+vector<double> solver::_acceleration(const int p, const bool relativity) const
 {
     
     //  p is the index of the planet for which we calculate eta
@@ -176,13 +176,25 @@ vector<double> solver::_acceleration(const int p) const
             {
                 //  time/distance units are normalized with the constant 4*pi*pi
                 r = _system[p].distance(_system[k]);
-                radical = (_system[k].mass()) / (r * r * r);
+                double r_squared = r * r;
+                radical = (_system[k].mass()) / (r_squared * r);
                 
                 relative_pos[0] = _system[p].position[0] - _system[k].position[0];
                 relative_pos[1] = _system[p].position[1] - _system[k].position[1];
                 
                 acceleration[0] -= radical * relative_pos[0];
                 acceleration[1] -= radical * relative_pos[1];
+                if(relativity)
+                {
+                    double correction;
+                    double cross;
+                    double const c = (299792458 * 24. * 3600. * 365.25) / 149597870700. ;
+                    double const c_squared = c * c;
+                    cross = _system[k].position[0] * _system[k].velocity[1] + _system[k].position[1] * _system[k].velocity[0];
+                    correction = (1. + (3. * cross) / (r_squared * c_squared));
+                    acceleration[0] *= correction;
+                    acceleration[1] *= correction;
+                }
             }
         }
         
@@ -200,14 +212,14 @@ vector<double> solver::_acceleration(const int p) const
 
 ////////
 
-std::vector<std::vector<double>> solver::_next_acc(void) const
+std::vector<std::vector<double>> solver::_next_acc(const bool relativity) const
 {
     
     vector<vector<double>> acceleration;
     
     for(int k = 0; k < _card; k++)
     {
-        acceleration.push_back(_acceleration(k));
+        acceleration.push_back(_acceleration(k, relativity));
     }
     
     return (acceleration);

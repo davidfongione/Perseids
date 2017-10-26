@@ -28,7 +28,7 @@ public:
     //  main algorithms
     
     void euler(const double years, const std::string folder);
-    void verlet(const double years, const std::string folder);
+    void verlet(const double years, const std::string folder, const bool relativity = false);
     
     //  getters
     
@@ -64,10 +64,10 @@ private:
     
     void _gnuplot(const std::string folder, const double years) const;
     void _gnuplot_png(const std::string folder, const double years) const;
-    void _print_total_energy(const std::string folder, const int i) const;
+    void _print_total_energy(const int i, const std::string folder) const;
     void _update_mass_center(const planet& body);
-    void _update_quantities(const int i, const double h);
-    std::vector<double> _acceleration(const int p) const;
-    std::vector<std::vector<double>> _next_acc(void) const;
+    void _update_quantities(const int i, const double h, const bool relativity = false);
+    std::vector<double> _acceleration(const int p, const bool relativity = false) const;
+    std::vector<std::vector<double>> _next_acc(const bool relativity) const;
     std::string _gnuplot_colors(const int k) const;
 };
