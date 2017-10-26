@@ -57,22 +57,21 @@ void solver::euler(const double years, const std::string folder)
     //  x(t+dt) = dt*v(t) + x(t)
     //  v(t+dt) = dt*a(t) + v(t) = dt*Fx/m + v(t), with Newton's law
     
-    int meshpoints;
+    int timesteps;
     double h;
-    // string folder;
     string path;
     ofstream output;
     
-    meshpoints = (int) (years * 365);
-    h = ((double) years) / ((double) meshpoints);
+    timesteps = (int) (years * 365);
+    h = ((double) years) / ((double) timesteps);
     
-    for(int i = 0; i <= meshpoints; i++)
+    for(int i = 0; i <= timesteps; i++)
     {
         for(int k = 0; k < _card; k++)
         {
             path = folder + _system[k].name();
             
-            if( i == 1)
+            if(i == 0)
             {
                 output.open(path);  //  erase the previous file
                 output << "Euler algorithm (2D)" << endl;
@@ -98,7 +97,7 @@ void solver::euler(const double years, const std::string folder)
             output.close();
         }
         
-        _print_total_energy(folder, i);
+        _print_total_energy(i, folder);
         _update_quantities(i, h);
     }
     
@@ -110,72 +109,82 @@ void solver::euler(const double years, const std::string folder)
 
 ////////
 
-void solver::verlet(const double years, const std::string folder)
+void solver::verlet(const double years, const std::string folder, const bool relativity)
 {
     //  equations in 1D :
     //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
     //  v(t+dt) = v(t) + (1/2)*dt*[a(t) + a(t+dt)]
     
-    int meshpoints;
+    int timesteps;
     double h;
     double h_squared;
     double radical;
+    bool can_write;
     string path;
     ofstream output;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
-    meshpoints = (int) years * 365;
-    h = ((double) years) / ((double) meshpoints);
+    timesteps = (relativity ? ((int) years * 360 * 3600 * 7) : ((int) years * 365));
+    h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
     
-    for(int i = 1; i <= meshpoints; i++)
+    for(int i = 0; i <= timesteps; i++)
     {
+        //  we don't need all the time steps to have a reliable (gnu)plot
+        //  only the last time step is relevant for the perihelion
+        can_write = !relativity || (i % (3600 * 7) == 0);
+        
         for(int k = 0; k < _card; k++)
         {
             path = folder + _system[k].name();
             
-            if( i == 1)
+            if(i == 0)
             {
+                //  some cosmetics for the output file
                 output.open(path);  //  erase the previous file
                 output << "Velocity-Verlet algorithm (2D)" << endl;
                 output << _system[k].name() << " (x, y, vx, vy)" << endl;
-                output << "Timestep: " << years << " years" << endl << endl;
-            }
-            else
-            {
-                output.open(path, ios::app);   //  write after the existing content
+                output << "Timestep: " << years << " years" << endl ;
+                output << "Relativistic correction: " << boolalpha << relativity << endl << endl;
+                output.close();
             }
             
-            _system[k].print_pos(output);
+            if(can_write)
+            {
+                output.open(path, ios::app);   //  write after the existing content
+                _system[k].print_pos(output);
+                output.close();
+            }
             
             radical = 0.5 * h_squared;
             
             _system[k].position[0] = _prev_pos[k][0] + h * _prev_vel[k][0] + radical * _prev_acc[k][0];
             _system[k].position[1] = _prev_pos[k][1] + h * _prev_vel[k][1] + radical * _prev_acc[k][1];
             
-            output.close();
         }
         
-        next_acc = _next_acc();
+        next_acc = _next_acc(relativity);
         
         for(int k = 0; k < _card; k++)
         {
-            path = folder + _system[k].name();
-            output.open(path, ios::app);
             
-            _system[k].print_vel(output);
-            output << endl;
+            if(can_write)
+            {
+                path = folder + _system[k].name();
+                output.open(path, ios::app);
+                _system[k].print_vel(output);
+                output << endl;
+                output.close();
+            }
             
             radical = 0.5 * h;
             
             _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + next_acc[k][0]);
             _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + next_acc[k][1]);
-            
-            output.close();
-        }
+            }
         
-        _print_total_energy(folder, i);
-        _update_quantities(i, h);
+        _print_total_energy(i, folder);
+        _update_quantities(i, h, relativity);
     }
     
     _gnuplot(folder, years);

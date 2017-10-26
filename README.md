@@ -1,4 +1,4 @@
-# Perseids <br> Project 3 from the course FYS3150 of University of Oslo, Autumn 2017
+# The Verlet Underground <br> Project 3 from the course FYS3150 of University of Oslo, Autumn 2017
 
 
 This program aims to compute a simulation of the Solar System with both Euler's and Verlet's algorithms to solve the ordinary differential equations of the system combined with Newton's law.
@@ -89,10 +89,20 @@ int main()
 
 ```
 
-The algorithm requires only a time-period (in years) - `12.` - here and a folder path - here `folder` - to output the data files. It automatically generate 365 time-steps per year and it is the same for `euler`.
+The algorithm requires only a time-period (in years) - `12.` here - and a folder path - `folder` here - to output the data files. It automatically generate 365 time-steps per year and it is the same for `euler`.
+However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law. The resolution is enhanced to one arcsecond and therefore the program requires a long time to run. The output file contains only a fraction of all the computed positions and velocities : it is reliable enough for a good plot (you won't notice the difference between a relativistic and not relativistic plot), saves time, and only the last position if required to calculate a perihelion precession. If you with to add this correction, just use a boolean in `verlet`(Euler is not efficient enough for this simulation) :
+
+```cpp
+
+system.verlet(100., folder, true);  //  with correction
+system.verlet(100., folder, false); //  without
+system.verlet(100., folder);        //  without, exactly the same
+
+```
 
 1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however
 2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
+3. It is equivalent to run with `false`or nothing.
 
 The declaration and initializations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp). You can find initializations for the full solar system, the Earth-Jupiter-Sun system with the Sun as the center of mass and the Earth-Jupiter-Sun with the real center of mass.
 
@@ -120,6 +130,4 @@ Several approximations have been made to compute this simulation, mainly due to 
 
 ## License
 
-Do whatever you want with those files, especially if you wish to improve them. I did this program as a beginner programmer so there must be A LOT to improve.
-
-There is no official license (again because I don't have time to read everything) but I don't think that it will be a problem.
+Do whatever you want with those files, especially if you wish to improve them. I did this program as a beginner programmer so there must be A LOT to improve. There is no official license (again because I don't have time to read everything) but I don't think that it will be a problem.
