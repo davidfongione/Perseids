@@ -30,14 +30,13 @@ int main(int argc, const char* argv[])
     solver system;
     system.add(sun_wmc);
     system.add(mercury_peri);
-    system.add(earth);
     
     clock_t start;
     clock_t finish;
     double time;
     
     start = clock();
-    system.verlet(5., main_folder + "Peri/", true);
+    system.verlet(100., main_folder + "Peri/", true);
     finish = clock();
     
     time = ((double) finish - start) / ((double) CLOCKS_PER_SEC);

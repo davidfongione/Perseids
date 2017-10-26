@@ -184,8 +184,16 @@
 	
 \begin{abstract}
 
-	\paragraph{}The aim of this project is to create a simulation of the Solar System. We will consider three cases. The first one will be the simplest, an Earth-Sun system. With it, we can test our program and compare the Euler's and Verlet's method as we know that the orbit of the Earth is supposed to be circular around the Sun, which will be set as the center-of-mass. In the second case, we will add Jupiter. With this model, we can compare the influence of taking into account the real center-of-mass instead of the Sun as center-of-mass. Finally, the third case will be the complete Solar System (without moons, only the eight planets). After checking that our program is stable and viable, we can simulate the Solar System around the years and centuries. Moreover, we will use the program to find the escape value of the Earth from the Sun and to study the Mercury's perihelion precession. These are two concrete ways to use this simulation program. 
-	\paragraph{}As we expected, the Verlet's method is way more precise than the Euler's method. That is why we will only use the Verlet's method since the second case. In contrast, changing the center-of-mass from the Sun to the "real" one does not implies big changes as it is really close to the Sun compared to the other distances.  
+	\paragraph{}The aim of this project is to create a simulation of the Solar System. We will consider three cases.
+		\begin{enumerate}
+			\item{The first one will be the simplest, an Earth-Sun system. With it, we can test our program and compare the Euler's and Verlet's method as we know that the orbit of the Earth is supposed to be circular around the Sun, which will be set as the center-of-mass.}
+			\item{In the second case, we will add Jupiter. With this model, we can compare the influence of taking into account the real center-of-mass instead of the Sun as center-of-mass.}
+			\item{Finally, the third case will be the complete Solar System (without moons, only the eight planets). After checking that our program is stable and viable, we can simulate the Solar System around the years and centuries.}
+		\end{enumerate}
+		
+	Moreover, we will use the program to find the escape value of the Earth from the Sun and to study the Mercury's perihelion precession with and without a relativistic correction to Newton's law. These are two concrete ways to use this simulation program, but it basically works for many phenomena.
+	
+	\paragraph{}As we expected, Verlet's method is way more precise than Euler's method. That is why we will use Euler's one only for the two-bodies model. In contrast, changing the center-of-mass from the Sun to the real one does not implies big changes as it is really close to the Sun compared to the other distances.  
 	
 \end{abstract}
 
@@ -390,11 +398,7 @@
                     \right.
                     \tag{6}
                 \end{equation*}
-            To have a fixed center-of-mass, the Sun will need a velocity $v =
-            \left(\begin{array}{c}
-                0\\
-               - 2.63294 \times 10^{-3}
-            \end{array} \right)$. 
+            \paragraph{}Therefore, our initial vectors will be :
             \begin{center}           
                 \begin{tabular}{|c|c|c|}
                         \hline
@@ -431,13 +435,12 @@
             \end{center}
 
     \section{The complete Solar system}
-        \paragraph{}As the program had been made so that we can add as many planets as we want, modelizing the complete Solar System is not more complicated than having only the system Earth-Jupiter-Sun. We will take, in that case, the center-of-mass of the complete Solar System as origin.
+        \paragraph{}As the program had been made so that we can add as many planets as we want, modelizing the complete Solar System is not more complicated than having only the system Earth-Jupiter-Sun. We will take, in that case, the center-of-mass of the complete Solar System as origin. Therefore the Sun has a motion.
         
 
-    \section{Discretization}
-        \subsection{Euler's method}
-            \paragraph{Acceleration.}To implement the accelerations, we normalize the masses with respect to the mass of the Sun. Thus, $M_{\odot}=1$, $M_{k_N}=\frac{M_k}{M_{\odot}}$ is the normalized mass for each body $k$.
-            \paragraph{} From the Newton's law of motion, the acceleration of a given body can be written as $a=\frac{F_G}{M}$, with $M$ the mass of the body. 
+    \subsection{Discretization}
+    
+    \paragraph{}The discretization is a crucial step to make the equations "understandable" by our program. From Newton's law of motion, the acceleration of a given body can be written as $a=\frac{F_G}{M}$, with $M$ the mass of the body. $a_i$ is the acceleration at the time $t_i$, and ${a}_{i+1}$ is the very next discretized value of the acceleration at ${t}_{i+1}={t}_{i}+h$.
                 \begin{equation*}
                     a_i = \frac{ \sum\limits_{k} \frac{GMM_{k_N}}{r_{i_k}^2}}{M}
                 \end{equation*}
@@ -451,13 +454,24 @@
                     a_i &= \sum\limits_{k} \frac{4\pi^2M_{k_N}(x_i-x_{i_k})}{r_{i_k}^3} 
                     \tag{7}
                  \end{align*}
-             With Euler's method, we can write $\displaystyle a_i=\frac{v_{i+1} - v_i}{h}$ with $\displaystyle h = \frac{b-a}{N}$ the step length and $N$ the number of mesh points. Therefore, 
+                 
+                     \begin{remark}
+    	To implement the accelerations, we normalize the masses with respect to the mass of the Sun. Thus, $M_{\odot}=1$, $M_{k_N}=\frac{M_k}{M_{\odot}}$ is the normalized mass for each body $k$. We use $AU$ as the distance unit and the year $yr$ as the time unit.
+	\end{remark}
+        \subsection{Euler's method}
+            
+             With Euler's method, we simply compute the derivation formula for a supposed small constant time-step $h$ : $\displaystyle a_i = \frac{d{v}_{i}}{dt}=\frac{v_{i+1} - v_i}{h}$. With $\displaystyle h = \frac{b-a}{N}$ and $N$ the number of time-steps, the bigger $N$, the smaller $h$, and the more accurate Euler's approximation is.
+             
+             \begin{remark}
+             	It is easier to see this formula as the formula of the derivative without its limit, but Euler's demonstrated it in terms of Taylor's expansion.
+			\end{remark}
+			 
                 \begin{align*}
                      &\frac{v_{i+1} - v_i}{h} = \sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_{i_k}^3} \\
-                     \Rightarrow &v_{i+1} = h\sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_{i_k}^3} + v_i
+                     \Longrightarrow &v_{i+1} = h\sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_{i_k}^3} + v_i
                     \tag{8}
                 \end{align*}
-             \paragraph{Velocity.}The velocity can easily be discretized as
+             \paragraph{}The velocity can also be discretized as the derivative of the position
                 \begin{equation*}
                       v_i = \frac{x_{i+1}-x_i}{h}
                   \end{equation*}
@@ -469,7 +483,7 @@
             The initial position and velocity of the body are obtained with the data from the NASA website.
             
         \subsection{Verlet's method}
-            \paragraph{}The Verlets method is almost the same as the Euler's one but is more precise. It is based on a Taylor expansion of the position. We consider two instants $t_i+h$ as $t_i-h$ :
+            \paragraph{}Verlet's method is almost the same as the Euler's one in the sense that it is based on Taylor's expansion, but goes one step further. We consider two instants $t_i+h$ as $t_i-h$ :
                 \begin{equation*}
                     \left\{ 
                         \begin{aligned}

@@ -173,6 +173,7 @@ void solver::verlet(const double years, const std::string folder, const bool rel
                 path = folder + _system[k].name();
                 output.open(path, ios::app);
                 _system[k].print_vel(output);
+                _print_total_energy(i, folder);
                 output << endl;
                 output.close();
             }
@@ -183,7 +184,6 @@ void solver::verlet(const double years, const std::string folder, const bool rel
             _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + next_acc[k][1]);
             }
         
-        _print_total_energy(i, folder);
         _update_quantities(i, h, relativity);
     }
     
