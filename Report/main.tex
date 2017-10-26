@@ -200,17 +200,17 @@
 
 \chapter{Theory}
     
-    \paragraph{}In a first place, we will begin with an Earth-Sun system with the Earth orbiting around the Sun to test a simple algorithm and then we will add the other planets to have a simulation of the complete Solar System. 
+    \paragraph{}In a first place, we will begin with an Earth-Sun system with the Earth orbiting around the Sun. We will test our simulation on this simple case and add the other planets afterwards. 
 
     \section{Earth-Sun system}
         \subsection{Physical conditions of the system}
             \paragraph{}The only force applied to this system is the gravity. According to the Newton's law, we have 
-                \begin{equation*}
+                \begin{equation}
                 F_G = \frac{GM_{\odot}M_{\oplus}}{r^2}
-                \end{equation*}
-            with $F_G$ the gravitational force, $G$ the gravitational constant ($G=6.674 \times 10^{-11} \mathrm{N}.\mathrm{m}^2.\mathrm{kg}^{-2}$), $M_{\odot}$ the mass of the Sun, $M_{\oplus}$ the mass of the Earth and $r$ the distance between the Earth and the Sun.\\
+                \end{equation}
+            with $F_G$ the norm of the gravitational force, $G$ the gravitational constant ($G=6.674 \times 10^{-11} \mathrm{N}.\mathrm{m}^2.\mathrm{kg}^{-2}$), $M_{\odot}$ the mass of the Sun, $M_{\oplus}$ the mass of the Earth and $r$ the distance between the Earth and the Sun.\\
             We will neglect the motion of the Sun here as the mass of the Sun is much larger than the mass of the Earth ($M_{\odot} = 2 \times 10^{30}$kg against $M_{\oplus} = 6 \times 10^{24}$kg). We want to establish the motion of the Earth around the Sun. Moreover, we will assume that the orbit of the Earth around the Sun is coplanar in the $xy$-plane.
-            \paragraph{}The Newton's second law of motion is given by $F=M \times a$ with $F$ the force applied to the system, $M$ the mass of the body concerned and $a$ the acceleration. Applied to our case, we have $F_G = M_{\oplus} \times a$, $a$ being the second derivative of the position, which can be written in two equations : 
+            \paragraph{}The Newton's second law of motion states that the total force applied to any system in a Galilean referential is $\overrightarrow{F}=M\overrightarrow{a}$ with $M$ the mass of the body concerned and $\overrightarrow {a}$ the acceleration. Applied to our case, we have $\overrightarrow{{F}_{G}} = {M}_{\oplus} \overrightarrow{a}$. Since $a$ is the second derivative of the position : 
                 \begin{align*}
                     F_{G,x} &= M_{\oplus} \frac{d^2 x}{dt^2} \\
                     F_{G,y} &= M_{\oplus} \frac{d^2 y}{dt^2}
@@ -221,8 +221,10 @@
                     \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}} \tag{2}.
                 \end{align}
             with $F_{G,x}$ and $F_{G,y}$ the components of the gravitational force.\\
-            We will not use the SI units but the Astronomical units (AU) for the distances (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^{11}$m), kg for masses and years for time units. \\
-            In this case, the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$). \\
+            \begin{remark}
+            	We will not use the SI units but the Astronomical units (AU) for the distances (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^{11}$m), kg for masses and years for time units. Thus the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$). 
+
+			\end{remark}
             To simplify a little bit, we will assume that the Earth's orbit is circular around the Sun. So we can write :
                 \begin{equation}
                     F_G = \frac{M_{\oplus} v^2}{r} = \frac{GM_{\odot}M_{\oplus}}{r^2}
@@ -235,8 +237,11 @@
                 \end{equation*}
             
         \subsection{Escape velocity}
-            \paragraph{}In the case where only the gravitational force is applied, the mechanical energy $E_m = E_c + E_p$ with $E_c$ the kinetic energy and $E_p$ the potential energy is conserved as the gravitational force is conservative. For a planet at a distance of 1 AU from the Sun (let's take the Earth as an example), the kinetic energy is given by $E_c = \frac{1}{2}M_{\oplus}\times v^2$ and the potential energy by $E_p = - \frac{G M_{\odot} M_{\oplus}}{r}$ with $r=1$ AU.\\ 
-            We want this planet to escape from the gravitational attraction of the Sun on it. The escape velocity will be the minimal speed $v_e$ at which the planet escapes from the gravitational influence of the Sun. We consider two positions of the planet : $p_i$ the initial position when $r_i=1$AU and $p_f$ the final position when the planet has escaped and is at an infinite distance from the Sun $r_f=\infty$. Let's consider the mechanical energy at the final position. We have $E_{m_f} = E_{c_f} + E_{p_f}$, $E_{c_f} = 0$ as the velocity of the planet is zero at the final state, $E_{p_f}=0$ as the planet has escaped from the gravitational attraction of the Sun. $E_{m_f}=0$. \\
+        
+            \paragraph{}In the case where only the gravitational force is applied, the mechanical energy $E_m = E_c + E_p$ with $E_c$ the kinetic energy and $E_p$ the potential energy is conserved (the gravitational force is conservative). For a planet at a distance of 1 AU from the Sun (let's take the Earth as an example), the kinetic energy is given by $E_c = \frac{1}{2}M_{\oplus}\times v^2$ and the potential energy by $E_p = - \frac{G M_{\odot} M_{\oplus}}{r}$ with $r=1$ AU. 
+            \\We want this planet to escape from the gravitational attraction of the Sun on it. The escape velocity will be the minimal speed $v_e$ at which the planet escapes from the gravitational influence of the Sun. We consider two positions of the planet : $p_i$ the initial position when $r_i=1$AU and $p_f$ the final position when the planet has escaped and is at an infinite distance from the Sun $r_f=\infty$.
+            
+            \paragraph{}Let's consider the mechanical energy at the final position. We have $E_{m_f} = E_{c_f} + E_{p_f}$, $E_{c_f} = 0$ as the velocity of the planet is zero at the final state, $E_{p_f}=0$ since $r_f=\infty$ and $E_{m_f}=0$. \\
             So, with the planet at 1 AU from the Sun at its inital position, of which velocity is the escape velocity $v_e$, in the case where there is only the gravitational force applied to the system planet-Sun, we have :
                 \begin{equation*}
                     E_{c_i} + E_{p_i} = \frac{1}{2}M_{\oplus} \times v_e^2 - \frac{GM_{\odot}M_{\oplus}}{r_i} = E_{c_f} + E_{p_f} = 0
@@ -257,7 +262,7 @@
                         
     
     \section{Three-body problem}
-        \paragraph{}We add Jupiter to the previous system.
+        \paragraph{}We add Jupiter to the previous system and place it on the same $x-axis$ that the Earth is on.
         
         \subsection{The Sun as the center-of-mass}
             \paragraph{}In the previous case, the Earth's motion had a stable circular orbit in time. Adding Jupiter, the Earth's motion will inevitably be disturbed. We can write the gravitational between the Earth and Jupiter as 
@@ -269,15 +274,21 @@
             
         \subsection{Real center-of-mass}
             \paragraph{}To get closer to the reality, we now do not consider the Sun as a static body anymore. Each of three bodies are in motion. Moreover, the center-of-mass will not be the Sun but the real one. Let's compute the center-of-mass coordinates.
-                \begin{align*}
+            
+                \begin{equation*}
+                    \left\{
+                        \begin{aligned}
                     x_c &= \frac{1}{M_{tot}}\sum\limits_{i} M_i x_i\\
                     y_c &= \frac{1}{M_{tot}}\sum\limits_{i} M_i y_i
-                \end{align*}
+                \end{aligned}
+                    \right.
+                \end{equation*} 
+            
             We consider the system Earth-Jupiter-Sun.
                 \begin{align*}
                     M_{tot} &= M_{\oplus} + M_{\jupiter} + M_{\odot} \\
-                    M_{tot} &= 6\times10^{24} + 1.9\times 10^{27} + 2 \times 10^{30}\\
-                    M_{tot} &= 2.00191 \times 10^{30} \mathrm{kg}
+                    &= 6\times10^{24} + 1.9\times 10^{27} + 2 \times 10^{30}\\
+                    &= 2.00191 \times 10^{30} \mathrm{kg}
                 \end{align*}
                 \begin{equation*}
                     \left\{
@@ -287,15 +298,13 @@
                         \end{aligned}
                     \right.
                 \end{equation*} 
-            We fix the initial positions with respect to the new center of mass. We want the three bodies and the center-of-mass aligned like that :
-                \begin{center}
-                    \includegraphics[width=16cm,height=6cm]{dessinplanete.png}
-                \end{center}            
+            We fix the initial positions with respect to the new center of mass.
+            \includegraphics{dessinplanete.png}
             So we look for the $x_m$ so that $x_c$ and $y_c$ are equal to zero.
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
-                            x_c &= \frac{1}{2.00191 \times 10^{30}} [(2 \times 10^{24}) \times (1 + x_m) + (1.9 \times 10^{27}) \times (5.20 + x_m) + (2 \times 10^{30}) \times x_m] = 0 \\
+                            x_c &= \frac{1}{M_{tot}} [(2 \times 10^{24}) \times (1 + x_m) + (1.9 \times 10^{27}) \times (5.20 + x_m) + (2 \times 10^{30}) \times x_m] = 0 \\
                             y_c &= 0 
                         \end{aligned}
                     \right.
@@ -395,7 +404,7 @@
     
 
     \section{The complete Solar system}
-        \paragraph{}As the program had been made so that we can add as many planets as we want, modelizing the complete Solar System is not more complicated than having only the system Earth-Jupiter-Sun. We will take, in that case, the center-of-mass of the complete Solar System as origin. 
+        \paragraph{}
         
 
     \section{Discretization}
@@ -447,16 +456,6 @@
                     x_{i+1} &+ x_{i-1} = 2x_i + h^2\frac{d^2x_i}{dt^2} + \mathcal{O}(h^4) \\
                     \Rightarrow x_{i+1} &= 2x_i - x_{i-1} + h^2\frac{d^2x_i}{dt^2} + \mathcal{O}(h^4)
                 \end{align*}
-            \paragraph{}Another way to use the Verlet's method is with :
-                \begin{equation*}
-                    \left\{
-                        \begin{aligned}
-                            x_{i+1}&=x(t_i+h) = x(t_i) + h\frac{dx}{dt}(t_i) + \frac{1}{2}h^2 \frac{d^2x}{dt^2}(t_i)\\
-                            v_{i+1}&=v(t_i+h) = v(t_i) + \frac{1}{2}h(\frac{dv}{dt}(t_i) + \frac{dv}{dt}(t_i+h)
-                        \end{aligned}
-                    \right.
-                \end{equation*}
-            where the velocity is explicitly expressed. 
             
 
 
