@@ -31,6 +31,6 @@ planet venus("venus", 4.9E24, -7.049960476048377E-01, 1.312910376443176E-01, -3.
 planet earth_calculated("earth", 6.E24, 1., 0., 0., 2*M_PI/365.25);
 planet sun_mass_center("sun", 2.E30, 0, 0, 0, 0);
 planet sun_calculated("sun", 2.E30,  2.17112305E-03, 5.78452455E-03, -3.818310791E-6, 5.61094309E-6);
-planet jupiter_calculated("jupiter", 1.9E27, 1.5237, 0., 2.*M_PI / sqrt(1.5237), 0.);
+planet jupiter_calculated("jupiter", 1.919E29, 5.20, 0., 0., (2*M_PI*5.20)/(11.862*365.25));
 planet sun_nomass("sun", 0, 2.17112305E-03, 5.78452455E-03, -5.30635989E-06, 5.44444408E-06);
 

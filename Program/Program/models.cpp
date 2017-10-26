@@ -19,7 +19,7 @@
 //  rmc = real mass center
 //  fs = full system
 
-void es_euler(const int years, std::string folder)
+void es_euler(const double years, std::string folder)
 {
     
     //  euler algorithm
@@ -35,14 +35,15 @@ void es_euler(const int years, std::string folder)
     system.euler(years, folder);
 }
 
-void ejs_verlet(const int years, std::string folder)
+void ejs_verlet(const double years, std::string folder)
 {
     
     //  verlet algorithm
     //  earth-jupiter-sun system
     //  the sun is the center of mass with a 0 velocity
-    //  initial position of the Earth is (1, 0)
-    //  initial position of Jupiter is (1.5237, 0)
+    //  initial position of the Earth is (0., 1.)
+    //  initial position of Jupiter is (0., 5.20)
+    //  the velocity vector is (0, 2*pi*R / T), R being the radius and T the revolution period
     //  we vary the mass of Jupiter
     
     solver system;
@@ -51,10 +52,10 @@ void ejs_verlet(const int years, std::string folder)
     system.add(jupiter_calculated);
     system.add(sun_mass_center);
     
-    system.euler(years, folder);
+    system.verlet(years, folder);
 }
 
-void ejs_rmc_euler(const int years, std::string folder)
+void ejs_rmc_euler(const double years, std::string folder)
 {
     
     //  euler algorithm (to compare)
@@ -71,7 +72,7 @@ void ejs_rmc_euler(const int years, std::string folder)
     system.euler(years, folder);
 }
 
-void ejs_rmc_verlet(const int years, std::string folder)
+void ejs_rmc_verlet(const double years, std::string folder)
 {
     
     //  verlet algorithm
@@ -88,7 +89,7 @@ void ejs_rmc_verlet(const int years, std::string folder)
     system.verlet(years, folder);
 }
 
-void fs_rmc_verlet(const int years, std::string folder)
+void fs_rmc_verlet(const double years, std::string folder)
 {
     
     //  verlet algorithm
@@ -110,7 +111,7 @@ void fs_rmc_verlet(const int years, std::string folder)
     system.verlet(years, folder);
 }
 
-void free_model(const int years, const std::string folder)
+void free_model(const double years, const std::string folder)
 {
     
     solver system;
@@ -122,7 +123,7 @@ void free_model(const int years, const std::string folder)
 }
 
 
-void escape(const int years, std::string folder)
+void escape(const double years, std::string folder)
 {
     
     //  vitesse circulaire : (0., 0.0172)
