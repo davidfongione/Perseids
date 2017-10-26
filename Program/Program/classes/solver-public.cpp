@@ -63,8 +63,7 @@ void solver::euler(const double years, const std::string folder)
     string path;
     ofstream output;
     
-    meshpoints = (int) years * 365;
-    
+    meshpoints = (int) (years * 365);
     h = ((double) years) / ((double) meshpoints);
     
     for(int i = 0; i <= meshpoints; i++)
