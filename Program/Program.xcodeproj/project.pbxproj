@@ -76,9 +76,9 @@
 				B37715381F9B686F001B0674 /* initialisations.hpp */,
 				B3CBC8D31F9E170400192093 /* models.hpp */,
 				B3CBC8D21F9E170400192093 /* models.cpp */,
+				B3F46BBA1F8A782A008FE13D /* classes */,
 				B3FCD7BF1F9FD3E500993FDB /* unit-tests.hpp */,
 				B3FCD7BE1F9FD3E500993FDB /* unit-tests.cpp */,
-				B3F46BBA1F8A782A008FE13D /* classes */,
 			);
 			path = Program;
 			sourceTree = "<group>";

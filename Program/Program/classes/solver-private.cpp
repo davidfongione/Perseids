@@ -176,7 +176,7 @@ vector<double> solver::_acceleration(const int p) const
             {
                 //  time/distance units are normalized with the constant 4*pi*pi
                 r = _system[p].distance(_system[k]);
-                radical = (_system[k].mass()) / (r*r*r);
+                radical = (_system[k].mass()) / (r * r * r);
                 
                 relative_pos[0] = _system[p].position[0] - _system[k].position[0];
                 relative_pos[1] = _system[p].position[1] - _system[k].position[1];

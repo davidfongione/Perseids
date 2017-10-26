@@ -11,6 +11,8 @@
 #include "classes/solver.hpp"
 #include "initialisations.hpp"
 #include <string>
+#include "time.h"
+#include <iostream>
 
 //  es = earth-sun
 //  ejs = earth-jupiter-sun
@@ -108,6 +110,32 @@ void fs_rmc_verlet(const int years, std::string folder)
     system.verlet(years, folder);
 }
 
+void free_model(const int years, const std::string folder)
+{
+    
+    solver system;
+    
+    system.add(earth_calculated);
+    system.add(sun_mass_center);
+    
+    system.verlet(years, folder);
+}
+
+
+void escape(const int years, std::string folder)
+{
+    
+    //  vitesse circulaire : (0., 0.0172)
+    //  vitesse d'échappement : (0., 0.0243)
+    
+    planet terre("earth", 6.E24, 1., 0., 0., 0.012);
+    solver system;
+    system.add(terre);
+    system.add(sun_mass_center);
+    
+    system.verlet(years, folder);
+    
+}
 
 
 
