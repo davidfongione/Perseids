@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B31C34581F9F5C0C00D52BFA /* solver-public.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B31C34571F9F5C0C00D52BFA /* solver-public.cpp */; };
 		B31C345A1F9F5C1B00D52BFA /* solver-private.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B31C34591F9F5C1B00D52BFA /* solver-private.cpp */; };
-		B3CBC8D41F9E170400192093 /* models.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3CBC8D21F9E170400192093 /* models.cpp */; };
 		B3F46BB41F8A77D8008FE13D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BB31F8A77D8008FE13D /* main.cpp */; };
 		B3F46BBD1F8A7839008FE13D /* planet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3F46BBB1F8A7839008FE13D /* planet.cpp */; };
 		B3FCD7C01F9FD3E500993FDB /* unit-tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3FCD7BE1F9FD3E500993FDB /* unit-tests.cpp */; };
@@ -31,8 +30,6 @@
 		B31C34571F9F5C0C00D52BFA /* solver-public.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "solver-public.cpp"; sourceTree = "<group>"; };
 		B31C34591F9F5C1B00D52BFA /* solver-private.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "solver-private.cpp"; sourceTree = "<group>"; };
 		B37715381F9B686F001B0674 /* initialisations.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = initialisations.hpp; sourceTree = "<group>"; };
-		B3CBC8D21F9E170400192093 /* models.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = models.cpp; sourceTree = "<group>"; };
-		B3CBC8D31F9E170400192093 /* models.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = models.hpp; sourceTree = "<group>"; };
 		B3F46BB01F8A77D8008FE13D /* Program */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Program; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3F46BB31F8A77D8008FE13D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B3F46BBB1F8A7839008FE13D /* planet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = planet.cpp; sourceTree = "<group>"; };
@@ -74,8 +71,6 @@
 			children = (
 				B3F46BB31F8A77D8008FE13D /* main.cpp */,
 				B37715381F9B686F001B0674 /* initialisations.hpp */,
-				B3CBC8D31F9E170400192093 /* models.hpp */,
-				B3CBC8D21F9E170400192093 /* models.cpp */,
 				B3F46BBA1F8A782A008FE13D /* classes */,
 				B3FCD7BF1F9FD3E500993FDB /* unit-tests.hpp */,
 				B3FCD7BE1F9FD3E500993FDB /* unit-tests.cpp */,
@@ -156,7 +151,6 @@
 				B31C34581F9F5C0C00D52BFA /* solver-public.cpp in Sources */,
 				B31C345A1F9F5C1B00D52BFA /* solver-private.cpp in Sources */,
 				B3F46BBD1F8A7839008FE13D /* planet.cpp in Sources */,
-				B3CBC8D41F9E170400192093 /* models.cpp in Sources */,
 				B3FCD7C01F9FD3E500993FDB /* unit-tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

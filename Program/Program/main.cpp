@@ -7,8 +7,10 @@
 //
 
 #include <iostream>
-#include "models.hpp"
 #include "unit-tests.hpp"
+#include "initialisations.hpp"
+#include "classes/planet.hpp"
+#include "classes/solver.hpp"
 
 
 using namespace std;
@@ -22,9 +24,15 @@ int main(int argc, const char* argv[])
         exit(1);
     }
 
-    string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Models/";
+    string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Résultats/Modèle à trois planètes/Vrai centre de masse/Outputs/";
     
-    ejs_verlet(4, main_folder + "ejs-verlet/");
+    solver system;
+    system.add(earth_ejs_rmc);
+    system.add(jupiter_ejs_rmc);
+    system.add(sun_ejs_rmc);
+    
+    system.verlet(100., main_folder);
+    
     
     return 0;
 }

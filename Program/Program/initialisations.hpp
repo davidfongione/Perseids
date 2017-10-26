@@ -26,11 +26,18 @@ planet uranus("uranus", 8.8E25, 1.784192250600989E+01, 8.843248837812927E+00, -1
 planet venus("venus", 4.9E24, -7.049960476048377E-01, 1.312910376443176E-01, -3.646727612165235E-03, -1.999997620788355E-02);
 
 
-//  data calculated manually
+//  data calculated manually for the Earth-Jupiter-Sun system
+//  sun as the mass center, wmc = wrong mass center
 
-planet earth_calculated("earth", 6.E24, 1., 0., 0., 2*M_PI/365.25);
-planet sun_mass_center("sun", 2.E30, 0, 0, 0, 0);
-planet sun_calculated("sun", 2.E30,  2.17112305E-03, 5.78452455E-03, -3.818310791E-6, 5.61094309E-6);
-planet jupiter_calculated("jupiter", 1.919E29, 5.20, 0., 0., (2*M_PI*5.20)/(11.862*365.25));
-planet sun_nomass("sun", 0, 2.17112305E-03, 5.78452455E-03, -5.30635989E-06, 5.44444408E-06);
+planet earth_ejs_wmc("earth", 6.E24, 1., 0., 0., 2*M_PI/365.25);
+planet jupiter_ejs_wmc("jupiter", 1.9E27, 5.20, 0., 0., (2*M_PI*5.20)/(11.862*365.25));
+planet sun_ejs_wmc("sun", 2.E30, 0, 0, 0, 0);
+
+//  real mass center of the new system, rm = real mass center
+
+planet earth_ejs_rmc("earth", 6.E24, 0.995064, 0., 0., 6.25217 / 365.25);
+planet jupiter_ejs_rmc("jupiter", 1.9E27, 5.19506, 0., 0., 2.75177 / 365.25);
+planet sun_ejs_rmc("sun", 2.E30, -4.936E-3, 0., 0., -2.63294E-3 / 365.25);
+
+//planet sun_calculated("sun", 2.E30,  2.17112305E-03, 5.78452455E-03, -3.818310791E-6, 5.61094309E-6);
 

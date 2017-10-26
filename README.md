@@ -94,9 +94,9 @@ The algorithm requires only a time-period (in years) - `12.` - here and a folder
 1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however
 2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
 
-The declaration and initialisations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp) and this file can be included in one cpp file.
+The declaration and initializations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp). You can find initializations for the full solar system, the Earth-Jupiter-Sun system with the Sun as the center of mass and the Earth-Jupiter-Sun with the real center of mass.
 
-[`models.cpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/models.cpp) contains various models to try out this simulation (full system, Earth-Sun system, etc). Each model is put in a function to be called in the `main` function in [`main.cpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/main.cpp) and you can find the decriptions of each function directly in the code.
+
 
 #### Output files
 
