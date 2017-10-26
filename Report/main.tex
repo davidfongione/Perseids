@@ -262,10 +262,9 @@
                         
     
     \section{Three-body problem}
-        \paragraph{}We add Jupiter to the previous system and place it on the same $x-axis$ that the Earth is on.
+        \paragraph{}We add Jupiter to the previous system and place it on the same $x-axis$ that the Earth is on. In the previous case, the Earth's motion was a stable circular orbit in time. Adding Jupiter, it will inevitably be disturbed.
         
-        \subsection{The Sun as the center-of-mass}
-            \paragraph{}In the previous case, the Earth's motion had a stable circular orbit in time. Adding Jupiter, the Earth's motion will inevitably be disturbed. We can write the gravitational between the Earth and Jupiter as 
+        \paragraph{}We can write the gravitational between the Earth and Jupiter as 
                 \begin{equation*}
                     F_{\oplus-\jupiter} = \frac{GM_{\jupiter}M_{\oplus}}{r_{\oplus-\jupiter}^2} 
                 \end{equation*}
@@ -273,18 +272,22 @@
             The algorithm used for this case will be exactly the same as the previous case. We will see in section 1.4 how to discretize and implement the algorithm. 
             
         \subsection{Real center-of-mass}
-            \paragraph{}To get closer to the reality, we now do not consider the Sun as a static body anymore. Each of three bodies are in motion. Moreover, the center-of-mass will not be the Sun but the real one. Let's compute the center-of-mass coordinates.
+        
+            \paragraph{}To get closer to the reality, we now do not consider the Sun as a static body anymore ; each of three bodies are in motion and considered as planets. The center-of-mass will not be the Sun but the real one. Let's compute the new coordinates of the celestial bodies.
             
-                \begin{equation*}
+            \subsubsection{Basic equation}
+            
+                \begin{equation}
                     \left\{
                         \begin{aligned}
                     x_c &= \frac{1}{M_{tot}}\sum\limits_{i} M_i x_i\\
                     y_c &= \frac{1}{M_{tot}}\sum\limits_{i} M_i y_i
                 \end{aligned}
                     \right.
-                \end{equation*} 
+                \end{equation} 
             
-            We consider the system Earth-Jupiter-Sun.
+            Considering the system Earth-Jupiter-Sun :
+            
                 \begin{align*}
                     M_{tot} &= M_{\oplus} + M_{\jupiter} + M_{\odot} \\
                     &= 6\times10^{24} + 1.9\times 10^{27} + 2 \times 10^{30}\\
@@ -299,10 +302,18 @@
                     \right.
                 \end{equation*} 
             We fix the initial positions with respect to the new center of mass.
+            
+            \subsubsection{Calculations}
+            
                 \begin{center}
+                \begin{figure}[h!]
                     \includegraphics[width=16cm,height=6cm]{dessinplanete.png}
+                    \caption{Representation of the initial position of our three-bodies system.}
+                \end{figure}
                 \end{center}
-            So we look for the $x_m$ so that $x_c$ and $y_c$ are equal to zero.
+                
+            So we look for $x_m$ the $x$-component of the position of the Sun such that $x_c=y_c=0$.
+            
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
@@ -311,24 +322,9 @@
                         \end{aligned}
                     \right.
                 \end{equation*}
+                
                 \begin{equation*}
-                    \left\{
-                        \begin{aligned}
-                            &\frac{1}{2.00191\times 10^{30}}[x_m (2\times10^{24} + 1.9\times10^{27} + 2\times 10^{30}) + (2\times10^{24} + 5.20 \times 1.9 \times 10^{27} = 0 \\
-                            &y_m = 0
-                        \end{aligned}
-                    \right.
-                \end{equation*}
-                \begin{equation*}
-                    \left\{
-                        \begin{aligned}
-                            x_m &= -\frac{2\times 10^{24} + 5.20 \times 1.9 \times 10^{27}}{M_{tot}}\\
-                            y_m &= 0
-                        \end{aligned}
-                    \right.
-                \end{equation*}
-                \begin{equation*}
-                    \left\{
+                    \Longrightarrow \left\{ 
                         \begin{aligned}
                             x_m &= -4.936 \times 10^{-3}\\
                             y_m &= 0
@@ -336,13 +332,16 @@
                     \right.
                     \tag{5}
                 \end{equation*}
-            These are the coordinates of the Sun when the center-of-mass of the system is set as the origin. Let's now compute the Sun's initial velocity so that the total momentum of the three-body system would be equal to zero.
-                \begin{align*}
-                    \vec{p_{tot}} &= \sum\limits_{k} M_k \vec{k} \\
-                    \left(\begin{array}{c}
+            These are the coordinates of the Sun when the center-of-mass of the system is set as the origin. Let's now compute the Sun's initial velocity such that the total momentum of the three-body system equals 0.
+                \begin{equation}
+                    \overrightarrow{p_{tot}} = \sum\limits_{k} M_k \overrightarrow{k} = \overrightarrow{0} \\
+                \end{equation}
+                
+                \begin{equation*}
+                    \Longrightarrow \left(\begin{array}{c}
                             0\\
                             0
-                    \end{array} \right) &= M_{\oplus} 
+                    \end{array} \right) = M_{\oplus} 
                         \left(\begin{array}{c}
                                 v_{\oplus_x}\\
                                 v_{\oplus_y}
@@ -355,24 +354,21 @@
                                         v_x\\
                                         v_y    
                                 \end{array} \right)
-                \end{align*}
+                \end{equation*}
                 \begin{equation*}
-                    \left\{
+                   \Longrightarrow \left\{
                         \begin{aligned}
                             M_{\oplus} v_{\oplus_x} + M_{\jupiter} v_{\jupiter_x} + M_{\odot} v_x = 0 \\
                             M_{\oplus} v_{\oplus_y} + M_{\jupiter} v_{\jupiter_y} + M_{\odot} v_y = 0
                         \end{aligned}
                     \right.
                 \end{equation*}
-            We take the initial velocities of the Earth and Jupiter so that their orbit will be circular.\\
-            If the orbit of the Earth is circular around the center-of-mass, $v_{\oplus} = 2 \pi \times (1+x_m)$ AU/yr, because the distance travelled in one Earth-year is $2 \pi \times r$ with $r = 1 + x_m$ AU. So $v_{\oplus} = 6.25217$ AU/yr. The velocity is constant so the initial velocity will be $v_{\oplus_i}=6.25217$ AU/yr. In the initial configuration represented above, the initial velocity is oriented in the direction of $y$. So, $v_{\oplus_i} = \left(\begin{array}{c}
-                0\\
-                6.25217
-            \end{array} \right)$ \\
-            Jupiter has an orbital period of $11.862$ yr. The distance travelled by Jupiter in this period is $2 \pi \times r = 2 \pi \times (5.20 + x_m) = 32.6415 AU$. So $v_{\jupiter_i}= \frac{2 \pi \times r}{T} = \frac{2 \pi \times (5.20+x_m)}{11.862} = 2.75177 $ AU/yr. Similarly, the initial velocity can be expressed as $v_{\jupiter_i} = \left(\begin{array}{c}
-                0 \\
-                2.75177
-                \end{array} \right)$.
+            
+            \paragraph{}We choose the initial velocities of the Earth and Jupiter so that their orbit will be circular.\\
+            If the orbit of the Earth is circular around the center-of-mass, $v_{\oplus} = 2 \pi \times (1+x_m)$ AU/yr, because the distance travelled in one Earth-year is $2 \pi \times r$ with $r = 1 + x_m$ AU.
+            
+            \paragraph{}Similarly $v_{\oplus} = 6.25217$ AU/yr. The velocity is constant so the initial velocity will be $v_{\oplus_i}=6.25217$ AU/yr. In the initial configuration represented above, the initial velocity is oriented in the direction of $y$. So, $v_{\oplus_i} = \left(0, 6.25217\right)$. \\
+            Jupiter has an orbital period of $11.862$ yr. The distance travelled by Jupiter in this period is $2 \pi \times r = 2 \pi \times (5.20 + x_m) = 32.6415 AU$. So $v_{\jupiter_i}= \frac{2 \pi \times r}{T} = \frac{2 \pi \times (5.20+x_m)}{11.862} = 2.75177 $ AU/yr. Similarly, the initial velocity can be expressed as $v_{\jupiter_i} = \left(0, 2.75177\right)$.
             
                 \begin{equation*}
                     \left\{
@@ -383,7 +379,7 @@
                     \right.
                 \end{equation*}.
                 \begin{equation*}
-                    \left\{
+                   \Longrightarrow \left\{
                         \begin{aligned}
                             v_x &= 0\\
                             v_y &= - 2.63294 \times 10^{-3}
