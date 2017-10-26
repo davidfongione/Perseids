@@ -125,9 +125,10 @@ void free_model(const int years, const std::string folder)
 void escape(const int years, std::string folder)
 {
     
+    //  vitesse circulaire : (0., 0.0172)
     //  vitesse d'échappement : (0., 0.0243)
     
-    planet terre("earth", 6.E24, 1., 0., 0., 0.03);
+    planet terre("earth", 6.E24, 1., 0., 0., 0.012);
     solver system;
     system.add(terre);
     system.add(sun_mass_center);

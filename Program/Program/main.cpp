@@ -24,7 +24,7 @@ int main(int argc, const char* argv[])
 
     string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Models/";
     
-    free_model(20., main_folder + "free/");
+    escape(20., main_folder + "escape/");
     
     return 0;
 }
