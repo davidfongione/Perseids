@@ -287,35 +287,43 @@
                         \end{aligned}
                     \right.
                 \end{equation*} 
+            We fix the initial positions with respect to the new center of mass. We want the three bodies and the center-of-mass aligned like that :
+            \includegraphics{dessinplanete.png}
+            So we look for the $x_m$ so that $x_c$ and $y_c$ are equal to zero.
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
-                            x_c = \frac{1}{2.00191 \times 10^{30}} [(2 \times 10^{24})( 8.307575140688143 \times 10^{-1}) &+ (1.9 \times 10^{27}) (-4.544631370382659) \\
-                            &+ (2 \times 10^{30}) (2.171123049041335 \times 10^{-3})] \\
-                            y_c = \frac{1}{2.00191 \times 10^{30}} [(2 \times 10^{24}) (5.546449644310195 \times 10^{-1}) &+ (1.9 \times 10^{27}) (-2.980887268959417) \\
-                            &+ (2 \times 10^{30}) (5.784524554879186 \times 10^{-3})]
-                        \end{aligned}
-                    \right.
-                \end{equation*}
-            The initial positions were taken from the NASA website (\href{{http://ssd.jpl.nasa.gov/horizons.cgi#top}}{\nolinkurl{http://ssd.jpl.nasa.gov/horizons.cgi\#top}}) on $27^{\mathrm{th}}$ of October 2017, 00:00:00. The coordinates are expressed with respect to the "Solar System Barycenter".
-                \begin{equation*}
-                    \left\{
-                        \begin{aligned}
-                            x_c = \frac{1}{2.00191 \times 10^{30}} [-4.29089 \times 10^{27}] \\
-                            y_c = \frac{1}{2.00191 \times 10^{30}} [5.90647 \times 10^{27}]
+                            x_c &= \frac{1}{2.00191 \times 10^{30}} [(2 \times 10^{24}) \times (1 + x_m) + (1.9 \times 10^{27}) \times (5.20 + x_m) + (2 \times 10^{30}) \times x_m] = 0 \\
+                            y_c &= 0 
                         \end{aligned}
                     \right.
                 \end{equation*}
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
-                            x_c = 3.11898 \times 10^{-3}\\
-                            y_c = 2.95042 \times 10^{-3}
+                            \frac{1}{2.00191\times 10^{30}}[x_m (2\times10^{24} + 1.9\times10^{27} + 2\times 10^{30}) + (2\times10^{24} + 5.20 \times 1.9 \times 10^{27} = 0 \\
+                            y_m = 0
+                        \end{aligned}
+                    \right.
+                \end{equation*}
+                \begin{equation*}
+                    \left\{
+                        \begin{aligned}
+                            x_m &= -\frac{2\times 10^{24} + 5.20 \times 1.9 \times 10^{27}}{M_{tot}}\\
+                            y_m &= 0
+                        \end{aligned}
+                    \right.
+                \end{equation*}
+                \begin{equation*}
+                    \left\{
+                        \begin{aligned}
+                            x_m &= -4.936 \times 10^{-3}\\
+                            y_m &= 0
                         \end{aligned}
                     \right.
                     \tag{5}
                 \end{equation*}
-            We take those coordinates as origin. Let's now compute the Sun's initial velocity so that the total momentum of the three-body system would be equal to zero.
+            These are the coordinates of the Sun when the center-of-mass of the system is set as the origin. Let's now compute the Sun's initial velocity so that the total momentum of the three-body system would be equal to zero.
                 \begin{align*}
                     \vec{p_{tot}} &= \sum\limits_{k} M_k \vec{k} \\
                     \left(\begin{array}{c}
@@ -343,31 +351,44 @@
                         \end{aligned}
                     \right.
                 \end{equation*}
-                Again, we take the initial velocities of Jupiter and the Earth from the NASA website.
+            We take the initial velocities of the Earth and Jupiter so that their orbit will be circular.\\
+            If the orbit of the Earth is circular, $v_{\oplus} = 2 \pi $ AU/yr, because the distance travelled in one Earth-year is $2 \pi \times r$ with $r = 1$ AU. The velocity is constant so the initial velocity will be $v_{\oplus_i}=2\pi$ AU/yr. In the initial configuration represented above, the initial velocity is oriented in the direction of $y$. So, $v_{\oplus_i} = \left(\begin{array}{c}
+                0\\
+                2 \pi
+            \end{array} \right)$ \\
+            Jupiter has an orbital period of $11.862$yr. The distance travelled by Jupiter in this period is $2 \pi \times r = 2 \pi \times 5.20 = 32.673 AU$. So $v_{\jupiter_i}= \frac{2 \pi \times r}{T} = \frac{2 \pi \times 5.20}{11.862} = 2.7544 $ AU/yr. Similarly, the initial velocity can be expressed as $v_{\jupiter_i} = \left(\begin{array}{c}
+                0 \\
+                2.7544
+                \end{array} \right)$ 
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
-                            (6\times 10^{24}) (-9.791937393985607 \times 10^{-3}) + (1.9 \times 10^{27}) (4.050196424242171 \times 10^{-3})& \\
-                            + (2 \times 10^{30}) v_x = 0& \\
-                            (6\times 10^{24}) (1.428201625774134\times 10^{-2}) + (1.9 \times 10^{27}) (-5.951356984409009 \times 10^{-3})& \\
-                            + (2 \times 10^{30}) v_y = 0&
+                            &(6\times 10^{24}) \times 0 + (1.9 \times 10^{27}) \times 0 + (2 \times 10^{30}) \times v_x = 0 \\
+                            &(6\times 10^{24}) \times 2 \pi + (1.9 \times 10^{27}) \times 2.7544 + (2 \times 10^{30}) \times v_y = 0
                         \end{aligned}
                     \right.
                 \end{equation*}
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
-                            v_x &= -3.81831 \times 10^{-6}\\
-                            v_y &= 5.61094 \times 10^{-6}
+                            v_x &= 0\\
+                            v_y &= - \frac{(6\times 10^{24}) \times 2 \pi + (1.9 \times 10^{27}) \times 2.7544}{2 \times 10^{30}}
                         \end{aligned}
                     \right.
-                    \tag{6}
+                \end{equation*}
+                \begin{equation*}
+                    \left\{
+                        \begin{aligned}
+                            v_x &= 0\\
+                            v_y &= 2.6355 \times 10^{-3}
+                        \end{aligned}
+                    \right.
                 \end{equation*}
             To have a fixed center-of-mass, the Sun will need a velocity $v =
             \left(\begin{array}{c}
-                -3.81831 \times 10^{-6}\\
-                5.61094 \times 10^{-6}
-            \end{array} \right)$.                 
+                0\\
+               2.6355 \times 10^{-3}
+            \end{array} \right)$.                
     
 
     \section{The complete Solar system}
