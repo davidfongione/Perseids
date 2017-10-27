@@ -161,10 +161,13 @@
 	\end{center}
 }
 
+\newcommand{\mimi}{\mathrm{Je\ t'aime}}
+
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,7 +176,7 @@
 
 \title{FYS3150\\Project 3 - The Verlet Underground}
 \author{Hugounet, Antoine \& Villeneuve, Ethel}
-\date{September 2017 \\University of Oslo \\ \url{https://github.com/kryzar/Perseids.git}}
+\date{October 2017 \\University of Oslo \\ \url{https://github.com/kryzar/Perseids.git}}
 
 
 
@@ -532,7 +535,7 @@
 
     \paragraph{}The program has been made such as its behavior is exactly the same no matter the number of planets and no matter the center of mass. We created one \texttt{planet} class of which role is to initialize planets and one \texttt{solver} class of which role is to calculate the interaction between the planets.
 	
-	\paragraph{}When one add a planet to a system simulation, \texttt{solver} automatically updates the total mass of the system and is therefore in capability to compute the center of mass, the kinetic, potential and total energies with associated methods. However the two main algorithms are Verlet's method and Euler's method. It creates a vector ou double numbers
+	\paragraph{}When one add a planet to a system simulation, \texttt{solver} automatically updates the total mass of the system and is therefore in capability to compute the center of mass, the kinetic, potential and total energies with associated methods. However the two main algorithms are Verlet's method and Euler's method. It creates a vector or double numbers.
 		
 		\section{Euler's and Verlet's methods}
 		
@@ -548,8 +551,8 @@
 				\begin{equation*}
                     \left\{
                         \begin{aligned}
-                            x_{i+1} = x(t_i) + hv(t_i) + \frac{1}{2}h^2 a(t_i) \\
-                            v_{i+1} = v(t_i) + \frac{1}{2}h\left(a(t_i) + a(t_{i+1})\right)
+                            &x_{i+1} = x(t_i) + hv(t_i) + \frac{1}{2}h^2 a(t_i) \\
+                            &v_{i+1} = v(t_i) + \frac{1}{2}h\left(a(t_i) + a(t_{i+1})\right)
                         \end{aligned}
                     \right.
                 \end{equation*}
@@ -603,7 +606,7 @@
                 \end{figure}
                 
                 \begin{center}
-                    Euler's method over 1, 2 and 50 years (from left to right)
+                    Figure 1 : Euler's method over 1, 2 and 50 years (from left to right)
                 \end{center}
                 
                 \begin{figure}[h]
@@ -626,44 +629,44 @@
                 \end{figure}
                 
                 \begin{center}
-                    Verlet's method over 1, 2 and 50 years (from the left to the right)
+                    Figure 2 : Verlet's method over 1, 2 and 50 years (from the left to the right)
                 \end{center}
                 
             We clearly see here the difference of precision between the two algorithms. With the Euler's method, the Earth is not able to come back at its initial position as it should whereas the Verlet's one draws a circular orbit.
         
         \subsection{Escape velocity}
             \paragraph{}We have computed the theorical escape velocity in 1.1.2.
-                \begin{figure}[h]
+                \begin{figure}[h!]
                     \hbox{
                         \begin{minipage}[c]{.46\linewidth}
                             \centering
                             \includegraphics[width=7cm,height=7cm]{Escape0,009.png}
-                            \caption{Earth orbit for $v_i=3.287$ AU/yr}
                         \end{minipage}
                         \hfill
                         \begin{minipage}[c]{.46\linewidth}
                             \centering
                             \includegraphics[width=7cm,height=7cm]{Escape0,022.png}
-                            \caption{Earth orbit for $v_i=8.0355$ AU/yr}
                         \end{minipage}
                     }
                 \end{figure}
-                \begin{figure}[h]
+                \begin{figure}[h!]
                     \hbox{
-                        %\begin{minipage}[c]{.46\linewidth}
-                           % \centering
-                           % \includegraphics[width=7cm,height=7cm]{Escape0,024}
-                         %   \caption{Earth orbit for $v_i=8.77$ AU/yr}
-                       % \end{minipage}
-                       % \hfill
+                        \begin{minipage}[c]{.46\linewidth}
+                            \centering
+                            \includegraphics[width=7cm,height=7cm]{Escape_0,024.png}
+                        \end{minipage}
+                        \hfill
                         \begin{minipage}[c]{.46\linewidth}
                             \centering
                             \includegraphics[width=7cm,height=7cm]{Escape0,0243.png}
-                            \caption{Earth orbit for $v_i=8.8756$ AU/yr}
                         \end{minipage}
                     }
-                \end{figure}
-            Experimentally, the escape value is 8.8756 AU/yr which is closed to the theorical value $2\sqrt{2}\pi \approx 8.8858$ AU/yr.
+                \end{figure}\\
+                \begin{center}
+                    Figure 3 : The Earth orbit around the Sun for $v_i=3.287$ AU/yr, $v_i=8.0355$ AU/yr, $v_i=8.77$ AU/yr and $v_i=8.8756$ AU/yr (from the left to the right, top to bottom)
+                \end{center}
+
+            Experimentally, the escape value is $v_{e_e}=8.8756$ AU/yr which is really close to the theorical value $v_{e_t}=2\sqrt{2}\pi \approx 8.8858$ AU/yr.
     
     \section{Three-body problem}
         \subsection{The Sun as the center-of-mass}
@@ -683,7 +686,7 @@
                 \end{figure}
                 
                 \begin{center} 
-                    The evolution of the position of the Earth, Jupiter and the Sun over 20 and 100 years (from left to right)
+                    Figure 4 : The evolution of the position of the Earth, Jupiter and the Sun over 20 and 100 years (from left to right)
                 \end{center}
                 
                 \begin{figure}[h!]
@@ -706,7 +709,7 @@
                 \end{figure}
                 
                 \begin{center}
-                    The influence of Jupiter on the Earth for $M_{\jupiter}=10\times M_{\jupiter}, M_{\jupiter}= 100\times M_{\jupiter} and M_{\jupiter} = M_{\odot}$ (from the left to ther right)
+                    Figure 5 : The influence of Jupiter on the Earth for $M_{\jupiter}=10\times M_{\jupiter}, M_{\jupiter}= 100\times M_{\jupiter}$ and $M_{\jupiter} = M_{\odot}$ (from the left to the right)
                 \end{center}
                     
         \subsection{The real center-of-mass}
@@ -725,7 +728,7 @@
                     }
                 \end{figure}
                 \begin{center}
-                    The position of the three bodies over 20 and 100 years (from the left to the right)
+                    Figure 6 : The position of the three bodies over 20 and 100 years (from the left to the right)
                 \end{center}
             The orbits of the Earth and Jupiter are quite the same as the case where the center-of-mass was set to the Sun. The orbit of the Sun is however different (the Sun is not fixed anymore).
                 \begin{figure}[h!]
@@ -742,14 +745,18 @@
                     }
                 \end{figure}
                 \begin{center}
-                    The orbit of the Sun around the center-of-mass over 20 and 100 years (from the left to the right)
+                    Figure 7 : The orbit of the Sun around the center-of-mass over 20 and 100 years (from the left to the right)
                 \end{center}
                 
             
     \section{Complete Solar System}
-        \subsection{}
-        
-        \subsection{}
+        \begin{center}
+            \includegraphics[width=15cm,height=15cm]{System_10}
+        \end{center}
+        \begin{center}
+            Figure 8 : Simulation of the Solar System over 10 years
+        \end{center}
+        \paragraph{}We observe that Saturn covers more or less a third of its complete orbit in ten years. It is consistent with the fact that a year on Saturn lasts about 30 years. Similarly, Jupiter covers almost its complete orbit, which is consistent as it covers its whole orbit in around 12 years. 
         
     
     \section{The special case of Mercury}
