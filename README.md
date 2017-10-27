@@ -113,10 +113,10 @@ The declaration and initializations of the planets of the Solar System are given
 Once you gave the program a `folder`, it will automatically create many small data files :
 
 1. One text file for each planet automatically named by the planet's name containing the position and velocity at each time-step of the discretization
-2. Those files can be used by [Gnuplot](http://gnuplot.sourceforge.net) and therefore the program also creates two Gnuplot scripts to be ran in the teminal : *plot.gnu* which makes a simple plot in the terminal and *plot-png.gnu* which creates a png image of the system in the same folder
-3. The program also creates a file *system-total-energy* which - as for the position and velocity of each planet - gives the total energy of the system at each time-step. This file can also be used by Gnuplot but no script is generated (for the moment)
+2. The program also creates three energy files : *system-kinetic-energy*, *system-potential-energy* and *system-total-energy* which gives the energies of the system at each time-step
+3. Those files can be used by [Gnuplot](http://gnuplot.sourceforge.net) and therefore the program also creates four Gnuplot scripts to be ran in the terminal : *plot.gnu* which makes a simple plot of the orbits in the terminal, *plot-png.gnu* which creates a the png image of those plots, *plot-energies.gnu* which plots the total energy as a function of time, and *plot-energies-png.gnu* which also creates the associated png.
 
-[![Example of the program ran above](https://s1.postimg.org/3u7luzcw4v/Capture_d_cran_2017-10-24_18.54.12.jpg)](https://postimg.org/image/1rrt6xeb3f/)
+[![Example of a standard run of the program](https://s1.postimg.org/68si6olren/Capture_d_cran_2017-10-27_12.12.43.jpg)](https://postimg.org/image/36wm5gkf7f/)
 
 Other possibilities can be found in the [header file](https://github.com/kryzar/Perseids/blob/master/Program/Program/classes/solver.hpp) of this class.
 
@@ -126,7 +126,6 @@ Several approximations have been made to compute this simulation, mainly due to 
 1. The orbits are supposed to be circular instead of elliptical
 2. We only computed 2-dimensions vectors, assuming the orbits are nearly coplanar, but it is wrong in the reality
 3. We neglected the effects of the general relativity. They are very subtle but can be seen for Mercury for long periods of time
-4. The loss of numerical precision is an important issue for the energies. For example, the total energy of the Earth-system should be `899574073760227393536.0` given initial conditions, and the program outputs `899574073760227655680.0`, which is a difference of nearly six orders of magnitude. To be corrected
 
 ## License
 
