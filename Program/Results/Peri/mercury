@@ -1,6 +1,6 @@
 Velocity-Verlet algorithm (2D)
 mercury (x, y, vx, vy)
 Timestep: 100 years
-Relativistic correction: true
-High resolution: truetrue
+Relativistic correction: false
+High resolution: true
 

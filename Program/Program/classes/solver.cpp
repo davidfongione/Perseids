@@ -128,7 +128,13 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     bool can_write;
     string path;
     ofstream output;
-    vector<vector<double>> next_acc;   //  vector for a(t+dt)
+    vector<vector<double>> next_acc;
+    
+    if(relativity && !high_res)
+    {
+        cout << "You can't compute the relativist effect with a low resolution." << endl;
+        exit(1);
+    }
     
     //  360*3600*7 precision iff asked by the user or for a relativistic simulation
     //  else a 1 day time step is sufficient enough
@@ -139,18 +145,19 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     
     for(int i = 0; i <= timesteps; i++)
     {
-        //  can_write = !relativity || (i % (3600 * 7) == 0);
-        // can_write = (i % (3600 * 7) == 0);
-
         //  with a high res or the relativity, the program takes a too
         //  long time to write in documents (about 60mn)
         //  as a consequence, it outputs only the last values and
         //  outputs all the value only in the standard mode
         can_write = (high_res || relativity) ? (i == timesteps) : true;
         
+        if(_time - (int) _time == 0)
+        {
+            cout << _time << endl;
+        }
+        
         for(int k = 0; k < _card; k++)
         {
-            
             if(i == 0)
             {
                 path = folder + _system[k].name();
@@ -159,7 +166,7 @@ void solver::verlet(const double years, const std::string folder, const bool rel
                 output << _system[k].name() << " (x, y, vx, vy)" << endl;
                 output << "Timestep: " << years << " years" << endl ;
                 output << "Relativistic correction: " << boolalpha << relativity << endl;
-                output << "High resolution: " << high_res << relativity << endl << endl;
+                output << "High resolution: " << high_res << endl << endl;
                 output.close();
             }
             

@@ -12,6 +12,7 @@
 #include "classes/planet.hpp"
 #include "classes/solver.hpp"
 #include "time.h"
+#include <cmath>
 
 
 using namespace std;
@@ -24,24 +25,37 @@ int main(int argc, const char* argv[])
         cout << "Unittests failed." << endl;
         exit(1);
     }
-    
-    clock_t start;
-    clock_t finish;
-    double time;
 
     string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Peri/";
     
     solver system;
     system.add(sun_wmc);
-    planet terre("earth", 6.E24, 1., 0., 0., 0.0243);
-    system.add(terre);
+    system.add(mercury_peri);
     
-    start = clock();
-    system.verlet(150., folder, false, false);
-    finish = clock();
-    time = ((double) finish - start) / ((double) CLOCKS_PER_SEC);
-    cout << time << endl;
-    
+    system.verlet(100., folder, false, true);
     
     return 0;
+}
+
+
+
+double mercury_precession(const std::string folder)
+{
+    double x;
+    double y;
+    double theta;
+    
+    solver system;
+    system.add(sun_wmc);
+    system.add(mercury_peri);
+    
+    system.verlet(100., folder, true, true);
+    
+    x = system.system()[1].position[0];
+    y = system.system()[1].position[1];
+    theta = atan(y / x);
+    
+    cout << theta << endl;
+    
+    return (theta);
 }
