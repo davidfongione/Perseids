@@ -515,9 +515,14 @@
             where the velocity is explicitly expressed.
             
         \section{The special case of Mercury}
-            \subsection{}
-                \paragraph{}Mercury being the closest planet to the Sun, the influence of the Sun on it is special. Th orbit of Mercury is elliptical (not circular). The point where Mercury is the closest to the Sun is called perihelion. 
-            
+                \paragraph{}Mercury being the closest planet to the Sun, the influence of the Sun on it is special. Th orbit of Mercury is elliptical (not circular). The point where Mercury is the closest to the Sun is called perihelion. At perihelion, $x_{\mercury_p} = 0.3075$ [AU], $y_{\mercury_p} = 0$ and $v_{\mercury_p}=12.44$ [AU/yr]. The perihelion precession is a phenomenum that describe the perihelion shift, orbit after orbit. \\
+                We observe that by substracting the classical effects (basically, the gravitational attraction between Mercury and the other planets), we still have a perihelion shift with an angle of 43" per century. We need to add the relativistic correction to the Newtonian gravitational force. Thus $\displaystyle F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}$, with $M_{\mercury}$ the mass of Mercury and $r$ the distance between Mercury and the Sun ($r=0.39$AU), becomes
+                    \begin{equation*}
+                        F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}(1 + \frac{3l^2}{r^2c^2})
+                        \tag{13}
+                    \end{equation*}
+                with $l=|\vec{r}\times\vec{v}|$ the norm of Mercury's orbital angular momentum per mass unit and $c$ the speed of light in vacuum.\\
+                This phenomenum applied to every planets of the Solar System but it is more important in the case of Mercury. The difference between the expected value in Newtonian mechanics and the observed value has been explained with the general theory of relativity. The spacetime curvature near the Sun is more important than further, Mercury is more affected by this phenomenum. 
 
 
 \chapter{Implementation}
