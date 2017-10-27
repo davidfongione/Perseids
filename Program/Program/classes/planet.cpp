@@ -214,12 +214,12 @@ void planet::print(std::ofstream& output) const
     output << "Position: " << endl;
     for(int i = 0; i < _dim; i++)
     {
-        output << setprecision(8) << position[i] << endl;
+        output << setprecision(15) << position[i] << endl;
     }
     output << "Velocity: " << endl;
     for(int i = 0; i < _dim; i++)
     {
-        output << setprecision(8) << velocity[i] << endl;
+        output << setprecision(15) << velocity[i] << endl;
     }
 
     output << endl;
@@ -240,12 +240,12 @@ void planet::print(std::ofstream& output, const std::vector<planet>& system) con
     output << "Position: " << endl;
     for(int i = 0; i < _dim; i++)
     {
-        output << setprecision(8) << position[i] << endl;
+        output << setprecision(15) << position[i] << endl;
     }
     output << "Velocity: " << endl;
     for(int i = 0; i < _dim; i++)
     {
-        output << setprecision(8) << velocity[i] << endl;
+        output << setprecision(15) << velocity[i] << endl;
     }
 
     output << endl;
@@ -260,7 +260,7 @@ void planet::print_pos(std::ofstream& output) const
 
     for(int i = 0; i < _dim; i++)
     {
-        output << setprecision(8) << position[i] << space;
+        output << setprecision(15) << position[i] << space;
     }
 }
 
@@ -272,6 +272,6 @@ void planet::print_vel(std::ofstream& output) const
 
     for(int i = 0; i < _dim; i++)
     {
-        output << setprecision(8) << velocity[i] << space;
+        output << setprecision(15) << velocity[i] << space;
     }
 }

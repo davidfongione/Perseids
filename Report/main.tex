@@ -562,6 +562,10 @@
         	        
         \section{Validity}
         
+        	\subsection{Unit-tests}
+	
+				\paragraph{}At each run of the program, a battery of unit-tests is computed to validate the results. They focus on auxiliaries functions, such as the methods calculating the center of mass of the system, the distance between two planets, etc etc. If the unit-tests are not validated, the program doesn't compute any result.
+        
         	\subsection{Preservation of the energy}
 	
             \paragraph{}The mechanical energy $E_m = E_c + E_p$ should be conserved because the only force taken into account is the gravitational force, which is conservative. The potential energy is constant in time ($E_p = -\frac{GM_{\oplus}M_{\odot}}{r} \forall t$), so is conserved. The kinetic energy depends on the velocity of the Earth ($E_c = \frac{1}{2}M_{\oplus}v^2$, which is constant in time as we have a uniform circular motion of the Earth around the Sun. So as both of the kinetic and potential energies are constant in time, for any $t_i$ and $t_f$ we have
@@ -576,6 +580,17 @@
                 \begin{equation*}
                     \Rightarrow E_{m_i} = E_{m_f}
                 \end{equation*}
+                
+            \paragraph{}Now if we compute the energies of the full solar-system, we observe that our simulation indeed preserves the energy.
+            
+                    \begin{center}
+            \includegraphics[width=13cm,height=13cm]{energie}
+        \end{center}
+        \begin{center}
+            Figure 8 : Simulation of the Solar System over 10 years
+        \end{center}
+        
+        	\paragraph{}The "constant" oscillation of the total energy between a min and a max value is due to the imperfection of the circular orbit motions of some bodies. Even with a circular orbit axiom, some bodies like Mercury describe elliptical orbits.
                 
           
     

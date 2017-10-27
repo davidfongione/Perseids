@@ -478,7 +478,7 @@ void solver::_print_kinetic_energy(const int i, const std::string folder) const
     {
         output.open(folder + "system-kinetic-energy", ios::app);
     }
-    output << _time << setprecision(8) << space << kinetic_energy() << endl;
+    output << _time << setprecision(15) << space << kinetic_energy() << endl;
     
     output.close();
 }
@@ -498,7 +498,7 @@ void solver::_print_potential_energy(const int i, const std::string folder) cons
     {
         output.open(folder + "system-potential-energy", ios::app);
     }
-    output << _time << setprecision(8) << space << potential_energy() << endl;
+    output << _time << setprecision(15) << space << potential_energy() << endl;
     
     output.close();
 }
@@ -519,7 +519,7 @@ void solver::_print_total_energy(const int i, const std::string folder) const
     {
         output.open(folder + "system-total-energy", ios::app);
     }
-    output << _time << setprecision(8) << space << total_energy() << endl;
+    output << _time << setprecision(15) << space << total_energy() << endl;
     
     output.close();
 }
@@ -583,16 +583,15 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
     vector<double> relative_pos = {0., 0.};
     vector<double> acceleration = {0., 0.};
     
-    if(_system[p].distance_center() != 0.)  //  avoid calculating a planet's acceleration with respect to itself
+    if(_system[p].distance_center() != 0.)
     {
         for(int k = 0; k < _card; k++)
         {
             if(k != p)
             {
-                //  time/distance units are normalized with the constant 4*pi*pi
                 r = _system[p].distance(_system[k]);
                 double r_squared = r * r;
-                radical = (_system[k].mass()) / (r_squared * r);
+                radical = _system[k].mass() / (r_squared * r);
                 
                 relative_pos[0] = _system[p].position[0] - _system[k].position[0];
                 relative_pos[1] = _system[p].position[1] - _system[k].position[1];
@@ -602,16 +601,15 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
                 if(relativity)
                 {
                     double correction;
-                    double cross;
+                    double momentum;
                     double const c = 63241.0770;
-                    cross = _system[k].position[0] * _system[k].velocity[1] + _system[k].position[1] * _system[k].velocity[0];
-                    correction = (1. + (3. * cross) / (r_squared * c * c));
+                    momentum = _system[k].position[0] * _system[k].velocity[1] + _system[k].position[1] * _system[k].velocity[0];
+                    correction = 1. + (3. * momentum * momentum) / (r_squared * c * c);
                     acceleration[0] *= correction;
                     acceleration[1] *= correction;
                 }
             }
         }
-        
         acceleration[0] *= g_const ;
         acceleration[1] *= g_const;
     }
