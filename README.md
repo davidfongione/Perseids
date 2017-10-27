@@ -116,7 +116,7 @@ Once you gave the program a `folder`, it will automatically create many small da
 2. The program also creates three energy files : *system-kinetic-energy*, *system-potential-energy* and *system-total-energy* which gives the energies of the system at each time-step
 3. Those files can be used by [Gnuplot](http://gnuplot.sourceforge.net) and therefore the program also creates four Gnuplot scripts to be ran in the terminal : *plot.gnu* which makes a simple plot of the orbits in the terminal, *plot-png.gnu* which creates a the png image of those plots, *plot-energies.gnu* which plots the total energy as a function of time, and *plot-energies-png.gnu* which also creates the associated png.
 
-[![Example of a standard run of the program](https://s1.postimg.org/68si6olren/Capture_d_cran_2017-10-27_12.12.43.jpg)](https://postimg.org/image/36wm5gkf7f/)
+[![Standard output](https://s1.postimg.org/7i76ih4x4v/Capture_d_cran_2017-10-27_12.12.43.jpg)](https://postimg.org/image/108yp5txvf/)
 
 Other possibilities can be found in the [header file](https://github.com/kryzar/Perseids/blob/master/Program/Program/classes/solver.hpp) of this class.
 
