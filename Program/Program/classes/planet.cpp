@@ -34,7 +34,6 @@ planet::planet(void)
 
 planet::planet(std::string name, double mass, double x, double y, double vx, double vy)
 {
-
     time = 0.;
     _name = name;
     _dim = 2;
@@ -50,7 +49,6 @@ planet::planet(std::string name, double mass, double x, double y, double vx, dou
 
 planet::planet(const planet& body)
 {
-
     time = (double) body.time;
     _name = body._name;
     _dim = (double) body._dim;
@@ -65,7 +63,6 @@ planet::planet(const planet& body)
 
 int planet::dim(void) const
 {
-
     return (_dim);
 }
 
@@ -73,7 +70,6 @@ int planet::dim(void) const
 
 double planet::mass(void) const
 {
-
     return (_mass);
 }
 
@@ -81,7 +77,6 @@ double planet::mass(void) const
 
 std::string planet::name(void) const
 {
-
     return (_name);
 }
 
@@ -89,7 +84,6 @@ std::string planet::name(void) const
 
 double planet::distance(const planet& body) const
 {
-
     double sum = 0.;
     double relative_position;
 
@@ -106,7 +100,6 @@ double planet::distance(const planet& body) const
 
 double planet::distance_center(void) const
 {
-
     double sum = 0.;
 
     for(int i = 0; i < _dim; i++)
@@ -121,8 +114,7 @@ double planet::distance_center(void) const
 
 double planet::kinetic_energy(void) const
 {
-
-    double energy = 0.5 * _mass * velocity_square();
+    double energy = 0.5 * _mass * velocity_squared();
     
     return (energy);
 }
@@ -131,7 +123,6 @@ double planet::kinetic_energy(void) const
 
 double planet::potential_energy(const planet& body) const
 {
-    
     double energy;
     
     if(distance(body) != 0.)
@@ -152,12 +143,11 @@ double planet::potential_energy(const planet& body) const
 
 double planet::potential_energy(const std::vector<planet>& system) const
 {
-
     double energy = 0.;
 
     for(auto& body : system)
     {
-        energy += potential_energy(body);
+        energy -= potential_energy(body);
     }
 
     return (energy);
@@ -167,7 +157,6 @@ double planet::potential_energy(const std::vector<planet>& system) const
 
 double planet::total_energy(const planet& body) const
 {
-    
     double energy = kinetic_energy() + potential_energy(body);
     
     return (energy);
@@ -177,7 +166,6 @@ double planet::total_energy(const planet& body) const
 
 double planet::total_energy(const std::vector<planet>& system) const
 {
-
     double energy = kinetic_energy() + potential_energy(system);
 
     return (energy);
@@ -185,9 +173,8 @@ double planet::total_energy(const std::vector<planet>& system) const
 
 ////////
 
-double planet::velocity_square(void) const
+double planet::velocity_squared(void) const
 {
-    
     double v = 0.;
     
     for(int i = 0; i < _dim; i++)
@@ -220,7 +207,6 @@ void planet::denormalize(void)
 
 void planet::print(std::ofstream& output) const
 {
-
     output << _name << endl;
     output << _mass << "kg" << endl;
     output << "At t=" << time << " years" << endl;
@@ -244,7 +230,6 @@ void planet::print(std::ofstream& output) const
 
 void planet::print(std::ofstream& output, const std::vector<planet>& system) const
 {
-
     output << _name << endl;
     output << _mass << "kg" << endl;
     output << "At t=" << time << " years" << endl;
@@ -271,7 +256,6 @@ void planet::print(std::ofstream& output, const std::vector<planet>& system) con
 
 void planet::print_pos(std::ofstream& output) const
 {
-
     string space = "        ";
 
     for(int i = 0; i < _dim; i++)
@@ -284,7 +268,6 @@ void planet::print_pos(std::ofstream& output) const
 
 void planet::print_vel(std::ofstream& output) const
 {
-
     string space = "        ";
 
     for(int i = 0; i < _dim; i++)

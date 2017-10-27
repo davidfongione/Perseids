@@ -64,6 +64,10 @@ private:
     
     void _gnuplot(const std::string folder, const double years) const;
     void _gnuplot_png(const std::string folder, const double years) const;
+    void _gnuplot_energies(const std::string folder, const double years) const;
+    void _gnuplot_energies_png(const std::string folder, const double years) const;
+    void _print_kinetic_energy(const int i, const std::string folder) const;
+    void _print_potential_energy(const int i, const std::string folder) const;
     void _print_total_energy(const int i, const std::string folder) const;
     void _update_mass_center(const planet& body);
     void _update_quantities(const int i, const double h, const bool relativity = false);

@@ -1,0 +1,9 @@
+reset
+set terminal png enhanced size 1000, 1000
+set output '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/Gnuplot/plot.png'
+set size ratio -1
+set title 'Time-step: 15.000000 years'
+set xlabel 'distance (AU)'
+set ylabel 'distance (AU)'
+
+plot '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/earth' using 1:2 w l lt rgb "blue" title 'earth', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/sun' using 1:2 w l lt rgb "black" title 'sun', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/jupiter' using 1:2 w l lt rgb "light-goldenrod" title 'jupiter', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/mars' using 1:2 w l lt rgb "brown" title 'mars', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/mercury' using 1:2 w l lt rgb "orange-red" title 'mercury', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/uranus' using 1:2 w l lt rgb "light-blue" title 'uranus', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/saturn' using 1:2 w l lt rgb "goldenrod" title 'saturn', '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/venus' using 1:2 w l lt rgb "dark-goldenrod" title 'venus'
