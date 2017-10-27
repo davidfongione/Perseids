@@ -24,46 +24,24 @@ int main(int argc, const char* argv[])
         cout << "Unittests failed." << endl;
         exit(1);
     }
+    
+    clock_t start;
+    clock_t finish;
+    double time;
 
-    string main_folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Test/";
+    string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Peri/";
     
     solver system;
-    system.add(earth);
-    system.add(sun);
-    system.add(jupiter);
-    system.add(mars);
-    system.add(mercury);
-    system.add(uranus);
-    system.add(saturn);
-    system.add(venus);
+    system.add(sun_wmc);
+    planet terre("earth", 6.E24, 1., 0., 0., 0.0243);
+    system.add(terre);
     
-    system.verlet(15., main_folder, false);
+    start = clock();
+    system.verlet(150., folder, false, false);
+    finish = clock();
+    time = ((double) finish - start) / ((double) CLOCKS_PER_SEC);
+    cout << time << endl;
+    
     
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-/*
- solver system;
- system.add(sun_wmc);
- system.add(mercury_peri);
- 
- clock_t start;
- clock_t finish;
- double time;
- 
- start = clock();
- system.verlet(100., main_folder + "Peri/", false);
- finish = clock();
- 
- time = ((double) finish - start) / ((double) CLOCKS_PER_SEC);
- cout << time << endl;
- */

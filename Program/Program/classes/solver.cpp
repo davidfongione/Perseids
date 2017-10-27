@@ -15,6 +15,7 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -45,6 +46,7 @@ solver::solver(const solver& other)
     _prev_pos = other._prev_pos;
     _prev_vel = other._prev_vel;
     _prev_acc = other._prev_acc;
+    _next_acc = other._prev_acc;
 }
 
 
@@ -62,7 +64,7 @@ void solver::euler(const double years, const std::string folder)
     string path;
     ofstream output;
     
-    timesteps = (int) (years * 365);
+    timesteps = (int) (years * 250);
     h = ((double) years) / ((double) timesteps);
     
     for(int i = 0; i <= timesteps; i++)
@@ -113,7 +115,7 @@ void solver::euler(const double years, const std::string folder)
 
 ////////
 
-void solver::verlet(const double years, const std::string folder, const bool relativity)
+void solver::verlet(const double years, const std::string folder, const bool relativity, const bool high_res)
 {
     //  equations in 1D :
     //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
@@ -128,33 +130,42 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     ofstream output;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
-    timesteps = (relativity ? ((int) years * 360 * 3600 * 7) : ((int) years * 200));
+    //  360*3600*7 precision iff asked by the user or for a relativistic simulation
+    //  else a 1 day time step is sufficient enough
+    timesteps = (high_res || relativity) ? ((int) years * 9072000) : ((int) years * 365);
+    
     h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
     
     for(int i = 0; i <= timesteps; i++)
     {
-        //  we don't need all the time steps to have a reliable (gnu)plot
-        //  only the last time step is relevant for the perihelion
-        can_write = !relativity || (i % (3600 * 7) == 0);
+        //  can_write = !relativity || (i % (3600 * 7) == 0);
+        // can_write = (i % (3600 * 7) == 0);
+
+        //  with a high res or the relativity, the program takes a too
+        //  long time to write in documents (about 60mn)
+        //  as a consequence, it outputs only the last values and
+        //  outputs all the value only in the standard mode
+        can_write = (high_res || relativity) ? (i == timesteps) : true;
         
         for(int k = 0; k < _card; k++)
         {
-            path = folder + _system[k].name();
             
             if(i == 0)
             {
-                //  some cosmetics for the output file
+                path = folder + _system[k].name();
                 output.open(path);  //  erase the previous file
                 output << "Velocity-Verlet algorithm (2D)" << endl;
                 output << _system[k].name() << " (x, y, vx, vy)" << endl;
                 output << "Timestep: " << years << " years" << endl ;
-                output << "Relativistic correction: " << boolalpha << relativity << endl << endl;
+                output << "Relativistic correction: " << boolalpha << relativity << endl;
+                output << "High resolution: " << high_res << relativity << endl << endl;
                 output.close();
             }
             
             if(can_write)
             {
+                path = folder + _system[k].name();
                 output.open(path, ios::app);   //  write after the existing content
                 _system[k].print_pos(output);
                 output.close();
@@ -166,7 +177,7 @@ void solver::verlet(const double years, const std::string folder, const bool rel
             _system[k].position[1] = _prev_pos[k][1] + h * _prev_vel[k][1] + radical * _prev_acc[k][1];
         }
         
-        next_acc = _next_acc(relativity);
+        _next_acc = _next_acceleration(relativity);
         
         for(int k = 0; k < _card; k++)
         {
@@ -184,11 +195,11 @@ void solver::verlet(const double years, const std::string folder, const bool rel
             
             radical = 0.5 * h;
             
-            _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + next_acc[k][0]);
-            _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + next_acc[k][1]);
+            _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + _next_acc[k][0]);
+            _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + _next_acc[k][1]);
         }
         
-        _update_quantities(i, h, relativity);
+        _update_quantities(i, h, _next_acc);
     }
     
     _gnuplot(folder, years);
@@ -246,7 +257,6 @@ double solver::potential_energy(void) const
     
     for(auto& body : _system)
     {
-        
         energy += body.potential_energy(_system);
     }
     
@@ -461,7 +471,7 @@ void solver::_print_kinetic_energy(const int i, const std::string folder) const
     {
         output.open(folder + "system-kinetic-energy", ios::app);
     }
-    output << _time << space << kinetic_energy() << endl;
+    output << _time << setprecision(8) << space << kinetic_energy() << endl;
     
     output.close();
 }
@@ -481,7 +491,7 @@ void solver::_print_potential_energy(const int i, const std::string folder) cons
     {
         output.open(folder + "system-potential-energy", ios::app);
     }
-    output << _time << space << potential_energy() << endl;
+    output << _time << setprecision(8) << space << potential_energy() << endl;
     
     output.close();
 }
@@ -502,7 +512,7 @@ void solver::_print_total_energy(const int i, const std::string folder) const
     {
         output.open(folder + "system-total-energy", ios::app);
     }
-    output << _time << space << total_energy() << endl;
+    output << _time << setprecision(8) << space << total_energy() << endl;
     
     output.close();
 }
@@ -526,17 +536,33 @@ void solver::_update_mass_center(const planet& body)
 
 ////////
 
-void solver::_update_quantities(const int i, const double h, const bool relativity)
+void solver::_update_quantities(const int i, const double h)
 {
     for(int k = 0; k < _card; k++)
     {
         _prev_pos[k] = _system[k].position;
         _prev_vel[k] = _system[k].velocity;
-        _prev_acc[k] = _acceleration(k, relativity);
+        _prev_acc[k] = _acceleration(k, false);
         _system[k].time = i * h;
     }
     _time = i * h;
 }
+
+////////
+
+void solver::_update_quantities(const int i, const double h, std::vector<std::vector<double>> acc)
+{
+    for(int k = 0; k < _card; k++)
+    {
+        _prev_pos[k] = _system[k].position;
+        _prev_vel[k] = _system[k].velocity;
+        _system[k].time = i * h;
+    }
+    
+    _prev_acc = acc;
+    _time = i * h;
+}
+
 
 ////////
 
@@ -550,7 +576,7 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
     vector<double> relative_pos = {0., 0.};
     vector<double> acceleration = {0., 0.};
     
-    if(_system[p].distance_center() != 0.)
+    if(_system[p].distance_center() != 0.)  //  avoid calculating a planet's acceleration with respect to itself
     {
         for(int k = 0; k < _card; k++)
         {
@@ -570,10 +596,9 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
                 {
                     double correction;
                     double cross;
-                    double const c = (299792458 * 24. * 3600. * 365.25) / 149597870700. ;
-                    double const c_squared = c * c;
+                    double const c = 63241.0770;
                     cross = _system[k].position[0] * _system[k].velocity[1] + _system[k].position[1] * _system[k].velocity[0];
-                    correction = (1. + (3. * cross) / (r_squared * c_squared));
+                    correction = (1. + (3. * cross) / (r_squared * c * c));
                     acceleration[0] *= correction;
                     acceleration[1] *= correction;
                 }
@@ -594,7 +619,7 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
 
 ////////
 
-std::vector<std::vector<double>> solver::_next_acc(const bool relativity) const
+std::vector<std::vector<double>> solver::_next_acceleration(const bool relativity) const
 {
     vector<vector<double>> acceleration;
     

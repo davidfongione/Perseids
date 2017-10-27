@@ -507,15 +507,16 @@
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
-                            x_{i+1}&=x(t_i+h) = x(t_i) + h\frac{dx}{dt}(t_i) + \frac{1}{2}h^2 \frac{d^2x}{dt^2}(t_i)\\
-                            v_{i+1}&=v(t_i+h) = v(t_i) + \frac{1}{2}h(\frac{dv}{dt}(t_i) + \frac{dv}{dt}(t_i+h)
+                            x_{i+1}&=x(t_i+h) = x(t_i) + h\frac{dx}{dt}(t_i) + \frac{1}{2}h^2 \frac{d^2x}{dt^2}(t_i) =x(t_i) + hv(t_i) + \frac{1}{2}h^2 a(t_i) \\
+                            v_{i+1}&=v(t_i+h) = v(t_i) + \frac{1}{2}h\left(\frac{dv}{dt}(t_i) + \frac{dv}{dt}(t_i+h)\right) =v(t_i) + \frac{1}{2}h\left(a(t_i) + a(t_{i+1})\right)
                         \end{aligned}
                     \right.
                 \end{equation*}
             where the velocity is explicitly expressed.
             
         \section{The special case of Mercury}
-                \paragraph{}Mercury being the closest planet to the Sun, the influence of the Sun on it is special. Th orbit of Mercury is elliptical (not circular). The point where Mercury is the closest to the Sun is called perihelion. At perihelion, $x_{\mercury_p} = 0.3075$ [AU], $y_{\mercury_p} = 0$ and $v_{\mercury_p}=12.44$ [AU/yr]. The perihelion precession is a phenomenum that describe the perihelion shift, orbit after orbit. \\
+        
+                \paragraph{}Mercury being the closest planet to the Sun, the influence of the Sun on it is special ; furthermore it is a very light planet, roughly $3.3\times{10}^{23}$kg. Its orbit of Mercury is elliptical (not circular). The point where Mercury is the closest to the Sun is called perihelion. At perihelion, $x_{\mercury_p} = 0.3075$ [AU], $y_{\mercury_p} = 0$ and $v_{\mercury_p}=12.44$ [AU/yr]. The perihelion precession is a phenomenum that describe the perihelion shift, orbit after orbit. \\
                 We observe that by substracting the classical effects (basically, the gravitational attraction between Mercury and the other planets), we still have a perihelion shift with an angle of 43" per century. We need to add the relativistic correction to the Newtonian gravitational force. Thus $\displaystyle F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}$, with $M_{\mercury}$ the mass of Mercury and $r$ the distance between Mercury and the Sun ($r=0.39$AU), becomes
                     \begin{equation*}
                         F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}(1 + \frac{3l^2}{r^2c^2})
@@ -527,9 +528,36 @@
 
 \chapter{Implementation}
 
-    \section{Earth-Sun system}
-        \subsection{}
-        
+	\paragraph{}You will find how to run the program in the README.md file from the repository.
+
+    \paragraph{}The program has been made such as its behavior is exactly the same no matter the number of planets and no matter the center of mass. We created one \texttt{planet} class of which role is to initialize planets and one \texttt{solver} class of which role is to calculate the interaction between the planets.
+	
+	\paragraph{}When one add a planet to a system simulation, \texttt{solver} automatically updates the total mass of the system and is therefore in capability to compute the center of mass, the kinetic, potential and total energies with associated methods. However the two main algorithms are Verlet's method and Euler's method. It creates a vector ou double numbers
+		
+		\section{Euler's and Verlet's methods}
+		
+			\subsection{Calculation of the acceleration}
+			
+				\paragraph{}The private method \texttt{solver::\_acceleration} computes the acceleration of a given planet (the planet of index $p$ given as an argument) of the system using (10). It goes through every planet, copies the position and computes the formula. Contrary to the exemples seen in the lectures, the velocity and positions of a planet are stored in vectors of the standard libraries instead of using four distinct doubles. This was made for readability and better connexion with the mathematic reality. However it is a shame that the \texttt{std::vector} class does not support basic arithmetic operations, this would have made the code way cleaner\footnote{We could have built our own vector class here. It is not very hard to do but it was not the point of this project.}.
+				
+				\paragraph{}You will notice that this function requires a boolean argument named \texttt{relativity}. It is there to tell the function whether it has to compute the relativistic correction or not. The use of the boolean argument allows us to build only one method for both classical and relativistic formulae, instead of two distinct methods. The less code, the less errors, especially since having two similar functions often implies copypasta. Furthermore, if we give the same boolean as an argument of our Verlet's method to compute the positions, velocities and energies of all the planets at all the time-steps, we can choose to add the relativistic effect, still using exactly the same function.
+				
+			\subsection{Euler's and Verlet's algorithms}
+			
+				\paragraph{}The process of Euler's and Verlet's algorithm are to go through every time-steps of the time period chosen by the user and passed as an argument, and inside each time-step, to go through very planet of the system. We will so use two loops, the loop for the planet being inside the loop for the time-steps. For the non-relativistic case, there are $250$ time-steps per year, and $360\times3600\times7=9072000$ for the relativistic case, considering a revolution period for Mercury of one seventh of earthen year. For Euler, the program computes (11) and (12), ie the basic derivative formula approximations. For Verlet, the program computes 
+				\begin{equation*}
+                    \left\{
+                        \begin{aligned}
+                            x_{i+1} = x(t_i) + hv(t_i) + \frac{1}{2}h^2 a(t_i) \\
+                            v_{i+1} = v(t_i) + \frac{1}{2}h\left(a(t_i) + a(t_{i+1})\right)
+                        \end{aligned}
+                    \right.
+                \end{equation*}
+                
+                \paragraph{}Now suppose we are computing all the planets inside a given run of the time-steps loop. Each planet requires the positions of all the planets at the previous time-step and its own previous position and velocity. For Verlet, it evens needs the next acceleration. The key is to create private vectors of vectors (a vector containing the position vectors of all the planets at a given time $t_i$) which contains the previous position, velocity and acceleration of each planet. Since the program needs those vales at $t_i$ and that it modifies those values at the same time by replacing them with the new one, it is crucial to save the values of $t_i$ to be sure that the values calculated for $t_i+1$ are the correct ones.   
+                
+                \paragraph{}Euler is straight-forward, but Verlet requires that we compute the next acceleration. Therefore we first compute the next velocity like for Euler, then compute the next acceleration and store it in a vector of vectors, then computes the position and updates the planets. The program can use those vectors to compute the formula, and meanwhile modify the positions and velocities of each planet without impacting the others. The vector of vectors is then reused as the "next-previous" acceleration.
+        	        
         \subsection{Tests}
             \paragraph{}The mechanical energy $E_m = E_c + E_p$ should be conserved because the only force taken into account is the gravitational force, which is conservative. The potential energy is constant in time ($E_p = -\frac{GM_{\oplus}M_{\odot}}{r} \forall t$), so is conserved. The kinetic energy depends on the velocity of the Earth ($E_c = \frac{1}{2}M_{\oplus}v^2$, which is constant in time as we have a uniform circular motion of the Earth around the Sun. So as both of the kinetic and potential energies are constant in time, for any $t_i$ and $t_f$ we have
                 \begin{equation*}
@@ -543,12 +571,6 @@
                 \begin{equation*}
                     \Rightarrow E_{m_i} = E_{m_f}
                 \end{equation*}
-                        
-    
-    \section{Adding one planet}
-    
-    
-    \section{The complete Solar system}
     
     
 
