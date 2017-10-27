@@ -42,7 +42,7 @@ All the initial conditions for the celestial bodies of the Solar System can be f
 ### Solver class
 #### Basic run of a solar system
 
-This class is the one that compute all the calculations. Here is a basic example on how it works :
+This class is the one that compute all the calculations. The algorithm requires only a time-period in years - `12.` here - and a folder path - `folder` here - to output the data files. It automatically generate 365 time-steps per year, ie one time-step per day, and it is the same for `euler`. Here is a basic example on how it works :
 
 ```cpp
 
@@ -89,11 +89,14 @@ int main()
 
 ```
 
-The algorithm requires only a time-period (in years) - `12.` here - and a folder path - `folder` here - to output the data files. It automatically generate 200 time-steps per year and it is the same for `euler`.
-However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law. The resolution is automatically set up to one arcsecond and therefore the program requires a longer time to run (about 10mn to calculate the perihelion precession of Mercury). The program computes a large number of positions and velocities, but the output file will only contain the last time-step value in order to save time. The standard resolution is reliable enough for a good plot (you won't notice the difference between a relativistic and not relativistic plot) and this relativistic mode is made to compare values, not to make plots. If you with to add this correction, just use a boolean in `verlet`(Euler is not efficient enough for this simulation). You can use the high resolution in the non-relativistic mode if you wish to compare the effect of the Sun on the planets, but the program will still output the last position, velocity, etc.
+1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however
+2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
+
+
+However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law. The resolution is automatically set up to one arcsecond and therefore the program requires a longer time to run (about 25mn to calculate the perihelion precession of Mercury). The program computes a large number of positions and velocities, but the output file will only contain the last time-step values in order to save time ; the standard resolution is reliable enough for a good plot (you won't notice the difference between a relativistic and not relativistic plot) and this relativistic mode is made to compare values, not to make plots. If you with to add this correction, just use a boolean in `verlet`(Euler is not efficient enough for this simulation). You can also use the high resolution in the non-relativistic mode if you wish to compare the effect of the Sun on the planets, but the program will still output the last position, velocity, etc.
 
 ```cpp
-
+//  (years, folder, relativistic correction, high resolution)
 system.verlet(100., folder, true, true);    //  with correction and high resolution
 system.verlet(100., folder, false, true);   //  without correction and with high resolution
 system.verlet(100., folder, false, false);  //  without correction and high resolution
@@ -103,10 +106,6 @@ system.verlet(100., folder, true, false);   //  with correction and without reso
 system.verlet(100., folder, true);          //  ERROR, because the resolution is low by default                                     
 
 ```
-
-1. Note that the Sun **must** be considered as any other planet as it is not the center of mass of the Solar System, and therefore has a non-zero position and velocity. Its motion is very small however
-2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
-3. It is equivalent to run with `false`or nothing.
 
 The declaration and initializations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp). You can find initializations for the full solar system, the Earth-Jupiter-Sun system with the Sun as the center of mass and the Earth-Jupiter-Sun with the real center of mass.
 

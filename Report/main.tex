@@ -558,7 +558,10 @@
                 
                 \paragraph{}Euler is straight-forward, but Verlet requires that we compute the next acceleration. Therefore we first compute the next velocity like for Euler, then compute the next acceleration and store it in a vector of vectors, then computes the position and updates the planets. The program can use those vectors to compute the formula, and meanwhile modify the positions and velocities of each planet without impacting the others. The vector of vectors is then reused as the "next-previous" acceleration.
         	        
-        \subsection{Tests}
+        \section{Validity}
+        
+        	\subsection{Preservation of the energy}
+	
             \paragraph{}The mechanical energy $E_m = E_c + E_p$ should be conserved because the only force taken into account is the gravitational force, which is conservative. The potential energy is constant in time ($E_p = -\frac{GM_{\oplus}M_{\odot}}{r} \forall t$), so is conserved. The kinetic energy depends on the velocity of the Earth ($E_c = \frac{1}{2}M_{\oplus}v^2$, which is constant in time as we have a uniform circular motion of the Earth around the Sun. So as both of the kinetic and potential energies are constant in time, for any $t_i$ and $t_f$ we have
                 \begin{equation*}
                     \left\{
@@ -571,6 +574,8 @@
                 \begin{equation*}
                     \Rightarrow E_{m_i} = E_{m_f}
                 \end{equation*}
+                
+          
     
     
 
