@@ -89,7 +89,7 @@ int main()
 
 ```
 
-The algorithm requires only a time-period (in years) - `12.` here - and a folder path - `folder` here - to output the data files. It automatically generate 365 time-steps per year and it is the same for `euler`.
+The algorithm requires only a time-period (in years) - `12.` here - and a folder path - `folder` here - to output the data files. It automatically generate 200 time-steps per year and it is the same for `euler`.
 However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law. The resolution is automati cally enhanced to one arcsecond and therefore the program requires a long time to run (more than one hour the motion of Mercury during one century). The program computes a large number of positions and velocities, but the output file, in order to save time and storage, only contains a percentage of them. It is reliable enough for a good plot (you won't notice the difference between a relativistic and not relativistic plot), saves time, and only the last position if required to calculate a perihelion precession. If you with to add this correction, just use a boolean in `verlet`(Euler is not efficient enough for this simulation) :
 
 ```cpp

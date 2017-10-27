@@ -110,7 +110,6 @@ TEST_CASE("Several minor operations are tested for both planet and solver", "[pl
         REQUIRE(system.total_mass() == mass);
     }
     
-    /*
     SECTION("solver : energies")
     {
         system.add(_earth);
@@ -123,7 +122,7 @@ TEST_CASE("Several minor operations are tested for both planet and solver", "[pl
         REQUIRE(system.potential_energy() == _earth.potential_energy(_earth));
         REQUIRE(system.potential_energy() == 0.);
         REQUIRE(equality_small(system.total_energy(), copy_earth.kinetic_energy()));
-    }*/
+    }
     
     SECTION("solver::system.total_mass")
     {

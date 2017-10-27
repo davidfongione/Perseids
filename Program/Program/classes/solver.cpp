@@ -128,7 +128,7 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     ofstream output;
     vector<vector<double>> next_acc;   //  vector for a(t+dt)
     
-    timesteps = (relativity ? ((int) years * 360 * 3600 * 7) : ((int) years * 100));
+    timesteps = (relativity ? ((int) years * 360 * 3600 * 7) : ((int) years * 200));
     h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
     
