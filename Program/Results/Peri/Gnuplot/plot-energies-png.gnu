@@ -2,7 +2,7 @@ reset
 set terminal png enhanced size 1000, 1000
 set output '/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Peri/Gnuplot/plot-energies.png'
 set size ratio -1
-set title 'Time-step: 100.000000 years'
+set title 'Time-step: 17.000000 years'
 set xlabel 'Time (year)'
 set ylabel 'Energie (kg*AU^2 / year^2)'
 

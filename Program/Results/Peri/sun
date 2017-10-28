@@ -1,7 +1,7 @@
 Velocity-Verlet algorithm (2D)
 sun (x, y, vx, vy)
-Timestep: 100 years
+Timestep: 17 years
 Relativistic correction: false
-High resolution: true
+High resolution: false
 
 0        0        0        0        

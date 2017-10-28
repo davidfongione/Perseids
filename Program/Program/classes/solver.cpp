@@ -126,6 +126,7 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     double h_squared;
     double radical;
     bool can_write;
+    bool mass_center;
     string path;
     ofstream output;
     vector<vector<double>> next_acc;
@@ -139,7 +140,6 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     //  360*3600*7 precision iff asked by the user or for a relativistic simulation
     //  else a 1 day time step is sufficient enough
     timesteps = (high_res || relativity) ? ((int) years * 9072000) : ((int) years * 365);
-    
     h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
     
@@ -153,11 +153,12 @@ void solver::verlet(const double years, const std::string folder, const bool rel
         
         if(_time - (int) _time == 0)
         {
-            cout << _time << endl;
+            cout << _time << " years computed" << endl;
         }
         
         for(int k = 0; k < _card; k++)
         {
+            mass_center = _system[k].distance_center() == 0;
             if(i == 0)
             {
                 path = folder + _system[k].name();
@@ -167,45 +168,59 @@ void solver::verlet(const double years, const std::string folder, const bool rel
                 output << "Timestep: " << years << " years" << endl ;
                 output << "Relativistic correction: " << boolalpha << relativity << endl;
                 output << "High resolution: " << high_res << endl << endl;
+                if(mass_center)
+                {
+                    //  if the body is the mass center, its values never change
+                    //  so we print the initial values once, and never compute new ones
+                    _system[k].print_pos(output);
+                    _system[k].print_vel(output);
+                }
                 output.close();
             }
             
-            if(can_write)
+            if(!mass_center)
             {
-                path = folder + _system[k].name();
-                output.open(path, ios::app);   //  write after the existing content
-                _system[k].print_pos(output);
-                output.close();
+                if(can_write)
+                {
+                    path = folder + _system[k].name();
+                    output.open(path, ios::app);   //  write after the existing content
+                    _system[k].print_pos(output);
+                    output.close();
+                }
+                
+                radical = 0.5 * h_squared;
+                
+                _system[k].position[0] = _prev_pos[k][0] + h * _prev_vel[k][0] + radical * _prev_acc[k][0];
+                _system[k].position[1] = _prev_pos[k][1] + h * _prev_vel[k][1] + radical * _prev_acc[k][1];
             }
-            
-            radical = 0.5 * h_squared;
-            
-            _system[k].position[0] = _prev_pos[k][0] + h * _prev_vel[k][0] + radical * _prev_acc[k][0];
-            _system[k].position[1] = _prev_pos[k][1] + h * _prev_vel[k][1] + radical * _prev_acc[k][1];
         }
         
         _next_acc = _next_acceleration(relativity);
         
         for(int k = 0; k < _card; k++)
         {
-            if(can_write)
+            mass_center = _system[k].distance_center() == 0;
+            if(!mass_center)
             {
-                path = folder + _system[k].name();
-                output.open(path, ios::app);
-                _system[k].print_vel(output);
-                _print_kinetic_energy(i, folder);
-                _print_potential_energy(i, folder);
-                _print_total_energy(i, folder);
-                output << endl;
-                output.close();
+                if(can_write)
+                {
+                    path = folder + _system[k].name();
+                    output.open(path, ios::app);
+                    _system[k].print_vel(output);
+                    output << endl;
+                    output.close();
+                }
+                
+                radical = 0.5 * h;
+                
+                _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + _next_acc[k][0]);
+                _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + _next_acc[k][1]);
             }
-            
-            radical = 0.5 * h;
-            
-            _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + _next_acc[k][0]);
-            _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + _next_acc[k][1]);
         }
         
+        _print_kinetic_energy(i, folder);
+        _print_potential_energy(i, folder);
+        _print_total_energy(i, folder);
         _update_quantities(i, h, _next_acc);
     }
     
@@ -215,6 +230,8 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     _gnuplot_energies_png(folder, years);
     
     _time += years;
+    
+    cout << "Done!" << endl;
 }
 
 
@@ -583,7 +600,7 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
     vector<double> relative_pos = {0., 0.};
     vector<double> acceleration = {0., 0.};
     
-    if(_system[p].distance_center() != 0.)
+    if(_system[p].distance_center() != 0.)  // the mass center must remain fixed
     {
         for(int k = 0; k < _card; k++)
         {
@@ -603,7 +620,11 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
                     double correction;
                     double momentum;
                     double const c = 63241.0770;
-                    momentum = _system[k].position[0] * _system[k].velocity[1] + _system[k].position[1] * _system[k].velocity[0];
+                    momentum = _system[k].position[0] * _system[k].velocity[1] - _system[k].position[1] * _system[k].velocity[0];
+                    if(momentum == 0)
+                    {
+                        cout << "bite" << endl;
+                    }
                     correction = 1. + (3. * momentum * momentum) / (r_squared * c * c);
                     acceleration[0] *= correction;
                     acceleration[1] *= correction;
@@ -615,8 +636,8 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
     }
     else
     {
-        relative_pos[0] = 0.;
-        relative_pos[1] = 0.;
+        acceleration[0] = 0.;
+        acceleration[1] = 0.;
     }
     
     return (acceleration);
