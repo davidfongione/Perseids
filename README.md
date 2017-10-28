@@ -93,9 +93,12 @@ int main()
 2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
 
 
-However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law. The resolution is automatically set up to one arcsecond and therefore the program requires a longer time to run (about 25mn to calculate the perihelion precession of Mercury). The program computes a large number of positions and velocities, but the output file will only contain the last time-step values in order to save time ; the standard resolution is reliable enough for a good plot (you won't notice the difference between a relativistic and not relativistic plot) and this relativistic mode is made to compare values, not to make plots. If you with to add this correction, just use a boolean in `verlet`(Euler is not efficient enough for this simulation). You can also use the high resolution in the non-relativistic mode if you wish to compare the effect of the Sun on the planets, but the program will still output the last position, velocity, etc.
+However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law. The resolution is automatically set up to one arcsecond and therefore the program requires a longer time to run (about 25mn to calculate the perihelion precession of Mercury). The program computes a large number of positions and velocities, but the output file will only contain the last time-step values in order to save time ; the standard resolution is reliable enough for a good plot (you won't notice the difference between a relativistic and not relativistic plot) and this relativistic mode is made to compare values, not to make plots. If you with to add this correction, just use a boolean in `verlet`(Euler is not efficient enough for this simulation) and when you add planets to the system (when you add a planet, the program calculates the acceleration of each planet, then you have to tell it to calculate it with the relativistic correction). You can also use the high resolution in the non-relativistic mode if you wish to compare the effect of the Sun on the planets, but the program will still output the last position, velocity, etc.
 
 ```cpp
+system.add(mercury, true);  //  precise the relativity
+system.add(sun, true);
+
 //  (years, folder, relativistic correction, high resolution)
 system.verlet(100., folder, true, true);    //  with correction and high resolution
 system.verlet(100., folder, false, true);   //  without correction and with high resolution

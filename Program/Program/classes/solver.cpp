@@ -67,6 +67,7 @@ void solver::euler(const double years, const std::string folder)
     timesteps = (int) (years * 250);
     h = ((double) years) / ((double) timesteps);
     
+    //  go through every time-step, then every planet
     for(int i = 0; i <= timesteps; i++)
     {
         for(int k = 0; k < _card; k++)
@@ -75,7 +76,8 @@ void solver::euler(const double years, const std::string folder)
             
             if(i == 0)
             {
-                output.open(path);  //  erase the previous file
+                //  only write the header once
+                output.open(path);
                 output << "Euler algorithm (2D)" << endl;
                 output << _system[k].name() << " (x, y, vx, vy)" << endl;
                 output << "Timestep: " << years << " years" << endl << endl;
@@ -89,22 +91,25 @@ void solver::euler(const double years, const std::string folder)
             _system[k].print_vel(output);
             output << endl;
             
+            //  then perform the algorithm
+            //  _prev_pos and vel are initialized when a planet is added
+            //  see solver::add
             _system[k].position[0] = h * _prev_vel[k][0] + _prev_pos[k][0];
             _system[k].position[1] = h * _prev_vel[k][1] + _prev_pos[k][1];
             
             _system[k].velocity[0] = h * _prev_acc[k][0] + _prev_vel[k][0];
             _system[k].velocity[1] = h * _prev_acc[k][1] + _prev_vel[k][1];
             
-            _system[k].time += h;   //  update time
             output.close();
         }
         
         _print_kinetic_energy(i, folder);
         _print_potential_energy(i, folder);
         _print_total_energy(i, folder);
-        _update_quantities(i, h);
+        _update_quantities(i, h);   //  update the _prev_vectors
     }
     
+    //  create gnuplot scripts
     _gnuplot(folder, years);
     _gnuplot_png(folder, years);
     _gnuplot_energies(folder, years);
@@ -120,6 +125,9 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     //  equations in 1D :
     //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
     //  v(t+dt) = v(t) + (1/2)*dt*[a(t) + a(t+dt)]
+    
+    //  this method is pretty similar to Euler except the loops are different
+    //  and we can compute a relativistic correction
     
     int timesteps;
     double h;
@@ -138,7 +146,6 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     }
     
     //  360*3600*7 precision iff asked by the user or for a relativistic simulation
-    //  else a 1 day time step is sufficient enough
     timesteps = (high_res || relativity) ? ((int) years * 9072000) : ((int) years * 365);
     h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
@@ -147,14 +154,8 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     {
         //  with a high res or the relativity, the program takes a too
         //  long time to write in documents (about 60mn)
-        //  as a consequence, it outputs only the last values and
-        //  outputs all the value only in the standard mode
+        //  as a consequence, it outputs only the last values
         can_write = (high_res || relativity) ? (i == timesteps) : true;
-        
-        if(_time - (int) _time == 0)
-        {
-            cout << _time << " years computed" << endl;
-        }
         
         for(int k = 0; k < _card; k++)
         {
@@ -183,8 +184,10 @@ void solver::verlet(const double years, const std::string folder, const bool rel
                 if(can_write)
                 {
                     path = folder + _system[k].name();
-                    output.open(path, ios::app);   //  write after the existing content
+                    output.open(path, ios::app);
                     _system[k].print_pos(output);
+                    _system[k].print_vel(output);
+                    output << endl;
                     output.close();
                 }
                 
@@ -195,6 +198,10 @@ void solver::verlet(const double years, const std::string folder, const bool rel
             }
         }
         
+        //  computes the new acceleration the new calculated position
+        //  this new acceleration depends on the "relativity" boolean
+        //  note that the first initialization of _prev_acc can be done with relativity
+        //  see solver::add
         _next_acc = _next_acceleration(relativity);
         
         for(int k = 0; k < _card; k++)
@@ -202,26 +209,24 @@ void solver::verlet(const double years, const std::string folder, const bool rel
             mass_center = _system[k].distance_center() == 0;
             if(!mass_center)
             {
-                if(can_write)
-                {
-                    path = folder + _system[k].name();
-                    output.open(path, ios::app);
-                    _system[k].print_vel(output);
-                    output << endl;
-                    output.close();
-                }
-                
                 radical = 0.5 * h;
-                
                 _system[k].velocity[0] = _prev_vel[k][0] + radical * (_prev_acc[k][0] + _next_acc[k][0]);
                 _system[k].velocity[1] = _prev_vel[k][1] + radical * (_prev_acc[k][1] + _next_acc[k][1]);
             }
         }
         
+        //  we don't print the energies for the relativistic case
+        //  they indeed would need a correction too
+        if(can_write || !relativity)
+        {
         _print_kinetic_energy(i, folder);
         _print_potential_energy(i, folder);
         _print_total_energy(i, folder);
+        }
+        
+        //  update of the _prev_vectors
         _update_quantities(i, h, _next_acc);
+
     }
     
     _gnuplot(folder, years);
@@ -230,8 +235,6 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     _gnuplot_energies_png(folder, years);
     
     _time += years;
-    
-    cout << "Done!" << endl;
 }
 
 
@@ -281,7 +284,7 @@ double solver::potential_energy(void) const
     
     for(auto& body : _system)
     {
-        energy += body.potential_energy(_system);
+        energy += body.potential_energy(_system);   //  this method is in planet
     }
     
     return (energy);
@@ -298,34 +301,35 @@ double solver::total_energy(void) const
 
 ////////
 
-void solver::add(planet body)
+void solver::add(planet body, const bool relativity)
 {
     _card++;
     
     _update_mass_center(body);
     _total_mass += body.mass();
     
+    //  normalize the mass and the velocity
     body.normalize();
-    //  only normalizes the mass and the velocity
     _system.push_back(body);
     _prev_pos.push_back(body.position);
     _prev_vel.push_back(body.velocity);
-    _prev_acc.push_back(_acceleration(_card - 1));
+    _prev_acc.push_back(_acceleration(_card - 1, relativity));
     //  the new planet is the (_card - 1) celestial body of the system
 }
 
 ////////
 
+//  prints the last positions, velocities
 void solver::print(ofstream& file) const
 {
-    file << "=== SOLAR SYSTEM === " << endl;
+    file << "=== CELESTIAL SYSTEM === " << endl;
     
     for(int p = 0; p < _card ; p++)
     {
-        _system[p].print(file);
+        _system[p].print(file); //  planet:: method
     }
     
-    file << "===/ SOLAR SYSTEM === " << endl;
+    file << "===/ CELESTIAL SYSTEM === " << endl;
 }
 
 ////////
@@ -343,6 +347,7 @@ std::vector<planet> solver::system(void) const
 
 ///////
 
+//  some gnuplot scripts
 
 void solver::_gnuplot(const std::string folder, const double years) const
 {
@@ -560,6 +565,7 @@ void solver::_update_mass_center(const planet& body)
 
 ////////
 
+//  this one is for Euler, where we don't need the next acceleration
 void solver::_update_quantities(const int i, const double h)
 {
     for(int k = 0; k < _card; k++)
@@ -574,6 +580,7 @@ void solver::_update_quantities(const int i, const double h)
 
 ////////
 
+//  this one is for Verlet
 void solver::_update_quantities(const int i, const double h, std::vector<std::vector<double>> acc)
 {
     for(int k = 0; k < _card; k++)
@@ -583,6 +590,7 @@ void solver::_update_quantities(const int i, const double h, std::vector<std::ve
         _system[k].time = i * h;
     }
     
+    //  it has been calculated once in Verlet, so we avoid a calculation
     _prev_acc = acc;
     _time = i * h;
 }
@@ -590,12 +598,13 @@ void solver::_update_quantities(const int i, const double h, std::vector<std::ve
 
 ////////
 
+//  only one method for a relativistic or non-relativistic simulation
 vector<double> solver::_acceleration(const int p, const bool relativity) const
 {
     //  p is the index of the planet for which we calculate eta
     
     double const g_const = 4 * M_PI * M_PI;
-    double radical;
+    double radical; //  just a variable to avoid calculations
     double r;
     vector<double> relative_pos = {0., 0.};
     vector<double> acceleration = {0., 0.};
@@ -608,9 +617,10 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
             {
                 r = _system[p].distance(_system[k]);
                 double r_squared = r * r;
-                radical = _system[k].mass() / (r_squared * r);
+                double r_cubed = r_squared * r;
+                radical = _system[k].mass() / r_cubed;
                 
-                relative_pos[0] = _system[p].position[0] - _system[k].position[0];
+                relative_pos[0] = _system[p].position[0] - _system[k].position[0];  //  x - xk
                 relative_pos[1] = _system[p].position[1] - _system[k].position[1];
                 
                 acceleration[0] -= radical * relative_pos[0];
@@ -620,11 +630,7 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
                     double correction;
                     double momentum;
                     double const c = 63241.0770;
-                    momentum = _system[k].position[0] * _system[k].velocity[1] - _system[k].position[1] * _system[k].velocity[0];
-                    if(momentum == 0)
-                    {
-                        cout << "bite" << endl;
-                    }
+                    momentum = _system[p].position[0] * _system[p].velocity[1] - _system[p].position[1] * _system[p].velocity[0];
                     correction = 1. + (3. * momentum * momentum) / (r_squared * c * c);
                     acceleration[0] *= correction;
                     acceleration[1] *= correction;
@@ -634,6 +640,8 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
         acceleration[0] *= g_const ;
         acceleration[1] *= g_const;
     }
+    //  this concerns especially the sun when it is center of mass
+    //  this assures that it remains fix if the initial velocity is (0, 0)
     else
     {
         acceleration[0] = 0.;
@@ -645,6 +653,7 @@ vector<double> solver::_acceleration(const int p, const bool relativity) const
 
 ////////
 
+//  it is just used in verlet to compute a(t+dt) when we want v(t)
 std::vector<std::vector<double>> solver::_next_acceleration(const bool relativity) const
 {
     vector<vector<double>> acceleration;

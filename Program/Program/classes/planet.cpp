@@ -121,6 +121,7 @@ double planet::kinetic_energy(void) const
 
 ////////
 
+//  the potential energy is with respect to another body
 double planet::potential_energy(const planet& body) const
 {
     double energy;
@@ -141,6 +142,8 @@ double planet::potential_energy(const planet& body) const
 
 ////////
 
+//  we can calculate it for many planets
+//  this one is usefull for solver::potential_energy
 double planet::potential_energy(const std::vector<planet>& system) const
 {
     double energy = 0.;
@@ -189,18 +192,11 @@ double planet::velocity_squared(void) const
 
 void planet::normalize(void)
 {
+    //  the program is made to work with NASA's data
+    //  the velocities are given in AU/day
     _mass /= 2.E30;
     velocity[0] *= 365.25;
     velocity[1] *= 365.25;
-}
-
-////////
-
-void planet::denormalize(void)
-{
-    _mass *= 2.E30;
-    velocity[0] /= 365.25;
-    velocity[1] /= 365.25;
 }
 
 ////////
@@ -254,6 +250,8 @@ void planet::print(std::ofstream& output, const std::vector<planet>& system) con
 
 ////////
 
+//  those ones are useful for Verlet and Euler
+//  they are made to have clean columns in output files
 void planet::print_pos(std::ofstream& output) const
 {
     string space = "        ";

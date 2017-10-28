@@ -41,7 +41,8 @@ public:
     double kinetic_energy(void) const;
     double potential_energy(void) const;
     double total_energy(void) const;
-    void add(planet body);
+    //  if you will calculate Verlet with a relativistic corection, you must specify it now
+    void add(planet body, const bool relativity = false);
     void print(std::ofstream& file) const;  //  prints the system's last position and velocity
     std::vector<double> mass_center(void) const;
     std::vector<planet> system(void) const;
@@ -55,18 +56,18 @@ private:
     double _time;  //  t_0 of the system, in years
     double _total_mass;
     std::vector<double> _mass_center;
-    std::vector<std::vector<double>> _prev_pos;
+    std::vector<std::vector<double>> _prev_pos; //  contains all the position at ti
     std::vector<std::vector<double>> _prev_vel;
     std::vector<std::vector<double>> _prev_acc;
     std::vector<std::vector<double>> _next_acc;
-    std::vector<planet> _system;
+    std::vector<planet> _system;    //  contains all the planet
     
     //  methods
     
     void _update_mass_center(const planet& body);
-    void _update_quantities(const int i, const double h);
+    void _update_quantities(const int i, const double h);   //  update quantities at each lop
     void _update_quantities(const int i, const double h, std::vector<std::vector<double>> acc);
-    std::vector<double> _acceleration(const int p, const bool relativity = false) const;
+    std::vector<double> _acceleration(const int p, const bool relativity = false) const;    //  p is the index of the planet in _system
     std::vector<std::vector<double>> _next_acceleration(const bool relativity) const;
     
     //  outputs

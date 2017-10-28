@@ -41,5 +41,5 @@ planet sun_ejs_rmc("sun", 2.E30, -4.936E-3, 0., 0., -2.63294E-3 / 365.25);
 
 //  perihelion of Mercury
 
-planet mercury_peri("mercury", 3.3E23, 0.3075, 0., 0., 12.44 / 365.25);
+planet mercury_peri("mercury", 3.3E23, 0.3075, 0., 0., (12.44 / 365.25));
 
