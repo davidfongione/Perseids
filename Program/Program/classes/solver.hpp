@@ -11,6 +11,7 @@
 #include <vector>
 #include "planet.hpp"
 #include <fstream>
+#include <cmath>
 
 
 
@@ -28,7 +29,7 @@ public:
     //  main algorithms
     
     void euler(const double years, const std::string folder);
-    void verlet(const double years, const std::string folder, const bool relativity = false, const bool high_res = false);
+    void verlet(const double years, const std::string folder, const bool relativity = false);
     
     //  getters
     
@@ -71,6 +72,9 @@ private:
     std::vector<std::vector<double>> _next_acceleration(const bool relativity) const;
     
     //  outputs
+    inline void _classic_output(const bool can_write, const int k, const int i, const std::string folder) const;
+    void _first_output(const int k, const int i, const double years, const std::string folder) const;
+    void _perihelion_output(const bool relativity, const int k, const int i, const double years, const std::string folder) const;
     void _print_kinetic_energy(const int i, const std::string folder) const;
     void _print_potential_energy(const int i, const std::string folder) const;
     void _print_total_energy(const int i, const std::string folder) const;
@@ -81,3 +85,75 @@ private:
     std::string _gnuplot_colors(const int k) const;
 
 };
+
+inline void solver::_classic_output(const bool can_write, const int k, const int i, const std::string folder) const
+{
+    std::string path;
+    std::ofstream output;
+    
+    if(can_write && i != 0)
+    {
+        path = folder + _system[k].name();
+        output.open(path, std::ios::app);
+        _system[k].print_pos(output);
+        _system[k].print_vel(output);
+        output << std::endl;
+        output.close();
+    }
+}
+
+inline void solver::_first_output(const int k, const int i, const double years, const std::string folder) const
+{
+    std::string path;
+    std::ofstream output;
+    
+    if(i == 0)
+    {
+        path = folder + _system[k].name();
+        output.open(path);  //  erase the previous file
+        output << "Velocity-Verlet algorithm (2D)" << std::endl;
+        output << _system[k].name() << " (x, y, vx, vy)" << std::endl;
+        output << "Timestep: " << years << " years" << std::endl << std::endl ;
+        if(_system[k].distance_center() == 0)
+        {
+            //  if the body is the mass center, its values never change
+            //  so we print the initial values once, and never compute new ones
+            _system[k].print_pos(output);
+            _system[k].print_vel(output);
+        }
+        output.close();
+    }
+}
+
+inline void solver::_perihelion_output(const bool relativity, const int k, const int i, const double years, const std::string folder) const
+{
+    std::string path;
+    std::ofstream output;
+    
+    if(relativity && _system[k].name() == "mercury")
+    {
+        if(i == 0)
+        {
+            path = folder + "mercury perihelion precession";
+            output.open(path);  //  erase the previous file
+            output << "Perihelion precession of Mercury (xp, yp, thetap)" << std::endl;
+            output << "Timestep: " << years << " years (Earth years)" << std::endl << std::endl;
+            output << _time << "        ";
+            _system[k].print_pos(output);
+            output << "        " << atan(_system[k].position[1] / _system[k].position[0]);
+            output << std::endl;
+            output.close();
+        }
+        
+        if(_system[k].distance_center() <= 0.3075 && i != 0)
+        {
+            path = folder + "mercury perihelion precession";
+            output.open(path, std::ios::app);  //  erase the previous file
+            output << _time << "        ";
+            _system[k].print_pos(output);
+            output << "        " << 648000 * atan(_system[k].position[1] / _system[k].position[0]);
+            output << std::endl;
+            output.close();
+        }
+    }
+}

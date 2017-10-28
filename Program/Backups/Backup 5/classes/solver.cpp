@@ -120,13 +120,14 @@ void solver::euler(const double years, const std::string folder)
 
 ////////
 
-void solver::verlet(const double years, const std::string folder, const bool relativity)
+void solver::verlet(const double years, const std::string folder, const bool relativity, const bool high_res)
 {
     //  equations in 1D :
     //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
     //  v(t+dt) = v(t) + (1/2)*dt*[a(t) + a(t+dt)]
-    //  the relativity boolean tells the program to compute or not the relativistic correction
-    //  works only for the Mercury-Sun system for the moment
+    
+    //  this method is pretty similar to Euler except the loops are different
+    //  and we can compute a relativistic correction
     
     int timesteps;
     double h;
@@ -138,28 +139,60 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     ofstream output;
     vector<vector<double>> next_acc;
     
-    timesteps = relativity ? ((int) years * 9072000) : ((int) years * 365);
+    if(relativity && !high_res)
+    {
+        cout << "You can't compute the relativist effect with a low resolution." << endl;
+        exit(1);
+    }
+    
+    //  360*3600*7 precision iff asked by the user or for a relativistic simulation
+    timesteps = (high_res || relativity) ? ((int) years * 9072000) : ((int) years * 365);
     h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
     
     for(int i = 0; i <= timesteps; i++)
     {
-        //  with the relativity added, the program takes a too long time
-        //  to write in documents
-        //  as a consequence, it outputs only a few values
-        can_write = relativity ? (i % 24800 == 0) : true;
+        //  with a high res or the relativity, the program takes a too
+        //  long time to write in documents (about 60mn)
+        //  as a consequence, it outputs only the last values
+        can_write = (high_res || relativity) ? (i == timesteps) : true;
         
         for(int k = 0; k < _card; k++)
         {
             mass_center = _system[k].distance_center() == 0;
-            _perihelion_output(relativity, k, i, years, folder);
-            _first_output(k, i, years, folder);
+            if(i == 0)
+            {
+                path = folder + _system[k].name();
+                output.open(path);  //  erase the previous file
+                output << "Velocity-Verlet algorithm (2D)" << endl;
+                output << _system[k].name() << " (x, y, vx, vy)" << endl;
+                output << "Timestep: " << years << " years" << endl ;
+                output << "Relativistic correction: " << boolalpha << relativity << endl;
+                output << "High resolution: " << high_res << endl << endl;
+                if(mass_center)
+                {
+                    //  if the body is the mass center, its values never change
+                    //  so we print the initial values once, and never compute new ones
+                    _system[k].print_pos(output);
+                    _system[k].print_vel(output);
+                }
+                output.close();
+            }
             
             if(!mass_center)
             {
-                _classic_output(can_write, k, i, folder);
+                if(can_write)
+                {
+                    path = folder + _system[k].name();
+                    output.open(path, ios::app);
+                    _system[k].print_pos(output);
+                    _system[k].print_vel(output);
+                    output << endl;
+                    output.close();
+                }
                 
                 radical = 0.5 * h_squared;
+                
                 _system[k].position[0] = _prev_pos[k][0] + h * _prev_vel[k][0] + radical * _prev_acc[k][0];
                 _system[k].position[1] = _prev_pos[k][1] + h * _prev_vel[k][1] + radical * _prev_acc[k][1];
             }
@@ -184,9 +217,9 @@ void solver::verlet(const double years, const std::string folder, const bool rel
         //  they indeed would need a correction too
         if(can_write && !relativity)
         {
-            _print_kinetic_energy(i, folder);
-            _print_potential_energy(i, folder);
-            _print_total_energy(i, folder);
+        _print_kinetic_energy(i, folder);
+        _print_potential_energy(i, folder);
+        _print_total_energy(i, folder);
         }
         
         //  update of the _prev_vectors
@@ -465,7 +498,7 @@ void solver::_print_kinetic_energy(const int i, const std::string folder) const
     {
         output.open(folder + "system-kinetic-energy", ios::app);
     }
-    output << _time << setprecision(12) << space << kinetic_energy() << endl;
+    output << _time << setprecision(15) << space << kinetic_energy() << endl;
     
     output.close();
 }
@@ -485,7 +518,7 @@ void solver::_print_potential_energy(const int i, const std::string folder) cons
     {
         output.open(folder + "system-potential-energy", ios::app);
     }
-    output << _time << setprecision(12) << space << potential_energy() << endl;
+    output << _time << setprecision(15) << space << potential_energy() << endl;
     
     output.close();
 }
@@ -506,7 +539,7 @@ void solver::_print_total_energy(const int i, const std::string folder) const
     {
         output.open(folder + "system-total-energy", ios::app);
     }
-    output << _time << setprecision(12) << space << total_energy() << endl;
+    output << _time << setprecision(15) << space << total_energy() << endl;
     
     output.close();
 }

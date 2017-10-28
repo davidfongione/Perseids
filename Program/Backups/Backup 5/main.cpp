@@ -17,6 +17,8 @@
 
 using namespace std;
 
+double mercury_precession(const double years, const std::string folder);
+
 
 int main(int argc, const char* argv[])
 {
@@ -29,12 +31,31 @@ int main(int argc, const char* argv[])
 
     string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Peri/";
     
-    solver system;
-    system.add(sun_wmc, true);
-    system.add(mercury_peri, true);
-    
-    system.verlet(100., folder, true);
+    mercury_precession(1., folder);
 
     return 0;
 }
 
+
+double mercury_precession(const double years, const std::string folder)
+{
+    double x;
+    double y;
+    double theta;
+    
+    solver system;
+    system.add(sun_wmc, true);
+    system.add(mercury_peri, true);
+    
+    system.verlet(years, folder, true, true);
+    
+    x = system.system()[1].position[0];
+    y = system.system()[1].position[1];
+    theta = atan(y / x);
+    
+    cout << "xp=" << setprecision(15) << x << endl;
+    cout << "yp=" << setprecision(15) << y << endl;
+    cout << "Thetap: " << setprecision(15) << theta << endl;
+    
+    return (theta);
+}
