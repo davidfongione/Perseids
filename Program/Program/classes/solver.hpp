@@ -137,7 +137,7 @@ inline void solver::_perihelion_output(const bool relativity, const int k, const
             path = folder + "mercury perihelion precession";
             output.open(path);  //  erase the previous file
             output << "Perihelion precession of Mercury (xp, yp, thetap)" << std::endl;
-            output << "Timestep: " << years << " years (Earth years)" << std::endl << std::endl;
+            output << "Timestep: " << years << " earth-years" << std::endl << std::endl;
             output << _time << "        ";
             _system[k].print_pos(output);
             output << "        " << atan(_system[k].position[1] / _system[k].position[0]);
