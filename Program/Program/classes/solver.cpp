@@ -138,7 +138,7 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     ofstream output;
     vector<vector<double>> next_acc;
     
-    if(relativity || !highres)
+    if(relativity && !highres)
     {
         cout << "You can't compute the relativity without a high-res." << endl;
         exit (1);

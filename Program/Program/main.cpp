@@ -31,9 +31,9 @@ int main(int argc, const char* argv[])
     
     solver system;
     system.add(sun_wmc);
-    system.add(mercury_peri);
+    system.add(earth);
     
-    system.verlet(100., folder, false, true);
+    system.verlet(200., folder);
 
     return 0;
 }
