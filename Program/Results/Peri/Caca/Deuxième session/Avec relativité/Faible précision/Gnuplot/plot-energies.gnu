@@ -1,6 +1,6 @@
 reset
 set size ratio -1
-set title 'Time-step: 5.000000 years'
+set title 'Time-step: 100.000000 years'
 set xlabel 'Time (year)'
 set ylabel 'Energie (kg*AU^2 / year^2)'
 

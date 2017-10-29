@@ -93,7 +93,7 @@ int main()
 2. `folder` must finish by a `/`so the program creates data files exactly where you want and this folder must already exist, otherwise the program won't be able to create the data files
 
 
-However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law in order to observe a modification of Mercury's perihelion precession. The resolution is automatically set up to one arcsecond and therefore the program requires a longer time to run ; it computes a large number of positions and velocities, but the output file will only contain a few of them to save writing-time (the standard resolution is more than sufficient to make reliable plots). If you wish to add this correction to observe Mercury's perihelion procession, just use a boolean in `verlet`(Euler is not efficient enough for this simulation) and when you add planets to the system (when you add a planet, the program calculates the acceleration of each planet, then you have to tell it to calculate it with the relativistic correction).
+However it is possible to compute the same algorithm enhanced with a relativistic correction of Newton's law in order to observe a modification of Mercury's perihelion precession. The resolution is automatically set up to one arcsecond and therefore the program requires a longer time to run ; it computes a large number of positions and velocities, but the output file will only contain a few of them to save writing-time (the standard resolution is more than sufficient to make reliable plots). If you wish to add this correction to observe Mercury's perihelion procession, just use a boolean in `verlet`(Euler is not efficient enough for this simulation) and when you add planets to the system.
 
 *Note that this mode only works for the Mercury-Sun case and that it shouldn't be used for other systems.*
 
@@ -106,7 +106,20 @@ system.verlet(100., folder, false);   //  without
 system.verlet(100., folder);          //  idem
 ```
 
-The declaration and initializations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp). You can find initializations for the full solar system, the Earth-Jupiter-Sun system with the Sun as the center of mass and the Earth-Jupiter-Sun with the real center of mass.
+After that, it can be useful to compare the value of the perihelion precession of mercury with the same precession without the relativistic correction. In order to do that, you need to compute Verlet with a high-resolution but without relativistic effects. It is simple :
+
+```cpp
+system.add(mercury);
+system.add(sun);
+
+//  (years, folder, relativistic correction, high-resolution)
+system.verlet(100., folder, false, true);
+```
+
+Once again, the usage of templates allow you not to declare all the booleans all the time and keep a clear syntax. Note that you cannot use a relativistic mode without a high-resolution : `system.verlet(100., folder, true, false);  //  ERROR`.
+
+
+The declaration and initializations of the planets of the Solar System are given in [`initialisations.hpp`](https://github.com/kryzar/Perseids/blob/master/Program/Program/initialisations.hpp). You can find initializations for the full solar system, the Earth-Jupiter-Sun system with the Sun as the center of mass and the Earth-Jupiter-Sun with the real center of mass and not have to input all the initial conditions yourself.
 
 
 
@@ -117,7 +130,7 @@ Once you gave the program a `folder`, it will automatically create many small da
 1. One text file for each planet automatically named by the planet's name containing the position and velocity at each time-step of the discretization
 2. The program also creates three energy files : *system-kinetic-energy*, *system-potential-energy* and *system-total-energy* which gives the energies of the system at each time-step
 3. Those files can be used by [Gnuplot](http://gnuplot.sourceforge.net) and therefore the program also creates four Gnuplot scripts to be ran in the terminal : *plot.gnu* which makes a simple plot of the orbits in the terminal, *plot-png.gnu* which creates a the png image of those plots, *plot-energies.gnu* which plots the total energy as a function of time, and *plot-energies-png.gnu* which also creates the associated png.
-4. If you compute the relativistic perihelion precession of Mercury, the program will not output the energy file (the energy would need a correction as well and I didn't write for the moment). Nevertheless it will output a *mercury perihelion precession* file which contains the position of Mercury at each perihelion and the associated precession arctan(y/x) in arcseconds.
+4. If you compute the relativistic perihelion precession of Mercury, the program will not output the energy file (the energy would need a correction as well and I didn't write for the moment). Nevertheless it will output a *mercury perihelion precession* file which contains the position of Mercury at each perihelion and the associated precession arctan(y/x) in arcseconds. Same without the relativistic correction but with the high-resolution mode.
 
 [![Standard output](https://s1.postimg.org/7i76ih4x4v/Capture_d_cran_2017-10-27_12.12.43.jpg)](https://postimg.org/image/108yp5txvf/)
 

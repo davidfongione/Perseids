@@ -120,7 +120,7 @@ void solver::euler(const double years, const std::string folder)
 
 ////////
 
-void solver::verlet(const double years, const std::string folder, const bool relativity)
+void solver::verlet(const double years, const std::string folder, const bool relativity, const bool highres)
 {
     //  equations in 1D :
     //  x(t+dt) = x(t) + dt*v(t) + (1/2)(dt^2)*a(t)
@@ -138,21 +138,27 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     ofstream output;
     vector<vector<double>> next_acc;
     
-    timesteps = relativity ? ((int) years * 9072000) : ((int) years * 365);
+    if(relativity || !highres)
+    {
+        cout << "You can't compute the relativity without a high-res." << endl;
+        exit (1);
+    }
+    
+    timesteps = (relativity || highres) ? ((int) years * 9072000) : ((int) years * 365);
     h = ((double) years) / ((double) timesteps);
     h_squared = h * h;
     
     for(int i = 0; i <= timesteps; i++)
     {
-        //  with the relativity added, the program takes a too long time
-        //  to write in documents
+        //  with the relativity or the highres added
+        //  the program takes a too long time to write in documents
         //  as a consequence, it outputs only a few values
-        can_write = relativity ? (i % 24800 == 0) : true;
+        can_write = (relativity || highres) ? (i % 24800 == 0) : true;
         
         for(int k = 0; k < _card; k++)
         {
             mass_center = _system[k].distance_center() == 0;
-            _perihelion_output(relativity, k, i, years, folder);
+            _perihelion_output(relativity, highres, k, i, years, folder);
             _first_output(k, i, years, folder);
             
             if(!mass_center)

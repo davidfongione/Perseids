@@ -29,7 +29,7 @@ public:
     //  main algorithms
     
     void euler(const double years, const std::string folder);
-    void verlet(const double years, const std::string folder, const bool relativity = false);
+    void verlet(const double years, const std::string folder, const bool relativity = false, const bool highres = false);
     
     //  getters
     
@@ -74,7 +74,7 @@ private:
     //  outputs
     inline void _classic_output(const bool can_write, const int k, const int i, const std::string folder) const;
     void _first_output(const int k, const int i, const double years, const std::string folder) const;
-    void _perihelion_output(const bool relativity, const int k, const int i, const double years, const std::string folder) const;
+    void _perihelion_output(const bool relativity, const bool highres, const int k, const int i, const double years, const std::string folder) const;
     void _print_kinetic_energy(const int i, const std::string folder) const;
     void _print_potential_energy(const int i, const std::string folder) const;
     void _print_total_energy(const int i, const std::string folder) const;
@@ -85,6 +85,7 @@ private:
     std::string _gnuplot_colors(const int k) const;
 
 };
+
 
 inline void solver::_classic_output(const bool can_write, const int k, const int i, const std::string folder) const
 {
@@ -125,19 +126,21 @@ inline void solver::_first_output(const int k, const int i, const double years, 
     }
 }
 
-inline void solver::_perihelion_output(const bool relativity, const int k, const int i, const double years, const std::string folder) const
+inline void solver::_perihelion_output(const bool relativity, const bool highres, const int k, const int i, const double years, const std::string folder) const
 {
     std::string path;
     std::ofstream output;
     
-    if(relativity && _system[k].name() == "mercury")
+    if((relativity || highres) && _system[k].name() == "mercury")
     {
         if(i == 0)
         {
             path = folder + "mercury perihelion precession";
             output.open(path);  //  erase the previous file
             output << "Perihelion precession of Mercury (xp, yp, thetap)" << std::endl;
-            output << "Timestep: " << years << " earth-years" << std::endl << std::endl;
+            output << "Timestep: " << years << " earth-years" << std::endl;
+            output << "Relativistic correction: " << std::boolalpha << relativity << std::endl;
+            output << "High-resolution: " << std::boolalpha << highres << std::endl << std::endl;
             output << _time << "        ";
             _system[k].print_pos(output);
             output << "        " << atan(_system[k].position[1] / _system[k].position[0]);

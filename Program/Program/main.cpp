@@ -30,10 +30,10 @@ int main(int argc, const char* argv[])
     string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Peri/";
     
     solver system;
-    system.add(sun_wmc, true);
-    system.add(mercury_peri, true);
+    system.add(sun_wmc);
+    system.add(mercury_peri);
     
-    system.verlet(100., folder, true);
+    system.verlet(100., folder, false, true);
 
     return 0;
 }
