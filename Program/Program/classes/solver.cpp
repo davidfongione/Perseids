@@ -202,8 +202,11 @@ void solver::verlet(const double years, const std::string folder, const bool rel
     
     _gnuplot(folder, years);
     _gnuplot_png(folder, years);
-    _gnuplot_energies(folder, years);
-    _gnuplot_energies_png(folder, years);
+    if(!relativity)
+    {
+        _gnuplot_energies(folder, years);
+        _gnuplot_energies_png(folder, years);
+    }
     
     _time += years;
 }
