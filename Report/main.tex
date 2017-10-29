@@ -206,7 +206,7 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-    \paragraph{}
+    \paragraph{}This project is a good initiation to scientific object-oriented programing. The concept of class allowed us to create planets and make them interact very easily with a clear syntax instead of creating a ton of variables and a ton of functions. Considering this and the simplicity of Verlet's algorithm as a simple simplification - yet reliable - of elliptical orbits, we could enjoy with very different scenario like add three Suns, forty-five Earth, and see how those models interact together. We will first study the theory of our models, then see how we implemented our program, and compare our results with the theory. 
     
 
 \chapter{Theory}
@@ -232,11 +232,12 @@
             or
                 \begin{align}
                     \frac{d^2 x}{dt^2} &= \frac{F_{G,x}}{M_{\oplus}} \tag{2}\\
-                    \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}} \tag{3}.
+                    \frac{d^2 y}{dt^2} &= \frac{F_{G,y}}{M_{\oplus}} \tag{3}
                 \end{align}
+                
             with $F_{G,x}$ and $F_{G,y}$ the components of the gravitational force.\\
             \begin{remark}
-            	We will not use the SI units but the Astronomical units (AU) for the distances (with $1$AU$=$average distance Earth-Sun $=1.5 \times 10^{11}$m), kg for masses and years for time units. Thus the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$). 
+            	We will not use the SI units but the Astronomical units (AU) for the distances (with $1$AU$ = $average Earth-Sun distance $=1.5 \times 10^{11}$m), kg for masses and years for time units. Thus the initial position of the Earth will be $x_{\oplus} = 1$, \hspace{0,1cm}$y_{\oplus} = 0$ with the Sun the origin ($x_{\odot} = 0$, $y_{\odot} = 0$). 
 
 			\end{remark}
             To simplify a little bit, we will assume that the Earth's orbit is circular around the Sun. So we can write :
@@ -255,8 +256,8 @@
             \paragraph{}In the case where only the gravitational force is applied, the mechanical energy $E_m = E_c + E_p$ with $E_c$ the kinetic energy and $E_p$ the potential energy is conserved (the gravitational force is conservative). For a planet at a distance of 1 AU from the Sun (let's take the Earth as an example), the kinetic energy is given by $E_c = \frac{1}{2}M_{\oplus}\times v^2$ and the potential energy by $E_p = - \frac{G M_{\odot} M_{\oplus}}{r}$ with $r=1$ AU. 
             \\We want this planet to escape from the gravitational attraction of the Sun on it. The escape velocity will be the minimal speed $v_e$ at which the planet escapes from the gravitational influence of the Sun. We consider two positions of the planet : $p_i$ the initial position when $r_i=1$AU and $p_f$ the final position when the planet has escaped and is at an infinite distance from the Sun $r_f=\infty$.
             
-            \paragraph{}Let's consider the mechanical energy at the final position. We have $E_{m_f} = E_{c_f} + E_{p_f}$, $E_{c_f} = 0$ as the velocity of the planet is zero at the final state, $E_{p_f}=0$ since $r_f=\infty$ and $E_{m_f}=0$. \\
-            So, with the planet at 1 AU from the Sun at its inital position, of which velocity is the escape velocity $v_e$, in the case where there is only the gravitational force applied to the system planet-Sun, we have :
+            \paragraph{}Let's consider the mechanical energy at the final position with $E_{m_f}=E_{c_f} + E_{p_f}$. $E_{c_f} = 0$ for ${v}_{f}=0$ since at a point at infinity, the Sun still has an attraction on the Earth. Consequently its velocity slightly deceases with $r$ increasing until it is zero at an infinite distance from the Sun. $E_{p_f}=0$ since $r_f=\infty$ and $E_{m_f}=0$. \\
+            So, with the planet at 1 AU from the Sun at its initial position, of which velocity is the escape velocity $v_e$, in the case where there is only the gravitational force applied to the system planet-Sun, we have :
                 \begin{equation*}
                     E_{c_i} + E_{p_i} = \frac{1}{2}M_{\oplus} \times v_e^2 - \frac{GM_{\odot}M_{\oplus}}{r_i} = E_{c_f} + E_{p_f} = 0
                 \end{equation*}
@@ -278,14 +279,12 @@
     \section{Three-body problem}
         \subsection{The Sun as the center-of-mass}   
         
-            \paragraph{}We add Jupiter to the previous system and place it on the same $x-axis$ that the Earth is on. In the previous case, the Earth's motion was a stable circular orbit in time. Adding Jupiter, it will inevitably be disturbed.
-        
-            \paragraph{}We can write the gravitational between the Earth and Jupiter as 
+            \paragraph{}We add Jupiter to the previous system and place it on the same $x-axis$ that the Earth is on  with an initial velocity on the $y-axis$. In the previous case, the Earth's motion was a stable circular orbit in time. Adding Jupiter, it will inevitably be disturbed. We can write the gravitational between the Earth and Jupiter as 
                 \begin{equation*}
                     F_{\oplus-\jupiter} = \frac{GM_{\jupiter}M_{\oplus}}{r_{\oplus-\jupiter}^2} 
                 \end{equation*}
             with $M_{\jupiter}$ the mass of Jupiter and $r_{\oplus - \jupiter}$ the distance between the Earth and Jupiter. \\
-            The algorithm used for this case will be exactly the same as the previous case. We will see in section 1.4 how to discretize and implement the algorithm. 
+            The algorithm used for this case will be exactly the same as the previous case except that the total force applied on the Earth is the sum of the Force exerted by the Sun and Jupiter. We will see in section 1.4 how to discretize and implement the algorithm. 
             
         \subsection{Real center-of-mass}
         
@@ -303,7 +302,7 @@
                 \tag{6}
                 \end{equation} 
             
-            Considering the system Earth-Jupiter-Sun :
+            \paragraph{}Considering the system Earth-Jupiter-Sun :
             
                 \begin{align*}
                     M_{tot} &= M_{\oplus} + M_{\jupiter} + M_{\odot} \\
@@ -329,7 +328,7 @@
                 \end{figure}
                 \end{center}
                 
-            So we look for $x_m$ the $x$-component of the position of the Sun such that $x_c=y_c=0$.
+            \paragraph{}So we look for $x_m$ the $x$-component of the position of the Sun such that $x_c=y_c=0$.
             
                 \begin{equation*}
                     \left\{
@@ -386,7 +385,7 @@
             If the orbit of the Earth is circular around the center-of-mass, $v_{\oplus} = 2 \pi \times (1+x_m)$ AU/yr, because the distance travelled in one Earth-year is $2 \pi \times r$ with $r = 1 + x_m$ AU.
             
             \paragraph{}Similarly $v_{\oplus} = 6.25217$ AU/yr. The velocity is constant so the initial velocity will be $v_{\oplus_i}=6.25217$ AU/yr. In the initial configuration represented above, the initial velocity is oriented in the direction of $y$. So, $v_{\oplus_i} = \left(0, 6.25217\right)$. \\
-            Jupiter has an orbital period of $11.862$ yr. The distance travelled by Jupiter in this period is $2 \pi \times r = 2 \pi \times (5.20 + x_m) = 32.6415 AU$. So $v_{\jupiter_i}= \frac{2 \pi \times r}{T} = \frac{2 \pi \times (5.20+x_m)}{11.862} = 2.75177 $ AU/yr. Similarly, the initial velocity can be expressed as $v_{\jupiter_i} = \left(0, 2.75177\right)$.
+            Jupiter has an orbital period of $11.862$ yr. The distance travelled by Jupiter in this period is $2 \pi \times r = 2 \pi \times (5.20 + x_m) = 32.6415 $ AU. So $v_{\jupiter_i}= \frac{2 \pi \times r}{T} = \frac{2 \pi \times (5.20+x_m)}{11.862} = 2.75177 $ AU/yr. Similarly, the initial velocity can be expressed as $v_{\jupiter_i} = \left(0, 2.75177\right)$.
             
                 \begin{equation*}
                     \left\{
@@ -479,13 +478,13 @@
                      \Longrightarrow &v_{i+1} = h\sum\limits_{k}\frac{4\pi^2M_k(x_i-x_{i_k})}{r_{i_k}^3} + v_i
                     \tag{11}
                 \end{align*}
-             \paragraph{}The velocity can also be discretized as the derivative of the position
+             The velocity can also be discretized as the derivative of the position
                 \begin{equation*}
                       v_i = \frac{x_{i+1}-x_i}{h}
                   \end{equation*}
-             Therefore,
+             
                  \begin{equation*}
-                    x_{i+1} = hv_i + x_i
+                    \Longrightarrow x_{i+1} = hv_i + x_i
                     \tag{12}
                 \end{equation*}   
             The initial position and velocity of the body are obtained with the data from the NASA website.
@@ -505,7 +504,9 @@
                     x_{i+1} &+ x_{i-1} = 2x_i + h^2\frac{d^2x_i}{dt^2} + \mathcal{O}(h^4) \\
                     \Rightarrow x_{i+1} &= 2x_i - x_{i-1} + h^2\frac{d^2x_i}{dt^2} + \mathcal{O}(h^4)
                 \end{align*}
-            \paragraph{}Another way to use the Verlet's method is with :
+            
+            Another way to use the Verlet's method is with :
+            
                 \begin{equation*}
                     \left\{
                         \begin{aligned}
@@ -518,23 +519,31 @@
             
         \section{The special case of Mercury}
         
-                \paragraph{}Mercury being the closest planet to the Sun, the influence of the Sun on it is special ; furthermore it is a very light planet, roughly $3.3\times{10}^{23}$kg. Its orbit of Mercury is elliptical (not circular). The point where Mercury is the closest to the Sun is called perihelion. At perihelion, $x_{\mercury_p} = 0.3075$ [AU], $y_{\mercury_p} = 0$ and $v_{\mercury_p}=12.44$ [AU/yr]. The perihelion precession is a phenomenum that describe the perihelion shift, orbit after orbit. \\
+                \paragraph{}Mercury being the closest planet to the Sun, the influence of the Sun on it is special ; furthermore it is a very light planet, roughly $3.3\times{10}^{23}$ kg which makes its orbit elliptical and not circular. The point where Mercury is the closest to the Sun is called perihelion. At the initial perihelion, $x_{\mercury_p} = 0.3075$ [AU], $y_{\mercury_p} = 0$ and $v_{\mercury_p}=12.44$ [AU/yr]. With time, $x$ will decrease whereas $y$ will increase, showing that Mercury's orbit is moving around a circle centered around the Sun. The perihelion precession is a phenomenum that describe the perihelion shift, orbit after orbit. 
+              
+                
+         \begin{center}
+            \includegraphics[width=9cm, height=9cm]{mercury_precession}
+        \end{center}
+        \begin{center}
+            Mercury's orbit rotating around the Sun.
+        \end{center}
+                
                 We observe that by substracting the classical effects (basically, the gravitational attraction between Mercury and the other planets), we still have a perihelion shift with an angle of 43" per century. We need to add the relativistic correction to the Newtonian gravitational force. Thus $\displaystyle F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}$, with $M_{\mercury}$ the mass of Mercury and $r$ the distance between Mercury and the Sun ($r=0.39$AU), becomes
                     \begin{equation*}
-                        F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}(1 + \frac{3l^2}{r^2c^2})
+                        F_G = \frac{GM_{\odot}M_{\mercury}}{r^2}\left(1 + \frac{3l^2}{r^2c^2}\right)
                         \tag{13}
                     \end{equation*}
                 with $l=|\vec{r}\times\vec{v}|$ the norm of Mercury's orbital angular momentum per mass unit and $c$ the speed of light in vacuum.\\
-                This phenomenum applied to every planets of the Solar System but it is more important in the case of Mercury. The difference between the expected value in Newtonian mechanics and the observed value has been explained with the general theory of relativity. The spacetime curvature near the Sun is more important than further, Mercury is more affected by this phenomenum. 
+               
+               \paragraph{}This relativistic phenomenum is of course applied to every planets of the Solar System but it is more important in the case of Mercury, and even here we need roughly one century to detect a small perturbation. The difference between the expected value in Newtonian mechanics and the observed value has been explained with the general theory of relativity. The spacetime curvature near the Sun is more important where Mercury is and it is more affected by this phenomenum. This test for giving the general relativity an experimental proof is quite similar in its philosophy to the tests evolving gravitational lenses.
 
 
 \chapter{Implementation}
 
 	\paragraph{}You will find how to run the program in the README.md file from the repository.
 
-    \paragraph{}The program has been made such as its behavior is exactly the same no matter the number of planets and no matter the center of mass. We created one \texttt{planet} class of which role is to initialize planets and one \texttt{solver} class of which role is to calculate the interaction between the planets.
-	
-	\paragraph{}When one add a planet to a system simulation, \texttt{solver} automatically updates the total mass of the system and is therefore in capability to compute the center of mass, the kinetic, potential and total energies with associated methods. However the two main algorithms are Verlet's method and Euler's method. It creates a vector or double numbers.
+    \paragraph{}The program has been made such as its behavior is exactly the same no matter the number of planets and no matter the center of mass. We created one \texttt{planet} class of which role is to initialize planets and one \texttt{solver} class of which role is to calculate the interaction between the planets. When one adds a planet to a system simulation, \texttt{solver} automatically updates the total mass of the system, calculates the initial accelerations (depending on the relativistic correction or not) and is therefore in capability to compute the center of mass, the kinetic, potential and total energies with associated methods. The two main algorithms to compute positions and velocities around time are Verlet's method and Euler's method.
 		
 		\section{Euler's and Verlet's methods}
 		
@@ -542,11 +551,11 @@
 			
 				\paragraph{}The private method \texttt{solver::\_acceleration} computes the acceleration of a given planet (the planet of index $p$ given as an argument) of the system using (10). It goes through every planet, copies the position and computes the formula. Contrary to the exemples seen in the lectures, the velocity and positions of a planet are stored in vectors of the standard libraries instead of using four distinct doubles. This was made for readability and better connexion with the mathematic reality. However it is a shame that the \texttt{std::vector} class does not support basic arithmetic operations, this would have made the code way cleaner\footnote{We could have built our own vector class here. It is not very hard to do but it was not the point of this project.}.
 				
-				\paragraph{}You will notice that this function requires a boolean argument named \texttt{relativity}. It is there to tell the function whether it has to compute the relativistic correction or not. The use of the boolean argument allows us to build only one method for both classical and relativistic formulae, instead of two distinct methods. The less code, the less errors, especially since having two similar functions often implies copypasta. Furthermore, if we give the same boolean as an argument of our Verlet's method to compute the positions, velocities and energies of all the planets at all the time-steps, we can choose to add the relativistic effect, still using exactly the same function.
+				\paragraph{}You will notice that this function requires a boolean argument named \texttt{relativity}. It is there to tell the function whether it has to compute the relativistic correction or not. The use of the boolean argument allows us to build only one method for both classical and relativistic formulae, instead of two distinct methods. The less code, the less errors, especially since having two similar functions often implies copypasta.
 				
 			\subsection{Euler's and Verlet's algorithms}
 			
-				\paragraph{}The process of Euler's and Verlet's algorithm are to go through every time-steps of the time period chosen by the user and passed as an argument, and inside each time-step, to go through very planet of the system. We will so use two loops, the loop for the planet being inside the loop for the time-steps. For the non-relativistic case, there are $250$ time-steps per year, and $360\times3600\times7=9072000$ for the relativistic case, considering a revolution period for Mercury of one seventh of earthen year. For Euler, the program computes (11) and (12), ie the basic derivative formula approximations. For Verlet, the program computes 
+				\paragraph{}The process of Euler's and Verlet's algorithm are to go through every time-steps of the time period passed as an argument, and inside each time-step, to go through very planet of the system. We will so use two loops, the loop for the planet being inside the loop for the time-steps. For the non-relativistic case, there are $365$ time-steps per year, and $360\times3600\times7=9072000$ for the relativistic case (to give a resolution of one arcsecond for the special case of Mercury). For Euler, the program computes (11) and (12), ie the basic derivative formula approximations. For Verlet, the program computes 
 				\begin{equation*}
                     \left\{
                         \begin{aligned}
@@ -575,11 +584,9 @@
                             E_{c_i} &= E_{p_f}\\
                             E_{p_i} &= E_{p_f}
                         \end{aligned}
-                    \right. \hspace{0.5cm} \Rightarrow E_{c_i} + E_{p_i} = E_{c_f} + E_{p_f}
+                    \right. \hspace{0.5cm} \Rightarrow E_{c_i} + E_{p_i} = E_{c_f} + E_{p_f} \Rightarrow E_{m_i} = E_{m_f}
                 \end{equation*} 
-                \begin{equation*}
-                    \Rightarrow E_{m_i} = E_{m_f}
-                \end{equation*}
+       
                 
             \paragraph{}Now if we compute the energies of the full solar-system, we observe that our simulation indeed preserves the energy.
             
@@ -587,13 +594,49 @@
             \includegraphics[width=13cm,height=13cm]{energie}
         \end{center}
         \begin{center}
-            Figure 8 : Simulation of the Solar System over 10 years
+            Simulation of the Solar System over 10 years
         \end{center}
         
         	\paragraph{}The "constant" oscillation of the total energy between a min and a max value is due to the imperfection of the circular orbit motions of some bodies. Even with a circular orbit axiom, some bodies like Mercury describe elliptical orbits.
                 
+                
+           \subsection{Periodicity of the orbits}
+           
+           		\paragraph{}Orbits of the planets are supposed circular and must be time-periodic. This is probably the most important validity test of the algorithm and here is for example the orbit of the Earth around the Sun computed by our Verlet's method. This result is quite reassuring. You will later see the whole solar-system with circular orbits.
           
-    
+    			 \begin{center}
+            \includegraphics[width=11cm, height=11cm]{earth}
+        \end{center}
+        \begin{center}
+            Earth's time-periodic orbit around the Sun.
+        \end{center}
+        
+      \section{Performances}
+      
+      		\paragraph{}The program seems to be quite fast actually. Here is a small time-table to compare Euler and Verlet for an Earth-Sun system :
+		
+			\begin{center}
+				\begin{tabular}{|c|c|c|c|}
+            \cline{2-4}
+            \multicolumn{1}{c|}{\multirow{2}*{}} & \multicolumn{3}{c|}{Execution time}\\
+            \cline{2-4}
+            \multicolumn{1}{c|}{} & Time-step (years) & Euler (s) & Verlet (s)\\
+            \hline
+            \multirow{4}*{Earth-Sun system}
+            & $1$ & $0.116699$ &  $0.19863$\\
+            \cline{2-4}
+            & $5$ & $0.563373$ & $0.829593$ \\
+            \cline{2-4}
+            & $50$ & $5.80658$ & $9.27182$\\
+            \cline{2-4}
+            & $200$ & $25.3661$ & $39.8954$\\
+            \hline
+        \end{tabular}
+        \end{center}
+        
+        \paragraph{}According to those values, the execution time is linear to the time-step and the number of planets. To compute the whole Solar system for the next $100$ years, the program takes $4.04346$ s. However this time is without the writing to output files. Those output operations take a very long time and increase the operation time to… $46.9792$ s. However this is a very good performance if we keep in mind that the algorithm computes one couple of position and velocity per day, with the energies of the total system, and the whole for each planet.
+
+
     
 
 \chapter{Results}
@@ -617,11 +660,9 @@
                             \includegraphics[width=5.5cm,height=4.5cm]{Euler50.png} 
                         \end{minipage}
                     }
+                   	\caption{Euler's method over 1, 2 and 50 years (from left to right)}
                 \end{figure}
                 
-                \begin{center}
-                    Figure 1 : Euler's method over 1, 2 and 50 years (from left to right)
-                \end{center}
                 
                 \begin{figure}[h]
                     \hbox{
@@ -640,13 +681,11 @@
                             \includegraphics[width=5cm,height=4.6cm]{Verlet50.png}   
                         \end{minipage}
                     }
+                    \caption{Verlet's method over 1, 2 and 50 years (from the left to the right)}
                 \end{figure}
                 
-                \begin{center}
-                    Figure 2 : Verlet's method over 1, 2 and 50 years (from the left to the right)
-                \end{center}
                 
-            We clearly see here the difference of precision between the two algorithms. With the Euler's method, the Earth is not able to come back at its initial position as it should whereas the Verlet's one draws a circular orbit.
+            We clearly see here the difference of precision between the two algorithms. Verlet goes one order further in the Taylor expansion of the acceleration. With the Euler's method, the Earth is not able to come back at its initial position and its orbit is therefore not periodic.
         
         \subsection{Escape velocity}
             \paragraph{}We have computed the theorical escape velocity in 1.1.2.
@@ -675,12 +714,10 @@
                             \includegraphics[width=7cm,height=7cm]{Escape0,0243.png}
                         \end{minipage}
                     }
+                    \caption{The Earth orbit around the Sun for $v_i=3.287$ AU/yr, $v_i=8.0355$ AU/yr, $v_i=8.77$ AU/yr and $v_i=8.8756$ AU/yr (from the left to the right, top to bottom)}
                 \end{figure}\\
-                \begin{center}
-                    Figure 3 : The Earth orbit around the Sun for $v_i=3.287$ AU/yr, $v_i=8.0355$ AU/yr, $v_i=8.77$ AU/yr and $v_i=8.8756$ AU/yr (from the left to the right, top to bottom)
-                \end{center}
 
-            Experimentally, the escape value is $v_{e_e}=8.8756$ AU/yr which is really close to the theorical value $v_{e_t}=2\sqrt{2}\pi \approx 8.8858$ AU/yr.
+            Experimentally, the escape value is $v_{e_e}=8.8756$ AU/yr which is really close to the theorical value $v_{e_t}=2\sqrt{2}\pi \approx 8.8858$ AU/yr.  We can see that when we approach velocities which are very near to the escape velocities, the Earth takes a way longer time to came back at its initial position and it has an elliptical orbit. When we reach a velocity intently closed to the escape velocity, the return point is a point at infinity. Mathematically there is only one velocity for which the orbit is stable (ie. periodic) in this model and we clearly see that on our results. After the Earth escaped, the motion is linear.
     
     \section{Three-body problem}
         \subsection{The Sun as the center-of-mass}
@@ -697,11 +734,10 @@
                             \includegraphics[width=7cm,height=7cm]{EJS_f100y.png}
                         \end{minipage}
                     }
+                    \caption{The evolution of the position of the Earth, Jupiter and the Sun over 20 and 100 years (from left to right). The system is very stable in time.}
                 \end{figure}
                 
-                \begin{center} 
-                    Figure 4 : The evolution of the position of the Earth, Jupiter and the Sun over 20 and 100 years (from left to right)
-                \end{center}
+                
                 
                 \begin{figure}[h!]
                     \hbox{
@@ -720,11 +756,16 @@
                             \includegraphics[width=5cm,height=4.6cm]{masse_solaire.png}   
                         \end{minipage}
                     }
+                    \caption{The influence of Jupiter on the Earth for $M_{\jupiter}=10\times M_{\jupiter}, M_{\jupiter}= 100\times M_{\jupiter}$ and $M_{\jupiter} = M_{\odot}$ (from the left to the right)}
                 \end{figure}
                 
-                \begin{center}
-                    Figure 5 : The influence of Jupiter on the Earth for $M_{\jupiter}=10\times M_{\jupiter}, M_{\jupiter}= 100\times M_{\jupiter}$ and $M_{\jupiter} = M_{\odot}$ (from the left to the right)
-                \end{center}
+                
+                \paragraph{}Those results show that the influence of Jupiter on the Earth is not so important, even when Jupiter's mass is multiplied by a factor from 1 to roughly 100. However, when we change the order of magnitude to give Jupiter's the same mass as the Sun's mass, there is a confrontation and Earth goes to Jupiter.
+                
+                \begin{remark}
+                	This result is to take with precaution. Indeed, the Sun was here considered as the fixed center of mass and had no motion. The situation would be different with a non-zero motion.
+				\end{remark} 
+                
                     
         \subsection{The real center-of-mass}
             \paragraph{}Here, we change the center-of-mass from the Sun to the real one. The coordinates of the three bodies with respect to the new origin have been computed in 1.2.2.
@@ -732,20 +773,18 @@
                     \hbox{
                         \begin{minipage}[c]{.46\linewidth}
                             \centering
-                            \includegraphics[width=7cm,height=7cm]{EJS_r20y.png}
+                            \includegraphics[width=6.5cm,height=6.5cm]{EJS_r20y.png}
                         \end{minipage}
                         \hfill
                         \begin{minipage}[c]{.46\linewidth}
                             \centering
-                            \includegraphics[width=7cm,height=7cm]{EJS_r100y.png}
+                            \includegraphics[width=6.5cm,height=6.5cm]{EJS_r100y.png}
                         \end{minipage}
                     }
+                    \caption{The position of the three bodies over 20 and 100 years (from the left to the right)}
                 \end{figure}
-                \begin{center}
-                    Figure 6 : The position of the three bodies over 20 and 100 years (from the left to the right)
-                \end{center}
-            The orbits of the Earth and Jupiter are quite the same as the case where the center-of-mass was set to the Sun. The orbit of the Sun is however different (the Sun is not fixed anymore).
-                \begin{figure}[h!]
+            \paragraph{}The orbits of the Earth and Jupiter are quite the same as the case where the center-of-mass was set to the Sun except that the Sun no has a motion.
+                \begin{figure}[h]
                     \hbox{
                         \begin{minipage}[c]{.46\linewidth}
                             \centering
@@ -757,10 +796,11 @@
                             \includegraphics[width=7cm,height=7cm]{Soleil_100y.png}
                         \end{minipage}
                     }
+                \caption{The orbit of the Sun around the center-of-mass over 20 and 100 years (from the left to the right)}
                 \end{figure}
-                \begin{center}
-                    Figure 7 : The orbit of the Sun around the center-of-mass over 20 and 100 years (from the left to the right)
-                \end{center}
+                
+                \paragraph{}The good thing is that the center of the Sun never reaches a more than $0.005$ UA distance to the center of the system. Compared to the Sun's radius, this distance represents roughly $107\%$ of its radius, which means that even if the Sun has a circular motion, there is always a point of the sun which is located in the center of mass of the system, assuming a 2D motion. This proves that the approximation of considering that the planets orbit around a fix-sun can be a very good approximation for our simulations.
+                
                 
             
     \section{Complete Solar System}
@@ -768,42 +808,37 @@
             \includegraphics[width=15cm,height=15cm]{System_10}
         \end{center}
         \begin{center}
-            Figure 8 : Simulation of the Solar System over 10 years
+            Simulation of the Solar System over 10 years
         \end{center}
-        \paragraph{}We observe that Saturn covers more or less a third of its complete orbit in ten years. It is consistent with the fact that a year on Saturn lasts about 30 years. Similarly, Jupiter covers almost its complete orbit, which is consistent as it covers its whole orbit in around 12 years. 
+        
+        \paragraph{}Coooooool. We observe that Saturn covers more or less a third of its complete orbit in ten years. It is consistent with the fact that a year on Saturn lasts about 30 years. Similarly, Jupiter covers almost its complete orbit, which is consistent as it covers its whole orbit in around $12$ years. Everything seems ok here. We notice that Mars's motion is a bit off-centered of the Sun, but Jupiter and Saturn are definitely very stable and peaceful body. Uranus however seems to have an elliptical orbit, like Neptune.
+        
+        \begin{remark}
+        	The initial conditions of the planets come from the NASA for the ${27}^{th}$ of October at 00:00:00.
+		\end{remark} 
         
     
     \section{The special case of Mercury}
-        \subsection{}
-            \paragraph{}
+        
+        \paragraph{}We had a problem here with our simulation : we computed the difference of Mercury's perihelion precession around a century, and compared the data obtained with a relativistic correction or without. For a Mercury's perihelion after after $99.9037$ years, we get a perihelion precession of of roughly $130"$ (${\theta}_{with}-{\theta}_{without}$) which is way too big compared to the $43"$ we should have obtained. All the data can be seen here : \url{https://github.com/kryzar/Perseids/tree/master/Program/Results/Perihelion\%20precession}. You will notice that the time-steps of each perihelion is about $0.240732$ year, which corresponds to one Mercury year. On top of that you will also notice that the position at any perihelion is very near to the initial position (${x}_{p,i} = 0.3075$ and ${y}_{p,i} = 0$). For example, at $t =  {t}_{0} + 99.9037$ : 
+        	\begin{align*}
+				{x}_{p,f} &= 0.307499999746 \\
+				{y}_{p,f} &= 1.2308857225\times{10}^{-05}
+			\end{align*}
+		
+		\paragraph{}The error in the value of $\theta$  probably results in a programmatic error.
     
     
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
+		\paragraph{}As we have seen, except for the perihelion precession of Mercury, we have reliable results in accordance with the theory. This is a program which can be used by student who need a fast simulation since it can be run on must laptops. The next step would be to rewrite the program without the approximation such as the circular orbits. 
 
-    \paragraph{}
-        \begin{tabular}{|c|c|c|}
-            \cline{2-3}
-            \multicolumn{1}{c|}{\multirow{2}*{}} & \multicolumn{2}{c|}{Execution time}\\
-            \cline{2-3}
-            \multicolumn{1}{c|}{} & Euler & Verlet \\
-            \hline
-            \multirow{3}*{tamère} & $$ & $$ \\
-            \cline{2-3}
-            & $$ & $$ \\
-            \cline{2-3}
-            & $$ & $$ \\
-            \hline
-        \end{tabular}
-    
-    
-    
-    
+       
+        
 \chapter*{Bibliography}
     \begin{itemize}
         \item NASA website \href{{http://ssd.jpl.nasa.gov/horizons.cgi#top}}{\nolinkurl{http://ssd.jpl.nasa.gov/horizons.cgi\#top}}
-        \item 
     \end{itemize}
     
     

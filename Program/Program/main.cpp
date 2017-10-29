@@ -27,14 +27,28 @@ int main(int argc, const char* argv[])
         exit(1);
     }
 
-    string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Peri/";
+    string folder = "/Users/antoinehugounet/Documents/Scolarité/UiO/FYS3150 - Computational physics/Project 3/Perseids/Program/Results/Tests/";
     
     solver system;
-    system.add(sun_wmc);
+    system.add(sun);
     system.add(earth);
+    system.add(mars);
+    system.add(jupiter);
+    system.add(uranus);
+    system.add(neptune);
+    system.add(mercury);
+    system.add(saturn);
+    system.add(venus);
     
-    system.verlet(200., folder);
-
+    clock_t start;
+    clock_t finish;
+    
+    start = clock();
+    system.verlet(100., folder);
+    finish = clock();
+    
+    cout << ((double) finish - (double) start) / CLOCKS_PER_SEC;
+    
     return 0;
 }
 
